@@ -37,9 +37,12 @@ $result = mysqli_query($conn, $query);
             <?php include('navbar/lefbar.php'); ?>
         </div>
         <div id="layoutSidenav_content">
-            <main class="container-fluid px-4 mt-4">
-                <h2 class="mb-4">Daftar Pengajuan Aspirasi</h2>
-
+            <main class="container-fluid px-5">
+                <h1 class="" style="margin-top: 50px;">Daftar Pengajuan Aspirasi</h1>
+                 <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Daftar Pengajuan Aspirasi</li>
+                    </ol>
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
                         <table id="datatablesSimple" class="table table-striped table-bordered text-center align-middle">
