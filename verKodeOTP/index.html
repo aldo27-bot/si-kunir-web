@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Lades - Kode OTP Verifikasi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="../assets/img/logonganjuk.png" type="image/png" /> <!-- Tambahkan baris ini untuk ikon -->
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(to bottom right, #17a2b8, #0d6efd);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .frame {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        ul.ul-contain {
+            list-style-type: none;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        ul.ul-contain li {
+            font-size: 16px;
+        }
+
+        .form-otp {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            text-align: left;
+            width: 100%;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            outline: none;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .btn {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .btn-kirim-ulang,
+        .btn-verifikasi {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border: none;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-kirim-ulang {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .btn-verifikasi {
+            background: #17a2b8;
+            color: #fff;
+        }
+
+        .btn-kirim-ulang:hover {
+            background: #0056b3;
+        }
+
+        .btn-verifikasi:hover {
+            background: #138496;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        footer h2 {
+            color: #fff;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="frame">
+        <h1>Kode OTP Verifikasi</h1>
+        <ul class="ul-contain">
+            <li>Silahkan periksa email Anda untuk</li>
+            <li>melihat kode OTP verifikasi</li>
+        </ul>
+        <div class="form-otp">
+            <form action="verkodeotp.php" method="POST">
+                <label for="kode_otp">Kode OTP</label>
+                <input type="number" placeholder="Masukkan Kode OTP" id="kode_otp" name="kode_otp" required />
+                <div class="btn">
+                    <a class="btn-kirim-ulang" href="proses_kirimkodeotp.php">Kirim Ulang Kode OTP</a>
+                    <button type="submit" class="btn-verifikasi">Verifikasi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

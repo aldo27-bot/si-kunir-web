@@ -1,0 +1,200 @@
+<!DOCTYPE html> 
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubah Password</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(to bottom right, #17a2b8, #0d6efd);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .container img {
+            height: 250px;
+            margin-top: -15px;
+        }
+
+        .form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .form h1 {
+            font-size: 25px; /* Ukuran h1 yang lebih kecil */
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .form p {
+            font-size: 15px; /* Ukuran h1 yang lebih kecil */
+            font-weight: 700;
+            color: #3d3b3b;
+            margin-bottom: 15px;
+        }
+
+        .form label {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: #333;
+        }
+
+        .form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            outline: none;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            font-size: 14px;
+        }
+
+        .btn button {
+            width: 100%;
+            padding: 12px 20px;
+            background: #17a2b8;
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn button:hover {
+            background: #138496;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .footer h2 {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .container img {
+                height: 200px;
+            }
+
+            .form {
+                padding: 20px;
+            }
+
+            .btn button {
+                font-size: 14px;
+            }
+        }
+    </style>
+    <link rel="icon" href="../assets/img/logonganjuk.png" type="image/png" /> <!-- Tambahkan baris ini untuk ikon -->
+</head>
+
+<body>
+
+    <!-- Form -->
+    <div class="form">
+        <h1>Masukkan Password Baru</h1> <!-- Ukuran h1 lebih kecil -->
+        <p>Buat sandi baru yang kuat dan tidak Anda gunakan untuk situs lain</p>
+        <form class="sub-form" method="post" action="ubahpassword.php" id="ubahpassword"> 
+    <label for="password">Password Baru</label>
+    <div style="position: relative;">
+        <input id="password" name="password" type="password" placeholder="Password Baru" required />
+        <button type="button" id="togglePassword" style="position: absolute; right: 10px; top: 35%; transform: translateY(-50%); border: none; background: none; cursor: pointer;">
+            <i class="fa fa-eye"></i>
+        </button>
+    </div>
+
+    <label for="password2">Konfirmasi Password Baru</label>
+    <div style="position: relative;">
+        <input id="password2" name="password2" type="password" placeholder="Konfirmasi Password Baru" required />
+        <button type="button" id="togglePassword2" style="position: absolute; right: 10px; top: 35%; transform: translateY(-50%); border: none; background: none; cursor: pointer;">
+            <i class="fa fa-eye"></i>
+        </button>
+    </div>
+
+    <div class="btn">
+        <button type="submit">Simpan</button>
+    </div>
+</form>
+
+<script>
+    // Toggle visibility for the first password field
+    const password = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+    const iconPassword = togglePassword.querySelector('i');
+
+    togglePassword.addEventListener('click', () => {
+        if (password.type === 'password') {
+            password.type = 'text';
+            iconPassword.classList.remove('fa-eye');
+            iconPassword.classList.add('fa-eye-slash');
+        } else {
+            password.type = 'password';
+            iconPassword.classList.remove('fa-eye-slash');
+            iconPassword.classList.add('fa-eye');
+        }
+    });
+
+    // Toggle visibility for the confirmation password field
+    const password2 = document.getElementById('password2');
+    const togglePassword2 = document.getElementById('togglePassword2');
+    const iconPassword2 = togglePassword2.querySelector('i');
+
+    togglePassword2.addEventListener('click', () => {
+        if (password2.type === 'password') {
+            password2.type = 'text';
+            iconPassword2.classList.remove('fa-eye');
+            iconPassword2.classList.add('fa-eye-slash');
+        } else {
+            password2.type = 'password';
+            iconPassword2.classList.remove('fa-eye-slash');
+            iconPassword2.classList.add('fa-eye');
+        }
+    });
+</script>
+
+    </div>
+
+</body>
+
+</html>

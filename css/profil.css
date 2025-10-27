@@ -1,0 +1,26 @@
+.profilnav-link {
+    color: gray;
+    text-decoration: none;
+    font-size: 20px
+}
+.profilnav-item{
+    margin-right: 20px;
+}
+.profilnav-link:focus,
+.profilnav-link:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+.profilh2{
+    margin-top: 1.5rem;
+}
+
+.profilp1, .profilp3 {
+    text-align: center;
+    font-weight: bold; /* Menambah penekanan pada judul (opsional) */
+    margin-top: 1rem; /* Memberikan jarak atas (opsional) */
+}
+.perangkath3{
+    margin-right: 20px;
+}

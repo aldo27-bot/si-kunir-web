@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Desa Kuncir</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"integrity="..."/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet"/>
+    <link href="css/styles.css" rel="stylesheet" />
+    <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" /> <!-- Tambahkan baris ini untuk ikon -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"crossorigin="anonymous"></script>
+    <style>
+      html, body {
+            overflow-x: hidden; /* Mencegah scroll horizontal di seluruh halaman */
+        }
+      .carousel {
+        margin: 50px 50px;
+      }
+
+      .martop {
+        margin-top: 90px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- navbar awal 2 -->
+    <nav class="navbar navbar-expand-lg sticky-top bg-white">
+      <div class="container-fluid">
+        <!-- Image and Text -->
+        <a class="navbar-brand" href="#">
+          <img
+            src="assets/img/logonganjuk.png"
+            alt="Logo"
+            style="max-height: 70px; margin-right: 10px; margin-top: -30px"
+          />
+          <span class="d-inline-block" style="font-weight: 500"
+            >Desa Kuncir<br />Kecamatan Ngetos</span
+          >
+        </a>
+
+        <!-- Navbar Toggler -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Items -->
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+>
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link" href="kabarindex.php">Kabar Desa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#visi">Visi-Misi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#struktur">Struktur Organisasi</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-primary" href="login.php">Login Admin</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- navbar akhir 2 -->
+
+    <!-- awal gambar -->
+    <div
+      id="carouselExampleIndicators"
+      class="carousel slide"
+      data-bs-ride="true"
+    >
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img
+            src="assets/img/fotbarkades3.png"
+            class="d-block w-100"
+            alt="Slide 1"
+            style="height: 500px; object-fit: cover"
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="assets/img/HUT.png"
+            class="d-block w-100"
+            alt="Slide 2"
+            style="height: 500px; object-fit: cover"
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="assets/img/HUT.png"
+            class="d-block w-100"
+            alt="Slide 3"
+            style="height: 500px; object-fit: cover"
+          />
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <!-- akhir carosel -->
+     <br/>
+     <br/>
+
+    <div class="text-center" style="color: black; font-weight: bold">
+      <h1 class="fade animate__animated animate__fadeIn">
+        Selamat Datang di Website Desa kami
+      </h1>
+    </div>
+    <div class="col-12 justify-content-center text-center">
+      <div class="">
+        <h5
+          class="fade animate__animated animate__fadeIn"
+          style="
+            font-style: normal;
+            font-weight: normal;
+            text-align: justify;
+            text-align: center;
+          "
+        >
+          Kami senang Anda sudah berkunjung, semoga melalui situs web ini kami
+          dapat memberikan segala kemudahan dalam pengajuan surat - surat kepada
+          pemerintah desa kami. Situs web ini merupakan salah satu wujud dari
+          komitmen pemerintah desa, pada pentingnya digitalisasi dan efisienensi
+          zaman.
+          <br /><br />
+          <div style="font-weight: 500">
+            Agung Evendy, Kepala Desa Kuncir
+          </div>
+        </h5>
+      </div>
+
+      <section id="visi" class="martop" style="padding-top: 100px;">
+        <div>
+          <div>
+            <h2>VISI-MISI</h2>
+            <div class="text-center">
+              <h5
+                class="fade animate__animated animate__fadeIn"
+                style="
+                  font-style: normal;
+                  font-weight: normal;
+                  text-align: justify;
+                  text-align: center;
+                "
+              >
+                Kami senang Anda sudah berkunjung, semoga melalui situs web ini
+                kami dapat memberikan segala kemudahan dalam pengajuan surat -
+                surat kepada pemerintah desa kami. Situs web ini merupakan salah
+                satu wujud dari komitmen pemerintah desa, pada pentingnya
+                digitalisasi dan efisienensi zaman.
+                <br /><br />
+                <div style="font-weight: 500">
+                  Agung Evendy, Kepala Desa Kauman
+                </div>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="struktur" class="martop" style="padding-top: 100px;">
+        <div class="container">
+          <h2 class="text-center">Struktur Perangkat Desa</h2>
+          <div class="row justify-content-center mt-5">
+            <!-- Kepala Desa -->
+            <div class="col-md-4 text-center">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Kepala Desa</h5>
+                  <p class="card-text">Agung Evendy, S.STP., M.Si</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Baris Kedua -->
+          <div class="row justify-content-center mt-4">
+            <div class="col-md-4 text-center">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Sekretaris Desa</h5>
+                  <p class="card-text">Sentot Sudjono, S.Sos</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Kepala Seksi Pemerintahan</h5>
+                  <p class="card-text">Wahyuni Setyowati, SH</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Baris Ketiga -->
+          <div class="row justify-content-center mt-4">
+            <div class="col-md-4 text-center">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Kepala Seksi Pemberdayaan</h5>
+                  <p class="card-text">Sri Wulan, SH</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Staf Desa</h5>
+                  <p class="card-text">Agus Sudadi</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Baris Keempat -->
+          <div class="row justify-content-center mt-4">
+            <div class="col-md-4 text-center">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Staf Desa</h5>
+                  <p class="card-text">Nur Farida</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Staf Desa</h5>
+                  <p class="card-text">Gadis Megabiru RHK</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+
+    <!-- Bootstrap core JavaScript-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/scripts.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/datatables-simple-demo.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("animate__fadeIn");
+            }
+          });
+        });
+
+        document.querySelectorAll(".fade").forEach((element) => {
+          observer.observe(element);
+        });
+      });
+    </script>
+  </body>
+
+  <footer class="text-center text-lg-start text-white" style="background-color: #189bbf;">
+    <style>
+      footer {
+        margin-top: 50px;
+        padding-top: 20px;
+      }
+  
+      footer .container {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+  
+      .download-app {
+        margin-top: 20px;
+      }
+    </style>
+  
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+      <!-- Section: Links -->
+      <section>
+        <div class="row">
+          <!-- Logo -->
+          <div class="col-12 text-center mb-4">
+            <img src="assets/img/logoelbg.png" alt="logoel" style="width: 350px;">
+          </div>
+  
+          <!-- Kelurahan Info -->
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Kelurahan Kauman</h6>
+            <p>Website Resmi Kelurahan Kauman, Kec/Kab. Nganjuk.</p>
+          </div>
+  
+          <!-- Links -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Link</h6>
+            <ul class="list-unstyled">
+              <li><a class="text-white" href="kabarindex.php">Kabar Desa</a></li>
+              <li><a class="text-white" href="index.html">Visi Misi</a></li>
+              <li><a class="text-white" href="index.html">Struktur Organisasi</a></li>
+            </ul>
+          </div>
+  
+          <!-- Contact -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+            <p><i class="fas fa-home mr-3"></i> Jl. Gatot Subroto 100, Kel. Kauman, Kec/Kab. Nganjuk, 64411</p>
+            <p><i class="fas fa-envelope mr-3"></i> kelurahankauman@gmail.com</p>
+            <p><i class="fas fa-phone mr-3"></i> 0358-321294</p>
+          </div>
+        </div>
+  
+        <!-- Download App Section -->
+        <div class="row download-app text-center mt-4">
+          <div class="col-12">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Download Aplikasi</h6>
+            <a href="https://play.google.com/store/apps" class="btn btn-primary mx-2">
+              <i class="fab fa-google-play"></i> Google Play
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: #0b8d9e;">
+      © 2024 Copyright: B2
+    </div>
+  </footer>
+  
+</html>
