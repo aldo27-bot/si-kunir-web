@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test Aspirasi</title>
+    <title>Test Notifikasi Popup Aspirasi</title>
 </head>
 <body>
-    <form action="buat_aspirasi.php" method="POST" enctype="multipart/form-data">
-        <label>Judul:</label>
-        <input type="text" name="judul"><br><br>
-        <label>Kategori:</label>
-        <input type="text" name="kategori"><br><br>
-        <label>Deskripsi:</label>
-        <textarea name="deskripsi"></textarea><br><br>
-        <label>Foto:</label>
-        <input type="file" name="foto"><br><br>
-        <button type="submit">Kirim Aspirasi</button>
-    </form>
+    <h2>Test Notifikasi Popup Aspirasi</h2>
+
+    <label>Username:</label>
+    <input type="text" id="username" placeholder="Masukkan username">
+    <button id="cek">Cek Notifikasi</button>
+
+    <div id="result" style="margin-top:20px;"></div>
+
+    <script>
+        const button = document.getElementById('cek');
+        const resultDiv = document.getElementById('result');
+
+        button.addEventListener('click', function() {
+            const username = document.getElementById('username').value.trim();
+            if (!username) {
+                alert("Masukkan username!");
+                return;
+            }
+
+            fetch('notifikasi_popup_aspirasi.php', {
+                method: 'POST',
+                body: new URLSearchParams({ username: username })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.kode === 1) {
+                    alert(`Tanggapan baru: ${data.tanggapan}\nTanggal: ${data.tanggal}`);
+                }
+                resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 4)}</pre>`;
+            })
+            .catch(err => {
+                resultDiv.textContent = 'Error: ' + err;
+            });
+        });
+    </script>
 </body>
 </html>

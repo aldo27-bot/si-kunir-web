@@ -5,29 +5,75 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-include("koneksi.php");
+include("koneksi.php"); // Pastikan koneksi pakai $conn
 
-// Proses POST untuk update status & tanggapan
+if (!isset($_SESSION['flash'])) $_SESSION['flash'] = null;
+
+// Proses saat form dikirim
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = (int)$_POST['id'];
-    $status = $_POST['status'];
-    $tanggapan = $_POST['tanggapan'];
+    $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+    $status = $_POST['status'] ?? '';
+    $tanggapan = $_POST['tanggapan'] ?? '';
+
+    if ($id <= 0 || trim($tanggapan) === '') {
+        $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Data tidak lengkap (ID atau tanggapan kosong).'];
+        header('Location: respond.php?id=' . $id);
+        exit;
+    }
 
     try {
+        // 🔹 Update status & tanggapan aspirasi
         $stmt = $conn->prepare("UPDATE aspirasi SET status=?, tanggapan=? WHERE id=?");
         $stmt->bind_param("ssi", $status, $tanggapan, $id);
-        $stmt->execute();
+        $ok = $stmt->execute();
         $stmt->close();
 
+        if (!$ok) {
+            $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal menyimpan tanggapan: '.$conn->error];
+            header('Location: respond.php?id=' . $id);
+            exit;
+        }
+
+        // 🔹 Ambil username dari tabel aspirasi
+        $getUser = $conn->prepare("SELECT username FROM aspirasi WHERE id=?");
+        $getUser->bind_param("i", $id);
+        $getUser->execute();
+        $resUser = $getUser->get_result();
+        $userData = $resUser->fetch_assoc();
+        $getUser->close();
+
+        // 🔹 Tentukan penerima notifikasi
+        if ($userData && !empty($userData['username'])) {
+            $username = $userData['username']; // user pengaju aspirasi
+        } else {
+            $username = $_SESSION['username']; // fallback: admin yang login
+        }
+
+        // 🔹 Simpan notifikasi
+        $pesan = "Aspirasi telah ditanggapi. Status: $status. Tanggapan: $tanggapan";
+        $notif = $conn->prepare("INSERT INTO notifikasi (username, pesan) VALUES (?, ?)");
+        $notif->bind_param("ss", $username, $pesan);
+        $notif->execute();
+        $notif->close();
+
+        $_SESSION['flash'] = ['type' => 'success', 'message' => 'Tanggapan berhasil disimpan dan notifikasi dikirim.'];
         header('Location: list_aspirasi.php');
         exit;
+
     } catch (Exception $e) {
-        die("Error: " . $e->getMessage());
+        $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Error: ' . $e->getMessage()];
+        header('Location: respond.php?id=' . $id);
+        exit;
     }
 }
 
-// Ambil data aspirasi berdasarkan ID
+// 🔹 GET: ambil data aspirasi
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if ($id <= 0) {
+    echo "ID aspirasi tidak diberikan.";
+    exit;
+}
+
 $stmt = $conn->prepare("SELECT * FROM aspirasi WHERE id=?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
@@ -36,126 +82,69 @@ $r = $result->fetch_assoc();
 $stmt->close();
 
 if (!$r) {
-    echo "Data aspirasi tidak ditemukan";
+    echo "Data aspirasi tidak ditemukan.";
     exit;
 }
+
+$flash = $_SESSION['flash'];
+$_SESSION['flash'] = null;
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tanggapi Aspirasi</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
-    <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<style>
-    .detail-container {
-        background-color: #ffffff;
-        border-radius: 10px;
-        padding: 20px;
-        margin-top: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .detail-title {
-        font-size: 28px;
-        font-weight: bold;
-        color: #343a40;
-    }
-    .detail-date {
-        color: #6c757d;
-        font-size: 14px;
-    }
-    .detail-description {
-        font-size: 16px;
-        color: #495057;
-        margin-top: 15px;
-        line-height: 1.6;
-    }
-    .btn-back {
-        background-color: #6c757d;
-        color: #ffffff;
-        border-radius: 8px;
-        transition: background-color 0.3s;
-    }
-    .btn-back:hover {
-        background-color: #5a6268;
-        color: #ffffff;
-    }
-</style>
-<body class="sb-nav-fixed">
-    <?php include('navbar/upbar.php'); ?>
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <?php include('navbar/lefbar.php'); ?>
-        </div>
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-5">
-                    <h1 class="mt-4">Tanggapi Aspirasi</h1>
+<body class="p-4 bg-light">
+    <div class="container">
+        <?php if ($flash): ?>
+            <div class="alert alert-<?= htmlspecialchars($flash['type']) ?>">
+                <?= htmlspecialchars($flash['message']) ?>
+            </div>
+        <?php endif; ?>
 
-                    <!-- Breadcrumb -->
-                    <nav aria-label="breadcrumb mb-4">
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="list_aspirasi.php">Daftar Pengajuan Aspirasi</a></li>
-                            <li class="breadcrumb-item active">Tanggapi Aspirasi</li>
-                        </ol>
-                    </nav>
+        <h1 class="mb-4">Tanggapi Aspirasi</h1>
 
-                    <!-- Detail Aspirasi -->
-                    <div class="detail-container">
-                        <h2 class="detail-title"><?= htmlspecialchars($r['judul']) ?></h2>
-                        <p class="detail-date"><i class="fas fa-calendar-alt"></i> <?= htmlspecialchars($r['tanggal'] ?? '-') ?></p>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4><?= htmlspecialchars($r['judul']) ?></h4>
+                <small class="text-muted"><?= htmlspecialchars($r['tanggal'] ?? '-') ?></small>
+                <p class="mt-3"><?= nl2br(htmlspecialchars($r['deskripsi'])) ?></p>
 
-                        <?php if (!empty($r['foto'])): ?>
-                            <img src="uploads/<?= htmlspecialchars($r['foto']) ?>" class="detail-image" style="max-width: 400px; border-radius: 8px;">
-                        <?php endif; ?>
+                <?php if (!empty($r['foto'])): ?>
+                    <img src="uploads/<?= htmlspecialchars($r['foto']) ?>" style="max-width:300px; border-radius:8px;">
+                <?php endif; ?>
 
-                        <div class="detail-description">
-                            <strong>Deskripsi:</strong>
-                            <p><?= nl2br(htmlspecialchars($r['deskripsi'])) ?></p>
-                        </div>
-
-                        <?php if (!empty($r['tanggapan'])): ?>
-                            <div class="mt-4 p-3 border rounded bg-light">
-                                <strong>Tanggapan Sebelumnya:</strong>
-                                <p><?= nl2br(htmlspecialchars($r['tanggapan'])) ?></p>
-                            </div>
-                        <?php endif; ?>
+                <?php if (!empty($r['tanggapan'])): ?>
+                    <div class="mt-3 p-3 bg-light border rounded">
+                        <strong>Tanggapan sebelumnya:</strong><br>
+                        <?= nl2br(htmlspecialchars($r['tanggapan'])) ?>
                     </div>
-
-                    <!-- Form Tanggapan -->
-                    <form method="post" class="mt-4">
-                        <input type="hidden" name="id" value="<?= htmlspecialchars($r['id']) ?>">
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select name="status" class="form-control">
-                                <option <?= $r['status']=='Diajukan' ? 'selected':''?>>Diajukan</option>
-                                <option <?= $r['status']=='Diproses' ? 'selected':''?>>Diproses</option>
-                                <option <?= $r['status']=='Selesai' ? 'selected':''?>>Selesai</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tanggapan</label>
-                            <textarea name="tanggapan" class="form-control" rows="5" placeholder="Tuliskan tanggapan anda..." required><?= htmlspecialchars($r['tanggapan']) ?></textarea>
-                        </div>
-                        <button class="btn btn-success"><i class="fas fa-paper-plane"></i> Kirim</button>
-                        <a href="list_aspirasi.php" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali</a>
-                    </form>
-                </div>
-            </main>
+                <?php endif; ?>
+            </div>
         </div>
-    </div>
 
-    <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <form method="post">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($r['id']) ?>">
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-control">
+                    <option <?= $r['status']=='Diajukan' ? 'selected':'' ?>>Diajukan</option>
+                    <option <?= $r['status']=='Diproses' ? 'selected':'' ?>>Diproses</option>
+                    <option <?= $r['status']=='Selesai' ? 'selected':'' ?>>Selesai</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tanggapan</label>
+                <textarea name="tanggapan" class="form-control" rows="5" required><?= htmlspecialchars($r['tanggapan']) ?></textarea>
+            </div>
+
+            <button class="btn btn-success"><i class="fas fa-paper-plane"></i> Kirim</button>
+            <a href="list_aspirasi.php" class="btn btn-secondary">Kembali</a>
+        </form>
+    </div>
 </body>
 </html>
