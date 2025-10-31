@@ -1,3 +1,46 @@
-template surat/
-.vscode
-gambar/
+# ===============================
+#   GITIGNORE - SI-KUNIR-WEB
+# ===============================
+
+# Folder khusus proyek kamu
+# template surat/
+# gambar/
+# uploads/
+DatabaseMobile/
+dmpdf/
+public/
+
+# Editor & sistem
+.vscode/
+.idea/
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+# Node & Vendor
+node_modules/
+vendor/
+
+# File konfigurasi sensitif
+.env
+# package.json
+# package-lock.json
+# config.php
+# koneksi.php
+# database.php
+
+# File cache & session PHP
+*.session
+*.cache
+*.swp
+
+# Build / hasil generate (kalau ada)
+dist/
+build/
+
+# Gambar besar atau sementara
+*.zip
+*.mp4
+*.rar
