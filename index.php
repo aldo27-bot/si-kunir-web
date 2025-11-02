@@ -113,6 +113,21 @@ $result = $conn->query($sql);
       color: white !important;
       transform: scale(1.05);
     }
+    
+    .navbar-brand span {
+    font-weight: 700;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: #ffffffff !important;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #000000ff !important;
+    }
+
 
     /* Carousel */
     .carousel {
@@ -418,6 +433,7 @@ $result = $conn->query($sql);
     /* Responsive */
     @media (max-width: 992px) {
       .navbar-brand img { height: 55px; }
+      .nav-item { margin-bottom: 10px; }
       .navbar-brand { font-size: 13px; }
       .welcome-section h1 { font-size: 2rem; }
       .carousel-item img { height: 400px; }
@@ -427,6 +443,7 @@ $result = $conn->query($sql);
 
     @media (max-width: 768px) {
       .carousel-item img { height: 300px; }
+      .nav-item { margin-bottom: 10px; }
       .welcome-section h1 { font-size: 1.8rem; }
       .visi-misi h2,
       .struktur-section h2,
@@ -436,6 +453,7 @@ $result = $conn->query($sql);
 
     @media (max-width: 576px) {
       .navbar { padding: 10px 15px; }
+      .nav-item { margin-bottom: 10px; }
       .navbar-brand img { height: 45px; }
       .welcome-section { padding: 50px 15px; }
       .struktur-card { padding: 20px; }
@@ -483,6 +501,53 @@ $result = $conn->query($sql);
     </div>
   </nav>
 
+  <!-- Navbar -->
+  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+    <div class="container"> -->
+    
+      <!-- <a class="navbar-brand d-flex align-items-center" href="index.php">
+        <img src="assets/img/logonganjuk.png" alt="Logo" class="me-2" style="height:45px; width:auto;">
+        <div class="d-flex flex-column lh-sm">
+          <span class="fw-bold" style="font-size: 16px;">Desa Kuncir</span>
+          <small style="font-size: 13px;">Kecamatan Ngetos</small>
+        </div>
+      </a> --> 
+
+      <!-- Tombol Toggle (untuk mobile) -->
+      <!-- <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+
+      <!-- Menu Navigasi -->
+      <!-- <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+          <li class="nav-item">
+            <a class="nav-link px-3" href="kabarindex.php">Berita Desa</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="#visi-misi">Visi-Misi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="#struktur">Struktur Organisasi</a>
+          </li> -->
+
+          <!-- Tombol Aksi -->
+          <!-- <li class="nav-item mt-2 mt-lg-0">
+            <a class="btn btn-success btn-sm w-100 w-lg-auto ms-lg-2" href="https://play.google.com/store/apps">
+              <i class="fab fa-google-play me-2"></i>Unduh APK
+            </a>
+          </li>
+          <li class="nav-item mt-2 mt-lg-0">
+            <a class="btn btn-primary btn-sm w-100 w-lg-auto ms-lg-2" href="login.php">
+              <i class="fas fa-sign-in-alt me-2"></i>Login Admin
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav> -->
+
+
   <!-- Carousel -->
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
@@ -492,13 +557,13 @@ $result = $conn->query($sql);
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="assets/img/fotbarkades3.png" class="d-block w-100" alt="Slide 1" />
+        <img src="assets/img/foto_pura_bedugul_bali.jpg" class="d-block w-100" alt="Slide 1" />
       </div>
       <div class="carousel-item">
-        <img src="assets/img/HUT.png" class="d-block w-100" alt="Slide 2" />
+        <img src="assets/img/foto_raja_ampat.jpg" class="d-block w-100" alt="Slide 2" />
       </div>
       <div class="carousel-item">
-        <img src="assets/img/HUT.png" class="d-block w-100" alt="Slide 3" />
+        <img src="assets/img/foto_gunung_bromo.jpeg" class="d-block w-100" alt="Slide 3" />
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -521,7 +586,7 @@ $result = $conn->query($sql);
             Kami senang Anda sudah berkunjung, semoga melalui situs web ini kami dapat memberikan segala kemudahan dalam pengajuan surat - surat kepada pemerintah desa kami. Situs web ini merupakan salah satu wujud dari komitmen pemerintah desa, pada pentingnya digitalisasi dan efisienensi zaman.
           </h5>
           <div class="kepala-desa-name text-center">
-            Agung Evendy, Kepala Desa Kuncir
+            Wiwik Sukartinem, Kepala Desa Kuncir
           </div>
         </div>
       </div>
@@ -530,22 +595,28 @@ $result = $conn->query($sql);
 
   <div class="section-divider"></div>
 
+
   <!-- Visi & Misi -->
   <section id="visi-misi" class="visi-misi text-center">
     <div class="container">
       <h2>Visi & Misi Desa Kuncir</h2>
-
       <div class="mb-4">
         <button id="btnVisi" class="btn btn-primary tab-btn">Visi</button>
         <button id="btnMisi" class="btn btn-outline-primary tab-btn">Misi</button>
       </div>
 
+      <!-- Konten Visi -->
       <div id="visiContent">
-        <p class="fs-5 mx-auto" style="max-width: 800px; color: #555; line-height: 1.8;">
-          "Menjadi desa yang mandiri, sejahtera, dan berdaya saing tinggi melalui pembangunan berkelanjutan dan partisipasi aktif masyarakat."
-        </p>
+        <div class="row justify-content-center mt-5">
+          <p class="fs-5 mx-auto" style="max-width: 800px; color: #555; line-height: 1.8;">
+            "Terwujudnya Desa Kuncir Yang Rukun Dan Makmur Dan Tersejahteranya Manusia Yang Maju, 
+            Dengan Di Dukung Pengembangan Ekonomi Berbasis Sumber Daya Alam Yang Berwawasan 
+            Lingkungan Terdepan Dalam Bidang Pertanian Dan Perkebunan."
+          </p>
+        </div>
       </div>
 
+      <!-- Konten Misi -->
       <div id="misiContent" style="display:none;">
         <ul class="list-group list-group-flush mx-auto text-start" style="max-width: 700px;">
           <li class="list-group-item">1. Meningkatkan kualitas sumber daya manusia melalui pendidikan dan pelatihan.</li>
@@ -556,6 +627,7 @@ $result = $conn->query($sql);
       </div>
     </div>
   </section>
+
 
   <div class="section-divider"></div>
 
@@ -612,8 +684,8 @@ $result = $conn->query($sql);
       <div class="row justify-content-center mt-5">
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card kepala-desa-card text-center">
-            <h5>Kepala Desa</h5>
-            <p>Agung Evendy, S.STP., M.Si</p>
+            <h5>KEPALA DESA</h5>
+            <p>Wiwik Sukartinem</p>
           </div>
         </div>
       </div>
@@ -622,14 +694,20 @@ $result = $conn->query($sql);
       <div class="row justify-content-center mt-4">
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card text-center">
-            <h5>Sekretaris Desa</h5>
-            <p>Sentot Sudjono, S.Sos</p>
+            <h5>SEKRETARIS DESA</h5>
+            <p>Andy Dwi Widya Hartono</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card text-center">
-            <h5>Kepala Seksi Pemerintahan</h5>
-            <p>Wahyuni Setyowati, SH</p>
+            <h5>KASI PEMERINTAHAN</h5>
+            <p>Suparti</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="struktur-card text-center">
+            <h5>KASI KESEJAHTERAAN</h5>
+            <p>Yaji</p>
           </div>
         </div>
       </div>
@@ -640,6 +718,12 @@ $result = $conn->query($sql);
           <div class="struktur-card text-center">
             <h5>Kepala Seksi Pemberdayaan</h5>
             <p>Sri Wulan, SH</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="struktur-card text-center">
+            <h5>Staf Desa</h5>
+            <p>Agus Sudadi</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6">
@@ -679,12 +763,12 @@ $result = $conn->query($sql);
 
       <div class="row">
         <div class="col-md-4 mb-4">
-          <h6>Kelurahan Kauman</h6>
-          <p>Website Resmi Kelurahan Kauman, Kec/Kab. Nganjuk.</p>
+          <h6>Desa Kuncir</h6>
+          <p>Website Resmi Desa Kuncir, Kec Ngetos, Kab. Nganjuk.</p>
         </div>
 
         <div class="col-md-4 mb-4">
-          <h6>Link</h6>
+          <h6>Petunjuk Navigasi</h6>
           <ul>
             <li><a href="kabarindex.php">Kabar Desa</a></li>
             <li><a href="#visi-misi">Visi Misi</a></li>
@@ -694,8 +778,8 @@ $result = $conn->query($sql);
 
         <div class="col-md-4 mb-4">
           <h6>Contact</h6>
-          <p><i class="fas fa-home me-2"></i> Jl. Gatot Subroto 100, Kel. Kauman, Kec/Kab. Nganjuk, 64411</p>
-          <p><i class="fas fa-envelope me-2"></i> sikunir@gmail.com</p>
+          <p><i class="fas fa-home me-2"></i> Dusun Nglajer, Desa Kuncir, Kec. Ngetos, Kabupaten Nganjuk, Jawa Timur 64474</p>
+          <p><i class="fas fa-envelope me-2"></i> desa.kuncir@gmail.com</p>
           <p><i class="fas fa-phone me-2"></i> 0358-321294</p>
         </div>
       </div>
@@ -711,7 +795,7 @@ $result = $conn->query($sql);
     </div>
 
     <div class="footer-bottom">
-      © 2024 Copyright: B2
+      © 2025 Sync Squad. All Rights Reserved.
     </div>
   </footer>
 
