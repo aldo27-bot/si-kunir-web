@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pesan_notif = "Judul: $judul";
 
         $notif = $konek->prepare("INSERT INTO notifikasi (username, judul, pesan, tanggal) VALUES (?, ?, ?, NOW())");
-        $notif->bind_param("sss", $username, $judul_notif, $pesan_notif);
+        $notif->bind_param("sss", $username,   $judul_notif, $pesan_notif);
         $notif->execute();
 
         echo json_encode([

@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($login_ok) {
             $_SESSION['user_logged_in'] = true;
             $_SESSION['username'] = $row['username'];
+            // $_SESSION['nama'] = $row['nama'];
 
             // Optional: Upgrade MD5 ke password_hash() agar aman
             if (preg_match('/^[a-f0-9]{32}$/i', $dbpass)) {
