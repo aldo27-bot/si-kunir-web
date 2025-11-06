@@ -1,43 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Test Notifikasi Popup Aspirasi</title>
+    <meta charset="UTF-8">
+    <title>Test Simpan Aspirasi</title>
 </head>
 <body>
-    <h2>Test Notifikasi Popup Aspirasi</h2>
+    <h2>Test Simpan Aspirasi</h2>
+    <form action="http://domainmu.com/api/simpan_aspirasi.php" method="POST" enctype="multipart/form-data">
+        <label>Username:</label><br>
+        <input type="text" name="username" value="aldopandu"><br><br>
 
-    <label>Username:</label>
-    <input type="text" id="username" placeholder="Masukkan username">
-    <button id="cek">Cek Notifikasi</button>
+        <label>Judul:</label><br>
+        <input type="text" name="judul" value="Coba Aspirasi"><br><br>
 
-    <div id="result" style="margin-top:20px;"></div>
+        <label>Kategori:</label><br>
+        <select name="kategori">
+            <option value="Pembangunan">Pembangunan</option>
+            <option value="Kesehatan">Kesehatan</option>
+            <option value="Pendidikan">Pendidikan</option>
+            <option value="Sosial">Sosial</option>
+            <option value="Ekonomi">Ekonomi</option>
+            <option value="Lingkungan">Lingkungan</option>
+            <option value="Keamanan">Keamanan</option>
+            <option value="Lainnya">Lainnya</option>
+        </select><br><br>
 
-    <script>
-        const button = document.getElementById('cek');
-        const resultDiv = document.getElementById('result');
+        <label>Deskripsi:</label><br>
+        <textarea name="deskripsi">Ini deskripsi test</textarea><br><br>
 
-        button.addEventListener('click', function() {
-            const username = document.getElementById('username').value.trim();
-            if (!username) {
-                alert("Masukkan username!");
-                return;
-            }
+        <label>Foto (opsional):</label><br>
+        <input type="file" name="foto"><br><br>
 
-            fetch('notifikasi_popup_aspirasi.php', {
-                method: 'POST',
-                body: new URLSearchParams({ username: username })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.kode === 1) {
-                    alert(`Tanggapan baru: ${data.tanggapan}\nTanggal: ${data.tanggal}`);
-                }
-                resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 4)}</pre>`;
-            })
-            .catch(err => {
-                resultDiv.textContent = 'Error: ' + err;
-            });
-        });
-    </script>
+        <button type="submit">Kirim Aspirasi</button>
+    </form>
 </body>
 </html>

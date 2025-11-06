@@ -5,11 +5,15 @@ include "koneksi.php";
 $username = $_POST['username'] ?? '';
 
 if (empty($username)) {
-    echo json_encode(["kode" => 0, "pesan" => "Username kosong"]);
+    echo json_encode([
+        "kode" => 0,
+        "pesan" => "Username kosong",
+        "data" => []
+    ]);
     exit;
 }
 
-$query = "SELECT * FROM notifikasi WHERE username = '$username' ORDER BY tanggal DESC";
+$query = "SELECT id, pesan, status, tanggal, tanggapan FROM notifikasi WHERE username = '$username' ORDER BY tanggal DESC";
 $result = mysqli_query($conn, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
@@ -18,13 +22,23 @@ if ($result && mysqli_num_rows($result) > 0) {
         $data[] = [
             "id" => $row["id"],
             "pesan" => $row["pesan"],
+            "status" => $row["status"],
             "tanggal" => $row["tanggal"],
-            "status" => $row["status"]
+            "tanggapan" => $row["tanggapan"] // ⚡ tambahkan ini
         ];
     }
 
-    echo json_encode(["kode" => 1, "pesan" => "Notifikasi ditemukan", "data" => $data]);
+    echo json_encode([
+        "kode" => 1,
+        "pesan" => "Notifikasi ditemukan",
+        "data" => $data
+    ]);
 } else {
-    echo json_encode(["kode" => 0, "pesan" => "Tidak ada notifikasi"]);
+    echo json_encode([
+        "kode" => 0,
+        "pesan" => "Belum ada notifikasi",
+        "data" => []
+    ]);
 }
+
 ?>

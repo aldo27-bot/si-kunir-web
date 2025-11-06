@@ -5,11 +5,10 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-include("koneksi.php"); // Pastikan koneksi pakai $conn
+include("koneksi.php"); // koneksi pakai $conn
 
 if (!isset($_SESSION['flash'])) $_SESSION['flash'] = null;
 
-// Proses saat form dikirim
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $status = $_POST['status'] ?? '';
@@ -42,19 +41,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $userData = $resUser->fetch_assoc();
         $getUser->close();
 
-        // 🔹 Tentukan penerima notifikasi
-        if ($userData && !empty($userData['username'])) {
-            $username = $userData['username']; // user pengaju aspirasi
-        } else {
-            $username = $_SESSION['username']; // fallback: admin yang login
-        }
+        $username = $userData ? $userData['username'] : $_SESSION['username'];
 
-        // 🔹 Simpan notifikasi
-        $pesan = "Aspirasi telah ditanggapi. Status: $status. Tanggapan: $tanggapan";
+        // 🔹 Simpan notifikasi ke tabel notifikasi
+        $pesan = "Aspirasi Anda telah ditanggapi. Status: $status. Tanggapan: $tanggapan";
         $notif = $conn->prepare("INSERT INTO notifikasi (username, pesan) VALUES (?, ?)");
         $notif->bind_param("ss", $username, $pesan);
         $notif->execute();
         $notif->close();
+
+        // 🔹 Ambil FCM token user (untuk pengecekan)
+        $getToken = $conn->prepare("SELECT fcm_token FROM akun_user WHERE username=?");
+        $getToken->bind_param("s", $username);
+        $getToken->execute();
+        $resToken = $getToken->get_result();
+        $tokenData = $resToken->fetch_assoc();
+        $getToken->close();
+
+        $token = $tokenData['fcm_token'] ?? '';
+
+        // 🔹 Jika token kosong, tulis ke log dan lanjut tanpa error
+        if (empty($token)) {
+            file_put_contents('fcm_log.txt', "[$username] Token kosong - tidak dikirim ke FCM\n", FILE_APPEND);
+        } else {
+            // 🔹 Kirim notifikasi FCM ke user pengaju
+            $url = "http://localhost/si-kunir-web-1/DatabaseMobile/fcm_notification.php";
+
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                'username' => $username,
+                'title' => 'Balasan Aspirasi',
+                'message' => "Admin telah menanggapi aspirasi Anda.\nStatus: $status\nTanggapan: $tanggapan"
+            ]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+
+            if (curl_errno($ch)) {
+                $error = curl_error($ch);
+                file_put_contents('fcm_log.txt', "[$username] CURL Error: $error\n", FILE_APPEND);
+            } else {
+                file_put_contents('fcm_log.txt', "[$username] => $response\n", FILE_APPEND);
+            }
+
+            curl_close($ch);
+        }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Tanggapan berhasil disimpan dan notifikasi dikirim.'];
         header('Location: list_aspirasi.php');

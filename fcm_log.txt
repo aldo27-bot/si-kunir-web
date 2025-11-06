@@ -1,0 +1,6 @@
+[aldopandu] => <br />
+<b>Warning</b>:  Undefined array key "id" in <b>C:\xampp\htdocs\si-kunir-web-1\DatabaseMobile\fcm_notification.php</b> on line <b>9</b><br />
+{"success":false,"message":"Data aspirasi tidak ditemukan untuk ID "}
+[aldopandu] => <br />
+<b>Warning</b>:  Undefined array key "id" in <b>C:\xampp\htdocs\si-kunir-web-1\DatabaseMobile\fcm_notification.php</b> on line <b>9</b><br />
+{"success":false,"message":"Data aspirasi tidak ditemukan untuk ID "}
