@@ -12,6 +12,15 @@
  */
  
 :root {
+  --primary-blue: #3629B7;
+  --secondary-blue: #B36CFF;
+  --light-blue: #e3f2fd;
+  --dark-blue: #0d47a1;
+  --accent-blue: #03a9f4;
+  --text-gray: #555;
+  --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  --hover-shadow: 0 10px 30px rgba(24, 155, 191, 0.2);
+  --bs-blue-100: #3629B7;
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;

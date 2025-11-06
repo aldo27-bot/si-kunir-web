@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Detail Kabar Desa</title>
+    <title>Detail Informasi Desa</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" /> <!-- Tambahkan baris ini untuk ikon -->
@@ -88,13 +88,13 @@ if (isset($_GET['id'])) {
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-5">
-                <h1 class="mt-4">Detail Kabar Desa</h1>
+                <h1 class="mt-4">Detail Informasi Desa</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb mb-4">
                     <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="kabardesa.php">Kabar Desa</a></li>
-                        <li class="breadcrumb-item active">Detail Kabar Desa</li>
+                        <li class="breadcrumb-item"><a href="kabardesa.php">Informasi Desa</a></li>
+                        <li class="breadcrumb-item active">Detail Informasi Desa</li>
                     </ol>
                     </nav>
 

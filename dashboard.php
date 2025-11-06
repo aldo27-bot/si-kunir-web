@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Menyertakan file untuk memeriksa sesi login
 include 'utility/sesionlogin.php';
 
@@ -61,13 +61,14 @@ if ($result) {
     <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     <style>
-    /* Gaya tambahan untuk elemen */
-    .tampilan {
-        color: black;
-        text-decoration: none;
-    }
+
+        /* Gaya tambahan untuk elemen */
+        .tampilan {
+            color: black;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -125,44 +126,48 @@ if ($result) {
                             <canvas id="myAreaChart" width="100%" height="30"></canvas>
                         </div>
                         <script>
-                        // Memuat data untuk grafik dari server
-                        fetch('get_data.php')
-                            .then(response => response.json())
-                            .then(data => {
-                                var dates = data.map(entry => entry.tanggal);
-                                var counts = data.map(entry => entry.jumlah);
+                            // Memuat data untuk grafik dari server
+                            fetch('get_data.php')
+                                .then(response => response.json())
+                                .then(data => {
+                                    var dates = data.map(entry => entry.tanggal);
+                                    var counts = data.map(entry => entry.jumlah);
 
-                                // Menginisialisasi grafik
-                                var ctx = document.getElementById('myAreaChart').getContext('2d');
-                                var areaChart = new Chart(ctx, {
-                                    type: 'line',
-                                    data: {
-                                        labels: dates,
-                                        datasets: [{
-                                            label: 'Surat Masuk per Hari',
-                                            data: counts,
-                                            fill: true,
-                                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                            borderColor: 'rgba(75, 192, 192, 1)',
-                                            borderWidth: 1,
-                                            tension: 0.1,
-                                        }]
-                                    },
-                                    options: {
-                                        scales: {
-                                            x: {
-                                                type: 'time',
-                                                time: { unit: 'day' }
-                                            },
-                                            y: {
-                                                beginAtZero: true,
-                                                ticks: { stepSize: 1 }
+                                    // Menginisialisasi grafik
+                                    var ctx = document.getElementById('myAreaChart').getContext('2d');
+                                    var areaChart = new Chart(ctx, {
+                                        type: 'line',
+                                        data: {
+                                            labels: dates,
+                                            datasets: [{
+                                                label: 'Surat Masuk per Hari',
+                                                data: counts,
+                                                fill: true,
+                                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                                borderColor: 'rgba(75, 192, 192, 1)',
+                                                borderWidth: 1,
+                                                tension: 0.1,
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                x: {
+                                                    type: 'time',
+                                                    time: {
+                                                        unit: 'day'
+                                                    }
+                                                },
+                                                y: {
+                                                    beginAtZero: true,
+                                                    ticks: {
+                                                        stepSize: 1
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
-                                });
-                            })
-                            .catch(error => console.error('Error fetching data:', error));
+                                    });
+                                })
+                                .catch(error => console.error('Error fetching data:', error));
                         </script>
 
                         <!-- Menampilkan tanggal terakhir surat masuk -->
@@ -199,4 +204,5 @@ if ($result) {
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 </body>
+
 </html>
