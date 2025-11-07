@@ -2,12 +2,17 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "baldes";
+$database = "si-kunir_terbaru";
 
 $konek = new mysqli($host, $username, $password, $database);
 
-// cek koneksi
+// 🔹 Cek koneksi tapi tetap kembalikan JSON biar Retrofit bisa baca
 if ($konek->connect_error) {
-    die("Koneksi gagal: " . $konek->connect_error);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        "kode" => 500,
+        "pesan" => "Koneksi ke database gagal: " . $konek->connect_error
+    ]);
+    exit; // hentikan script dengan output JSON
 }
 ?>

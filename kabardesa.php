@@ -4,13 +4,14 @@ include 'utility/sesionlogin.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Kabar Desa</title>
+    <title>Informasi Desa</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" />
@@ -27,55 +28,54 @@ include 'utility/sesionlogin.php';
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-5">
-                    <h1 style="margin-top: 50px;">Kabar Desa</h1>
+                    <h1 style="margin-top: 50px;">Informasi Desa</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Kabar Desa</li>
+                        <li class="breadcrumb-item active">Informasi Desa</li>
                     </ol>
                     <div class="container-fluid px-5">
-                    <?php
-// Tampilkan notifikasi jika ada status
-if (isset($_GET['status'])) {
-    $status = $_GET['status'];
-    $message = '';
-    $alertType = '';
+                        <?php
+                        // Tampilkan notifikasi jika ada status
+                        if (isset($_GET['status'])) {
+                            $status = $_GET['status'];
+                            $message = '';
+                            $alertType = '';
 
-    switch ($status) {
-        case 'success':
-            $_SESSION['notification'] = [
-                'message' => 'Kabar desa berhasil ditambahkan.',
-                'type' => 'success'
-            ];
-            break;
-        case 'updated':
-            $_SESSION['notification'] = [
-                'message' => 'Kabar desa berhasil diperbarui.',
-                'type' => 'primary'
-            ];
-            break;
-        case 'deleted':
-            $_SESSION['notification'] = [
-                'message' => 'Kabar desa berhasil dihapus.',
-                'type' => 'danger'
-            ];
-            break;
-    }
-    
-}
-    
-if (isset($_SESSION['notification'])) {
-    $notification = $_SESSION['notification'];
-    echo "<div class='alert alert-{$notification['type']} alert-dismissible fade show' role='alert'>
-            {$notification['message']}
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-          </div>";
-    
-    // Hapus notifikasi dari session setelah ditampilkan
-    unset($_SESSION['notification']);
-}
-?>
-</div>
-                    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#tambahKabarModal">Tambah Kabar</button>
+                            switch ($status) {
+                                case 'success':
+                                    $_SESSION['notification'] = [
+                                        'message' => 'Informasi desa berhasil ditambahkan.',
+                                        'type' => 'success'
+                                    ];
+                                    break;
+                                case 'updated':
+                                    $_SESSION['notification'] = [
+                                        'message' => 'Informasi desa berhasil diperbarui.',
+                                        'type' => 'primary'
+                                    ];
+                                    break;
+                                case 'deleted':
+                                    $_SESSION['notification'] = [
+                                        'message' => 'Informasi desa berhasil dihapus.',
+                                        'type' => 'danger'
+                                    ];
+                                    break;
+                            }
+                        }
+
+                        if (isset($_SESSION['notification'])) {
+                            $notification = $_SESSION['notification'];
+                            echo "<div class='alert alert-{$notification['type']} alert-dismissible fade show' role='alert'>
+                            {$notification['message']}
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                            </div>";
+
+                            // Hapus notifikasi dari session setelah ditampilkan
+                            unset($_SESSION['notification']);
+                        }
+                        ?>
+                    </div>
+                    <button class="btn btn-success mb-4" data-bs-toggle="modal" data-bs-target="#tambahKabarModal">Tambah Informasi</button>
                     <div class="card mb-4 px-4">
                         <div class="card-body">
                             <table id="datatablesSimple" class="table table-striped table-hover">
@@ -133,7 +133,7 @@ if (isset($_SESSION['notification'])) {
                                                         <a href="hapus_kabar.php?id=<?php echo urlencode($id); ?>" class="btn btn-danger btn-sm mt-lg-0" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
                                                     </td>
                                                 </tr>
-                                                <?php
+                                    <?php
                                             }
                                         } else {
                                             echo "<tr><td colspan='6'>No results found.</td></tr>";
@@ -156,7 +156,7 @@ if (isset($_SESSION['notification'])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tambahKabarModalLabel">Tambah Kabar Desa</h5>
+                    <h5 class="modal-title" id="tambahKabarModalLabel">Tambah Informasi Desa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="proses_tambah_kabar.php" method="POST" enctype="multipart/form-data">
@@ -192,7 +192,7 @@ if (isset($_SESSION['notification'])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detailKabarModalLabel">Detail Kabar Desa</h5>
+                    <h5 class="modal-title" id="detailKabarModalLabel">Detail Informasi Desa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -213,42 +213,42 @@ if (isset($_SESSION['notification'])) {
     </div>
 
     <!-- Edit Kabar Modal -->
-<div class="modal fade" id="editKabarModal" tabindex="-1" aria-labelledby="editKabarModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editKabarModalLabel">Edit Kabar Desa</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="editKabarModal" tabindex="-1" aria-labelledby="editKabarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editKabarModalLabel">Edit Informasi Desa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="proses_edit_kabar.php" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <input type="hidden" id="edit_id" name="id">
+                        <div class="mb-3">
+                            <label for="edit_judul" class="form-label">Judul</label>
+                            <input type="text" class="form-control" id="edit_judul" name="judul" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_tanggal" class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" id="edit_tanggal" name="tanggal" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_deskripsi" class="form-label">Deskripsi</label>
+                            <textarea class="form-control" id="edit_deskripsi" name="deskripsi" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_gambar" class="form-label">Gambar</label>
+                            <input type="file" class="form-control" id="edit_gambar" name="gambar" accept="image/*">
+                            <img id="edit_gambar_preview" width="100" height="100" alt="Gambar Kabar">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    </div>
+                </form>
             </div>
-            <form action="proses_edit_kabar.php" method="POST" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <input type="hidden" id="edit_id" name="id">
-                    <div class="mb-3">
-                        <label for="edit_judul" class="form-label">Judul</label>
-                        <input type="text" class="form-control" id="edit_judul" name="judul" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_tanggal" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="edit_tanggal" name="tanggal" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_deskripsi" class="form-label">Deskripsi</label>
-                        <textarea class="form-control" id="edit_deskripsi" name="deskripsi" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_gambar" class="form-label">Gambar</label>
-                        <input type="file" class="form-control" id="edit_gambar" name="gambar" accept="image/*">
-                        <img id="edit_gambar_preview" width="100" height="100" alt="Gambar Kabar">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 
 
     <!-- JavaScript resources -->
@@ -273,21 +273,21 @@ if (isset($_SESSION['notification'])) {
             const detailModal = new bootstrap.Modal(document.getElementById('detailKabarModal'));
             detailModal.show();
         }
-        function openEditModal(id, judul, tanggal, deskripsi, gambar) {
-    // Ambil elemen modal edit dan atur isian form dengan data yang diterima
-    document.getElementById('edit_id').value = id;
-    document.getElementById('edit_judul').value = judul;
-    document.getElementById('edit_tanggal').value = tanggal;
-    document.getElementById('edit_deskripsi').value = deskripsi;
-    if (gambar) {
-        document.getElementById('edit_gambar_preview').src = 'uploads/' + gambar;
-    }
-    const editModal = new bootstrap.Modal(document.getElementById('editKabarModal'));
-    editModal.show();
-}
 
+        function openEditModal(id, judul, tanggal, deskripsi, gambar) {
+            // Ambil elemen modal edit dan atur isian form dengan data yang diterima
+            document.getElementById('edit_id').value = id;
+            document.getElementById('edit_judul').value = judul;
+            document.getElementById('edit_tanggal').value = tanggal;
+            document.getElementById('edit_deskripsi').value = deskripsi;
+            if (gambar) {
+                document.getElementById('edit_gambar_preview').src = 'uploads/' + gambar;
+            }
+            const editModal = new bootstrap.Modal(document.getElementById('editKabarModal'));
+            editModal.show();
+        }
     </script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 
@@ -298,4 +298,5 @@ if (isset($_SESSION['notification'])) {
 
     <script src="js/datatables-simple-demo.js"></script>
 </body>
+
 </html>

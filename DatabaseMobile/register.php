@@ -1,42 +1,67 @@
 <?php
+header('Content-Type: application/json; charset=utf-8');
+error_reporting(0);
+
 require('Koneksi.php');
 require('helpers.php');
 
-// Menerima data dari aplikasi Android
-$em = $_POST['username']; // 'email' harus sesuai dengan key yang dikirim dari Android
-$pas = $_POST['password']; // 'password' harus sesuai dengan key yang dikirim dari Android
-$email = $_POST['email'];
-$nama = $_POST['nama'];
-$kode_otp = "0";
+$username = isset($_POST['username']) ? trim($_POST['username']) : '';
+$password = isset($_POST['password']) ? trim($_POST['password']) : '';
+$email    = isset($_POST['email']) ? trim($_POST['email']) : '';
+$nama     = isset($_POST['nama']) ? trim($_POST['nama']) : '';
+$kode_otp = "00000";
 
-// periksa  apakah email sudah terdaftar 
-$perintah = "SELECT * FROM `akun_user` WHERE username = '$em';";
-$eksekusi = mysqli_query($konek, $perintah);
-$cek = mysqli_num_rows($eksekusi);
+$response = [];
 
-$response = array();
+// 🔹 Validasi input kosong
+if ($username === '' || $password === '' || $email === '' || $nama === '') {
+    $response = [
+        "kode" => 3,
+        "pesan" => "Data tidak lengkap"
+    ];
+    echo json_encode($response);
+    exit;
+}
 
-if ($cek > 0) {
-    $response["kode"]=0;
-    $response["peasn"] = "email sudah terdaftar";
+// 🔹 Cek apakah username sudah terdaftar
+$cek = mysqli_query($konek, "SELECT * FROM akun_user WHERE username = '$username'");
+if (mysqli_num_rows($cek) > 0) {
+    $response = [
+        "kode" => 0,
+        "pesan" => "Username sudah terdaftar"
+    ];
+    echo json_encode($response);
+    exit;
+}
 
-    } else {
-        // jika username belum terdaftar, lakukan proses registrasi
-        $perintah = "INSERT INTO `akun_user`(`username`, `password`, `email`, `nama`, `kode_otp`) 
-        VALUES ('$em','$pas','$email','$nama','00000')";
-        $eksekusi = mysqli_query($konek, $perintah);
+// 🔹 Cek apakah email sudah digunakan
+$cekEmail = mysqli_query($konek, "SELECT * FROM akun_user WHERE email = '$email'");
+if (mysqli_num_rows($cekEmail) > 0) {
+    $response = [
+        "kode" => 4,
+        "pesan" => "Email sudah terdaftar"
+    ];
+    echo json_encode($response);
+    exit;
+}
 
-        if($eksekusi){
-            $response["kode"] =1;
-            $response["pesan"] = "registrasi berhasil";
-        }else {
-            $response["kode"]= 2;
-            $response["pesan"] = "Registrasi gagal";
-        }
-    }
+// 🔹 Insert data
+$query = "INSERT INTO akun_user (username, password, email, nama, kode_otp)
+          VALUES ('$username', '$password', '$email', '$nama', '$kode_otp')";
+$eksekusi = mysqli_query($konek, $query);
 
+if ($eksekusi) {
+    $response = [
+        "kode" => 1,
+        "pesan" => "Registrasi berhasil"
+    ];
+} else {
+    $response = [
+        "kode" => 2,
+        "pesan" => "Registrasi gagal"
+    ];
+}
 
-echo json_encode($response);
+echo json_encode($response, JSON_UNESCAPED_UNICODE);
 mysqli_close($konek);
-
 ?>

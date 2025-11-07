@@ -68,7 +68,7 @@ error_log("SQL yang dijalankan: " . $sql);
 $stmt = $konek->prepare($sql);
 
 if (!$stmt) {
-    error_log("❌ Prepare gagal: " . $konek->error);
+    error_log(" Prepare gagal: " . $konek->error);
     echo json_encode([
         "kode" => 0,
         "pesan" => "Gagal menyiapkan query",
@@ -77,12 +77,13 @@ if (!$stmt) {
     exit;
 }
 
+// Bind parameter
 $stmt->bind_param("sssss", $judul, $kategori, $deskripsi, $fotoPath, $username);
 
 if ($stmt->execute()) {
     $id_aspirasi = $stmt->insert_id;
 
-    // Tambahkan notifikasi admin
+    // Tambahkan notifikasi untuk admin
     $judul_notif = "Aspirasi baru dari $username";
     $pesan_notif = "Judul: $judul";
 
@@ -101,9 +102,9 @@ if ($stmt->execute()) {
         "id_aspirasi" => $id_aspirasi
     ]);
 
-    error_log("✅ Aspirasi baru berhasil ditambahkan oleh $username");
+    error_log("Aspirasi baru berhasil ditambahkan oleh $username");
 } else {
-    error_log("❌ Eksekusi gagal: " . $stmt->error);
+    error_log("Eksekusi gagal: " . $stmt->error);
     echo json_encode([
         "kode" => 0,
         "pesan" => "Gagal menyimpan aspirasi",
@@ -113,4 +114,4 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $konek->close();
-
+?>

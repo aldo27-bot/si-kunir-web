@@ -1,5 +1,7 @@
 <?php
 require("../Koneksi.php");
+require_once('../sender/phpmailer.php');
+
 
 // Menerima data dari aplikasi Android
 $username = $_POST['username']; // 'email' harus sesuai dengan key yang dikirim dari Android

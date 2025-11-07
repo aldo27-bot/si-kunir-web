@@ -20,11 +20,14 @@ $result = $conn->query($sql);
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
   <style>
     :root {
-      --primary-blue: #189bbf;
-      --secondary-blue: #0b8d9e;
+      --primary-blue: #3629B7;
+      --secondary-blue: #B36CFF;
       --light-blue: #e3f2fd;
       --dark-blue: #0d47a1;
       --accent-blue: #03a9f4;
+      --text-gray: #555;
+      --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      --hover-shadow: 0 10px 30px rgba(24, 155, 191, 0.2);
     }
 
     * {
@@ -53,6 +56,7 @@ $result = $conn->query($sql);
       font-size: 15px;
       font-weight: 600;
       color: white !important;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
 
     .navbar-brand img {
@@ -79,7 +83,8 @@ $result = $conn->query($sql);
       background-color: rgba(255,255,255,0.2);
       transform: translateY(-2px);
     }
-     .download-btn {
+
+     .download-btn, .btn-login {
       background-color: white !important;
       color: var(--primary-blue) !important;
       border: 2px solid white !important;
@@ -90,29 +95,12 @@ $result = $conn->query($sql);
       box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
     }
 
-    .download-btn:hover {
+    .download-btn:hover, .btn-login:hover {
       background-color: transparent !important;
       color: white !important;
       transform: scale(1.05);
     }
     
-
-    .btn-login {
-      background-color: white !important;
-      color: var(--primary-blue) !important;
-      border: 2px solid white !important;
-      padding: 8px 25px !important;
-      border-radius: 25px !important;
-      font-weight: 600 !important;
-      transition: all 0.3s !important;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
-    }
-
-    .btn-login:hover {
-      background-color: transparent !important;
-      color: white !important;
-      transform: scale(1.05);
-    }
     
     .navbar-brand span {
     font-weight: 700;
@@ -155,6 +143,15 @@ $result = $conn->query($sql);
       padding: 30px;
     }
 
+    /* Sections */
+    .section-divider {
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--primary-blue), var(--secondary-blue), transparent);
+      margin: 60px auto;
+      width: 60%;
+      border-radius: 2px;
+    }
+
     /* Welcome Section */
     .welcome-section {
       background: linear-gradient(135deg, var(--light-blue) 0%, white 100%);
@@ -190,7 +187,7 @@ $result = $conn->query($sql);
     }
 
     .kepala-desa-name {
-      color: var(--primary-blue);
+      color: var(--secondary-blue);
       font-weight: 600;
       font-size: 1.1rem;
       margin-top: 30px;
@@ -224,6 +221,12 @@ $result = $conn->query($sql);
       margin: 0 10px;
       font-weight: 600;
       transition: all 0.3s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%) !important;
+      box-shadow: 0 4px 20px rgba(24, 155, 191, 0.3);
+      border: none !important;
+      color: white !important;
     }
 
     #visiContent, #misiContent {
@@ -361,7 +364,7 @@ $result = $conn->query($sql);
     .site-footer {
       background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%) !important;
       color: white !important;
-      padding: 60px 20px 20px !important;
+      padding: 40px 10px 10px !important;
       margin-top: 0 !important;
       border-top: none !important;
     }
@@ -412,22 +415,6 @@ $result = $conn->query($sql);
       margin-top: 40px !important;
       border-top: 1px solid rgba(255,255,255,0.2) !important;
       color: white !important;
-    }
-
-    .download-btn {
-      background: white !important;
-      color: var(--primary-blue) !important;
-      padding: 12px 30px !important;
-      border-radius: 25px !important;
-      font-weight: 600 !important;
-      border: none !important;
-      transition: all 0.3s !important;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
-    }
-
-    .download-btn:hover {
-      transform: scale(1.05) !important;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
     }
 
     /* Responsive */
@@ -777,21 +764,12 @@ $result = $conn->query($sql);
         </div>
 
         <div class="col-md-4 mb-4">
-          <h6>Contact</h6>
+          <h6>Kontak</h6>
           <p><i class="fas fa-home me-2"></i> Dusun Nglajer, Desa Kuncir, Kec. Ngetos, Kabupaten Nganjuk, Jawa Timur 64474</p>
           <p><i class="fas fa-envelope me-2"></i> desa.kuncir@gmail.com</p>
           <p><i class="fas fa-phone me-2"></i> 0358-321294</p>
         </div>
       </div>
-
-      <!-- <div class="row text-center mt-4">
-        <div class="col-12">
-          <h6>Download Aplikasi</h6>
-          <a href="https://play.google.com/store/apps" class="btn download-btn">
-            <i class="fab fa-google-play me-2"></i> Google Play
-          </a>
-        </div>
-      </div> -->
     </div>
 
     <div class="footer-bottom">
