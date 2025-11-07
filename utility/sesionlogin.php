@@ -6,9 +6,9 @@ if (!$conn) {
 }
 // $user = $_GET['user'];
 session_start();
-$user = $_SESSION['username'];
+$user = $_SESSION['username_admin'];
 
-$query = "SELECT * FROM akun_admin WHERE username = ? ";
+$query = "SELECT * FROM akun_admin WHERE username_admin = ? ";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "s", $user);
 mysqli_stmt_execute($stmt);

@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Ambil user dari DB
-    $query = "SELECT username, password FROM akun_admin WHERE username = ?";
+    $query = "SELECT username_admin, password FROM akun_admin WHERE username_admin = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "s", $user);
     mysqli_stmt_execute($stmt);
@@ -45,13 +45,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($login_ok) {
             $_SESSION['user_logged_in'] = true;
-            $_SESSION['username'] = $row['username'];
+            $_SESSION['username_admin'] = $row['username_admin'];
             // $_SESSION['nama'] = $row['nama'];
 
             // Optional: Upgrade MD5 ke password_hash() agar aman
             if (preg_match('/^[a-f0-9]{32}$/i', $dbpass)) {
                 $new_hash = password_hash($password, PASSWORD_DEFAULT);
-                $upd = mysqli_prepare($conn, "UPDATE akun_admin SET password = ? WHERE username = ?");
+                $upd = mysqli_prepare($conn, "UPDATE akun_admin SET password = ? WHERE username_admin = ?");
                 mysqli_stmt_bind_param($upd, "ss", $new_hash, $user);
                 mysqli_stmt_execute($upd);
                 mysqli_stmt_close($upd);

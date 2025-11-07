@@ -6,12 +6,12 @@ if (!$conn) {
   die("Koneksi database gagal.");
 }
 
-$sql = "SELECT id, judul, deskripsi, tanggal, gambar FROM kabar_desa ORDER BY tanggal DESC";
+$sql = "SELECT id_informasi_desa, judul, deskripsi, tanggal, gambar FROM informasi_desa ORDER BY tanggal DESC";
 $result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id_informasi_desa">
 
 <head>
   <meta charset="UTF-8">

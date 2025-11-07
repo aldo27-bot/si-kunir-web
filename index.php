@@ -2,7 +2,7 @@
 include("koneksi.php");
 
 // Ambil 3 berita terbaru
-$sql = "SELECT * FROM kabar_desa ORDER BY tanggal DESC LIMIT 3";
+$sql = "SELECT * FROM informasi_desa ORDER BY tanggal DESC LIMIT 3";
 $result = $conn->query($sql);
 ?>
 
