@@ -1,16 +1,12 @@
 <?php
-session_start();
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit;
-}
+include 'utility/sesionlogin.php';
 
 include("koneksi.php"); // koneksi pakai $conn
 
 if (!isset($_SESSION['flash'])) $_SESSION['flash'] = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+    $id = isset($_POST['id_pengajuan_aspirasi']) ? (int)$_POST['id_pengajuan_aspirasi'] : 0;
     $status = $_POST['status'] ?? '';
     $tanggapan = $_POST['tanggapan'] ?? '';
 
@@ -22,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // 🔹 Update status & tanggapan aspirasi
-        $stmt = $conn->prepare("UPDATE aspirasi SET status=?, tanggapan=? WHERE id=?");
+        $stmt = $conn->prepare("UPDATE pengajuan_aspirasi SET status=?, tanggapan=? WHERE id_pengajuan_aspirasi=?");
         $stmt->bind_param("ssi", $status, $tanggapan, $id);
         $ok = $stmt->execute();
         $stmt->close();
@@ -34,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // 🔹 Ambil username dari tabel aspirasi
-        $getUser = $conn->prepare("SELECT username FROM aspirasi WHERE id=?");
+        $getUser = $conn->prepare("SELECT username FROM pengajuan_aspirasi WHERE id_pengajuan_aspirasi=?");
         $getUser->bind_param("i", $id);
         $getUser->execute();
         $resUser = $getUser->get_result();
@@ -99,13 +95,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // 🔹 GET: ambil data aspirasi
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$id = isset($_GET['id_pengajuan_aspirasi']) ? (int)$_GET['id_pengajuan_aspirasi'] : 0;
 if ($id <= 0) {
     echo "ID aspirasi tidak diberikan.";
     exit;
 }
 
-$stmt = $conn->prepare("SELECT * FROM aspirasi WHERE id=?");
+$stmt = $conn->prepare("SELECT * FROM pengajuan_aspirasi WHERE id_pengajuan_aspirasi=?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();

@@ -1,9 +1,9 @@
 <?php
 header("Content-Type: application/json");
-include "Koneksi.php";
+include 'utility/sesionlogin.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'] ?? '';
+    $id = $_POST['id_pengajuan_aspirasi'] ?? '';
     $tanggapan = $_POST['tanggapan'] ?? '';
 
     if (empty($id) || empty($tanggapan)) {
@@ -12,12 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // 🔹 Update tanggapan aspirasi
-    $update = $conn->prepare("UPDATE aspirasi SET tanggapan=?, status='Ditanggapi' WHERE id=?");
+    $update = $conn->prepare("UPDATE pengajuan_aspirasi SET tanggapan=?, status='Ditanggapi' WHERE id_pengajuan_aspirasi=?");
     $update->bind_param("si", $tanggapan, $id);
 
     if ($update->execute()) {
         // 🔹 Ambil username dari aspirasi
-        $result = mysqli_query($conn, "SELECT username FROM aspirasi WHERE id='$id'");
+        $result = mysqli_query($conn, "SELECT username FROM aspirasi WHERE id_pengajuan_aspirasi='$id'");
         $data = mysqli_fetch_assoc($result);
         $username = $data['username'] ?? '';
 

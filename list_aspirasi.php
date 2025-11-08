@@ -1,16 +1,13 @@
 <?php
-session_start();
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit;
-}
+include 'utility/sesionlogin.php';
 
-include("koneksi.php");
+
+// include("koneksi.php");
 
 // Ambil semua data aspirasi (tanpa nama pengaju)
 $query = "
-    SELECT * 
-    FROM aspirasi
+    SELECT id_pengajuan_aspirasi, judul, kategori, status, tanggal 
+    FROM pengajuan_aspirasi 
     ORDER BY tanggal DESC
 ";
 $result = mysqli_query($conn, $query);
@@ -18,6 +15,7 @@ $result = mysqli_query($conn, $query);
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -38,14 +36,15 @@ $result = mysqli_query($conn, $query);
         </div>
         <div id="layoutSidenav_content">
             <main class="container-fluid px-5">
-                <h1 class="" style="margin-top: 50px;">Daftar Pengajuan Aspirasi</h1>
-                 <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Daftar Pengajuan Aspirasi</li>
-                    </ol>
+                <h1 class="" style="margin-top: 50px;">Pengajuan Aspirasi</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Pengajuan Aspirasi</li>
+                </ol>
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
-                        <table id="datatablesSimple" class="table table-striped table-bordered text-center align-middle">
+                        <table id="datatablesSimple"
+                            class="table table-striped table-bordered text-center align-middle">
                             <thead class="table-primary">
                                 <tr>
                                     <th>No</th>
@@ -57,42 +56,42 @@ $result = mysqli_query($conn, $query);
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
+                                <?php
                                 $no = 1;
                                 if (mysqli_num_rows($result) > 0):
                                     while ($r = mysqli_fetch_assoc($result)):
                                 ?>
-                                    <tr>
-                                        <td><?= $no++ ?></td>
-                                        <td><?= htmlspecialchars($r['judul']) ?></td>
-                                        <td><?= htmlspecialchars($r['kategori'] ?? '-') ?></td>
-                                        <td>
-                                            <?php
-                                                $statusColor = match(strtolower($r['status'])) {
+                                <tr>
+                                    <td><?= $no++ ?></td>
+                                    <td><?= htmlspecialchars($r['judul']) ?></td>
+                                    <td><?= htmlspecialchars($r['kategori'] ?? '-') ?></td>
+                                    <td>
+                                        <?php
+                                                $statusColor = match (strtolower($r['status'])) {
                                                     'menunggu' => 'secondary',
                                                     'diproses' => 'warning',
                                                     'selesai' => 'success',
                                                     default => 'dark'
                                                 };
-                                            ?>
-                                            <span class="badge bg-<?= $statusColor ?>">
-                                                <?= htmlspecialchars($r['status']) ?>
-                                            </span>
-                                        </td>
-                                        <td><?= htmlspecialchars($r['tanggal']) ?></td>
-                                        <td>
-                                            <a href="respond.php?id=<?= $r['id'] ?>" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-reply"></i> Tanggapi
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php 
+                                                ?>
+                                        <span class="badge bg-<?= $statusColor ?>">
+                                            <?= htmlspecialchars($r['status']) ?>
+                                        </span>
+                                    </td>
+                                    <td><?= htmlspecialchars($r['tanggal']) ?></td>
+                                    <td>
+                                        <a href="respond.php?id_pengajuan_aspirasi=<?= $r['id_pengajuan_aspirasi'] ?>" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-reply"></i> Tanggapi
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php
                                     endwhile;
                                 else:
-                                ?>
-                                    <tr>
-                                        <td colspan="6" class="text-muted">Belum ada data aspirasi.</td>
-                                    </tr>
+                                    ?>
+                                <tr>
+                                    <td colspan="6" class="text-muted">Belum ada data aspirasi.</td>
+                                </tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>
@@ -102,14 +101,17 @@ $result = mysqli_query($conn, $query);
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
     <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const table = document.querySelector("#datatablesSimple");
-            if (table) new simpleDatatables.DataTable(table);
-        });
+    document.addEventListener("DOMContentLoaded", () => {
+        const table = document.querySelector("#datatablesSimple");
+        if (table) new simpleDatatables.DataTable(table);
+    });
     </script>
 </body>
+
 </html>

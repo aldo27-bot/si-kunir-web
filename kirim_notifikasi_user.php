@@ -61,21 +61,21 @@ if (!file_exists($pathToServiceAccount)) {
 }
 
 // 🔹 Ambil akses token Google
-$scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
-$credentials = new ServiceAccountCredentials($scopes, $pathToServiceAccount);
-$accessToken = $credentials->fetchAuthToken()['access_token'];
+// $scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
+// $credentials = new ServiceAccountCredentials($scopes, $pathToServiceAccount);
+// $accessToken = $credentials->fetchAuthToken()['access_token'];
 
 // 🔹 Project ID Firebase
 $projectId = 'elayangdesa-5d5c3'; // <-- Ganti dengan Project ID kamu
 
 // 🔹 Client Guzzle
-$client = new Client([
-    'base_uri' => 'https://fcm.googleapis.com/v1/',
-    'headers' => [
-        'Authorization' => 'Bearer ' . $accessToken,
-        'Content-Type'  => 'application/json',
-    ],
-]);
+// $client = new Client([
+//     'base_uri' => 'https://fcm.googleapis.com/v1/',
+//     'headers' => [
+//         'Authorization' => 'Bearer ' . $accessToken,
+//         'Content-Type'  => 'application/json',
+//     ],
+// ]);
 
 // 🔹 Siapkan payload
 $payload = [

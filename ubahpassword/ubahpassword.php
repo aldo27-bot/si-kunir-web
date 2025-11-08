@@ -3,7 +3,7 @@ include "../koneksi.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Proses form saat dikirimkan
-    $username = $_POST["username"];
+    $username = $_POST["username_admin"];
     $password = $_POST["password"];
     $password2 = $_POST["password2"];
 
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Jika berhasil, arahkan ke dashboard.php
             $pesan = "Password Berhasil diubah.";
             echo '<script>';
-            echo 'alert("' . $pesan .'");';
+            echo 'alert("' . $pesan . '");';
             echo 'window.location.href = "../dashboard.php";';
             echo '</script>';
             exit();
@@ -48,4 +48,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     mysqli_close($conn);
 }
-?>

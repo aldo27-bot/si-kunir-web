@@ -4,7 +4,7 @@ include("koneksi.php");
 function getNotificationCount() {
     global $conn;
     $sql = "SELECT COUNT(*) as count FROM pengajuan_surat 
-            JOIN laporan ON pengajuan_surat.id = laporan.id 
+            JOIN laporan ON pengajuan_surat.id_laporan = laporan.id_laporan 
             WHERE laporan.status = 'Masuk'";
     
     $result = $conn->query($sql);

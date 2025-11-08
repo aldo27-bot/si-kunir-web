@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     try {
         // First, get the current image name
-        $sql = "SELECT gambar FROM kabar_desa WHERE id = ?";
+        $sql = "SELECT gambar FROM informasi_desa WHERE id_informasi_desa = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         // Update database
-        $sql = "UPDATE kabar_desa SET judul = ?, tanggal = ?, deskripsi = ?, gambar = ? WHERE id = ?";
+        $sql = "UPDATE informasi_desa SET judul = ?, tanggal = ?, deskripsi = ?, gambar = ? WHERE id_informasi_desa = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssssi", $judul, $tanggal, $deskripsi, $current_image, $id);
         

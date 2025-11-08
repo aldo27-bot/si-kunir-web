@@ -4,13 +4,13 @@ include("koneksi.php");
 function getNotifications() {
     global $conn;
     $sql = "SELECT 
-            pengajuan_surat.id,
+            pengajuan_surat.id_pengajuan_surat,
             pengajuan_surat.nama,
             pengajuan_surat.kode_surat,
             pengajuan_surat.tanggal,
             pengajuan_surat.no_pengajuan
             FROM pengajuan_surat
-            JOIN laporan ON pengajuan_surat.id = laporan.id
+            JOIN laporan ON pengajuan_surat.id_laporan = laporan.id_laporan
             WHERE laporan.status = 'Masuk'
             ORDER BY pengajuan_surat.tanggal DESC
             LIMIT 5";

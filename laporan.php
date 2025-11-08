@@ -1,5 +1,5 @@
-<?php 
-include 'utility/sesionlogin.php';  
+<?php
+include 'utility/sesionlogin.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -64,36 +64,39 @@ include 'utility/sesionlogin.php';
                                     include("koneksi.php");
 
                                     try {
-                                        $sql = "SELECT DISTINCT laporan.id, pengajuan_surat.nik, 
-                                                pengajuan_surat.nama, pengajuan_surat.kode_surat,
-                                                DATE (laporan.tanggal) AS tanggal, laporan.status, pengajuan_surat.no_pengajuan
+                                        $sql = "SELECT laporan.id_laporan,
+                                                    pengajuan_surat.nik,
+                                                    pengajuan_surat.nama,
+                                                    pengajuan_surat.kode_surat,
+                                                    DATE(laporan.tanggal) AS tanggal,
+                                                    laporan.status,
+                                                    pengajuan_surat.no_pengajuan
                                                 FROM laporan
-                                                JOIN pengajuan_surat ON pengajuan_surat.id = laporan.id
-                                                ORDER BY laporan.id DESC;";
+                                                JOIN pengajuan_surat 
+                                                ON pengajuan_surat.id_laporan = laporan.id_laporan
+                                                ORDER BY laporan.id_laporan DESC";
+
                                         $query = $conn->prepare($sql);
                                         $query->execute();
+                                        $result = $query->get_result();
 
-                                        $query->store_result();
-                                        $rowCount = $query->num_rows;
-
-                                        if ($rowCount > 0) {
-                                            $query->bind_result($id, $nik, $nama, $kode_surat, $tanggal, $status, $no_pengajuan);
-                                            while ($query->fetch()) { ?>
+                                        if ($result->num_rows > 0) {
+                                            while ($r = $result->fetch_assoc()) { ?>
                                                 <tr>
-                                                    <td><?php echo htmlentities($id); ?></td>
-                                                    <td><?php echo htmlentities($nik); ?></td>
-                                                    <td><?php echo htmlentities($nama); ?></td>
-                                                    <td><?php echo htmlentities($kode_surat); ?></td>
-                                                    <td><?php echo htmlentities($tanggal); ?></td>
-                                                    <td><?php echo htmlentities($status); ?></td>
+                                                    <td><?= $r['id_laporan'] ?></td>
+                                                    <td><?= $r['nik'] ?></td>
+                                                    <td><?= $r['nama'] ?></td>
+                                                    <td><?= $r['kode_surat'] ?></td>
+                                                    <td><?= $r['tanggal'] ?></td>
+                                                    <td><?= $r['status'] ?></td>
                                                     <td style="text-align: center;">
-                                                        <a class="btn btn-primary mt-lg-0" role="button"
-                                                           href="suratmasuk_detail.php?no_pengajuan=<?php echo urlencode(trim($no_pengajuan)); ?>&kode_surat=<?php echo urlencode(trim($kode_surat)); ?>&id=<?php echo urlencode(trim($id)); ?>&user=<?php echo htmlentities($_SESSION['username'] ?? 'guest'); ?>">
+                                                        <a class="btn btn-primary"
+                                                            href="suratmasuk_detail.php?no_pengajuan=<?= urlencode($r['no_pengajuan']) ?>&kode_surat=<?= urlencode($r['kode_surat']) ?>&id=<?= urlencode($r['id_laporan']) ?>">
                                                             Detail
                                                         </a>
                                                     </td>
                                                 </tr>
-                                            <?php }
+                                    <?php }
                                         } else {
                                             echo "<tr><td colspan='7' class='text-center'>Tidak ada data ditemukan.</td></tr>";
                                         }
@@ -114,19 +117,33 @@ include 'utility/sesionlogin.php';
         $('#datatablesSimple').dataTable({
             "columns": [
                 null,
-                { "searchable": true },
-                { "searchable": true },
-                { "searchable": false },
-                { "searchable": false },
-                { "searchable": false },
-                { "searchable": false }
+                {
+                    "searchable": true
+                },
+                {
+                    "searchable": true
+                },
+                {
+                    "searchable": false
+                },
+                {
+                    "searchable": false
+                },
+                {
+                    "searchable": false
+                },
+                {
+                    "searchable": false
+                }
             ]
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
     <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
 </body>
 

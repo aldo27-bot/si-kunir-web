@@ -2,7 +2,7 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "si-kunir_terbaru";
+$database = "si-kunir";
 
 $konek = new mysqli($host, $username, $password, $database);
 

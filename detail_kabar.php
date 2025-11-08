@@ -5,7 +5,7 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     try {
-        $sql = "SELECT judul, tanggal, deskripsi, gambar FROM kabar_desa WHERE id = ?";
+        $sql = "SELECT judul, tanggal, deskripsi, gambar FROM informasi_desa WHERE id_informasi_desa = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();

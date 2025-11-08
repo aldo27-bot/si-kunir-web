@@ -61,7 +61,7 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0 && !empty($_FILES['f
 }
 
 // Simpan ke database
-$sql = "INSERT INTO aspirasi (judul, kategori, deskripsi, foto, username, status, tanggal) 
+$sql = "INSERT INTO pengajuan_aspirasi (judul, kategori, deskripsi, foto, username, status, tanggal) 
         VALUES (?, ?, ?, ?, ?, 'Menunggu', NOW())";
 error_log("SQL yang dijalankan: " . $sql);
 
@@ -99,7 +99,7 @@ if ($stmt->execute()) {
     echo json_encode([
         "kode" => 1,
         "pesan" => "Aspirasi berhasil dikirim",
-        "id_aspirasi" => $id_aspirasi
+        "id_pengajuan_aspirasi" => $id_aspirasi
     ]);
 
     error_log("Aspirasi baru berhasil ditambahkan oleh $username");

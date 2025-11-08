@@ -12,8 +12,8 @@ if ($konek->connect_error) {
 
 // Ambil semua aspirasi tanpa username
 $sql = "
-    SELECT id_aspirasi, judul, kategori, deskripsi, foto, status, tanggal, tanggapan
-    FROM aspirasi
+    SELECT id_pengajuan_aspirasi, judul, kategori, deskripsi, foto, status, tanggal, tanggapan
+    FROM pengajuan_aspirasi
     ORDER BY tanggal DESC
 ";
 
@@ -27,7 +27,7 @@ if ($result) {
 }
 
 // Kirim response JSON
-json_response(['aspirasi' => $list]);
+json_response(['pengajuan_aspirasi' => $list]);
 
 // Tutup koneksi
 $konek->close();

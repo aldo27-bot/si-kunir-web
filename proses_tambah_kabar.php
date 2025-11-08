@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     try {
-        $sql = "INSERT INTO kabar_desa (judul, tanggal, deskripsi, gambar) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO informasi_desa (judul, tanggal, deskripsi, gambar) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssss", $judul, $tanggal, $deskripsi, $gambar);
         

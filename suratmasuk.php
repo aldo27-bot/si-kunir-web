@@ -65,7 +65,7 @@ include 'utility/sesionlogin.php';
                                     include("koneksi.php");
 
                                     try {
-                                        $sql = "SELECT pengajuan_surat.id as id, 
+                                        $sql = "SELECT pengajuan_surat.id_pengajuan_surat as id_pengajuan_surat, 
                                         pengajuan_surat.nik, 
                                         pengajuan_surat.nama, 
                                         pengajuan_surat.kode_surat, 
@@ -73,10 +73,10 @@ include 'utility/sesionlogin.php';
                                         pengajuan_surat.no_pengajuan
                                         FROM pengajuan_surat
                                         JOIN laporan
-                                        on pengajuan_surat.id = laporan.id
+                                        on pengajuan_surat.id_pengajuan_surat = laporan.id_laporan
                                         where laporan.status = 'Masuk' or laporan.status ='Proses'
-                                        GROUP by id  
-                                        ORDER BY `pengajuan_surat`.`id` DESC";
+                                        GROUP by id_pengajuan_surat  
+                                        ORDER BY `pengajuan_surat`.`id_pengajuan_surat` DESC";
                                         $query = $conn->prepare($sql);
                                         $query->execute();
 

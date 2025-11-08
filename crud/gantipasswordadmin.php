@@ -16,10 +16,10 @@ if ($cek == 0) {
     $response["pesan"] = "Username tidak tercantum";
 } else {
     $data = mysqli_fetch_assoc($eksekusi);
-    $username = $data['username'];
+    $username = $data['username_admin'];
 
     // Update kode OTP di database tanpa mengirim email
-    $perintah = "UPDATE `akun_admin` SET `kode_otp` = '$kode_otp' WHERE username = '$username'";
+    $perintah = "UPDATE `akun_admin` SET `kode_otp` = '$kode_otp' WHERE username_admin = '$username'";
     $eksekusi = mysqli_query($conn, $perintah);
 
     if ($eksekusi) {

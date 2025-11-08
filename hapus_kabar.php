@@ -6,7 +6,7 @@ if (isset($_GET['id'])) {
     
     try {
         // First get the image filename
-        $sql = "SELECT gambar FROM kabar_desa WHERE id = ?";
+        $sql = "SELECT gambar FROM informasi_desa WHERE id_informasi_desa = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -19,7 +19,7 @@ if (isset($_GET['id'])) {
         }
         
         // Delete the database record
-        $sql = "DELETE FROM kabar_desa WHERE id = ?";
+        $sql = "DELETE FROM informasi_desa WHERE id_informasi_desa = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         

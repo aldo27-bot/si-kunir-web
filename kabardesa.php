@@ -104,7 +104,7 @@ include 'utility/sesionlogin.php';
                                     include("koneksi.php");
 
                                     try {
-                                        $sql = "SELECT id, judul, tanggal, deskripsi, gambar FROM kabar_desa ORDER BY id DESC";
+                                        $sql = "SELECT id_informasi_desa, judul, tanggal, deskripsi, gambar FROM informasi_desa ORDER BY id_informasi_desa DESC";
                                         $query = $conn->prepare($sql);
                                         $query->execute();
 
@@ -259,8 +259,8 @@ include 'utility/sesionlogin.php';
 
     <script>
         // Script to open Detail Modal with existing data
-        function openDetailModal(id, judul, tanggal, deskripsi, gambar) {
-            document.getElementById('detail_id').textContent = id;
+        function openDetailModal(id_informasi_desa, judul, tanggal, deskripsi, gambar) {
+            document.getElementById('detail_id').textContent = id_informasi_desa;
             document.getElementById('detail_judul').textContent = judul;
             document.getElementById('detail_tanggal').textContent = tanggal;
             document.getElementById('detail_deskripsi').textContent = deskripsi;
@@ -274,9 +274,9 @@ include 'utility/sesionlogin.php';
             detailModal.show();
         }
 
-        function openEditModal(id, judul, tanggal, deskripsi, gambar) {
+        function openEditModal(id_informasi_desa, judul, tanggal, deskripsi, gambar) {
             // Ambil elemen modal edit dan atur isian form dengan data yang diterima
-            document.getElementById('edit_id').value = id;
+            document.getElementById('edit_id').value = id_informasi_desa;
             document.getElementById('edit_judul').value = judul;
             document.getElementById('edit_tanggal').value = tanggal;
             document.getElementById('edit_deskripsi').value = deskripsi;
