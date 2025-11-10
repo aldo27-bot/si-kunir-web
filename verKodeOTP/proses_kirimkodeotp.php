@@ -11,7 +11,7 @@ $kode_otp = mt_rand(100000, 999999);
 
 
 // periksa  apakah email sudah terdaftar 
-$perintah = "SELECT * FROM `akun_admin` WHERE username = '$username';";
+$perintah = "SELECT * FROM `akun_admin` WHERE username_admin = '$username';";
 $eksekusi = mysqli_query($conn, $perintah);
 $cek = mysqli_num_rows($eksekusi);
 
@@ -31,7 +31,7 @@ if ($cek = 0) {
         $mail->sendEmail($email, $type, $kode_otp);
         
         // jika username belum terdaftar, lakukan proses registrasi
-        $perintah = "UPDATE `akun_admin` SET `kode_otp` = '$kode_otp' Where username = '$username'";
+        $perintah = "UPDATE `akun_admin` SET `kode_otp` = '$kode_otp' Where username_admin = '$username'";
         $eksekusi = mysqli_query($conn, $perintah);
 
         

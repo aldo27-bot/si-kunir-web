@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
 
         if (!$ok) {
-            $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal menyimpan tanggapan: '.$conn->error];
+            $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal menyimpan tanggapan: ' . $conn->error];
             header('Location: respond.php?id=' . $id);
             exit;
         }
@@ -86,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Tanggapan berhasil disimpan dan notifikasi dikirim.'];
         header('Location: list_aspirasi.php');
         exit;
-
     } catch (Exception $e) {
         $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Error: ' . $e->getMessage()];
         header('Location: respond.php?id=' . $id);
@@ -118,12 +117,14 @@ $_SESSION['flash'] = null;
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tanggapi Aspirasi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
+
 <body class="p-4 bg-light">
     <div class="container">
         <?php if ($flash): ?>
@@ -154,14 +155,15 @@ $_SESSION['flash'] = null;
         </div>
 
         <form method="post">
-            <input type="hidden" name="id" value="<?= htmlspecialchars($r['id']) ?>">
+            <input type="hidden" name="id_pengajuan_aspirasi" value="<?= htmlspecialchars($r['id_pengajuan_aspirasi']) ?>">
             <div class="mb-3">
                 <label class="form-label">Status</label>
                 <select name="status" class="form-control">
-                    <option <?= $r['status']=='Diajukan' ? 'selected':'' ?>>Diajukan</option>
-                    <option <?= $r['status']=='Diproses' ? 'selected':'' ?>>Diproses</option>
-                    <option <?= $r['status']=='Selesai' ? 'selected':'' ?>>Selesai</option>
+                    <option value="menunggu" <?= $r['status'] == 'menunggu' ? 'selected' : '' ?>>Menunggu</option>
+                    <option value="diproses" <?= $r['status'] == 'diproses' ? 'selected' : '' ?>>Diproses</option>
+                    <option value="selesai" <?= $r['status'] == 'selesai' ? 'selected' : '' ?>>Selesai</option>
                 </select>
+
             </div>
 
             <div class="mb-3">
@@ -174,4 +176,5 @@ $_SESSION['flash'] = null;
         </form>
     </div>
 </body>
+
 </html>

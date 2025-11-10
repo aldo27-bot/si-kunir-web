@@ -1,7 +1,7 @@
 <?php
 require("Koneksi.php");
 
-$perintah = "SELECT * from surat";
+$perintah = "SELECT * from data_surat";
 $eksekusi = mysqli_query($konek, $perintah);
 $cek = mysqli_num_rows($eksekusi);
 
