@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // Pastikan sesi dimulai paling awal
 session_start();
 
@@ -6,6 +8,7 @@ session_start();
 // Jika file Anda bernama sessionlogin.php, ubah include di bawah.
 include 'utility/sesionlogin.php';
 include 'koneksi.php';
+
 
 // Periksa koneksi (mengasumsikan koneksi dibuat di $conn)
 if (!isset($conn)) {
@@ -124,10 +127,11 @@ if ($conn->connect_error) {
 
                                                 <td>
                                                     <!-- Perbaikan: hapus tanda ** dan gunakan urlencode pada parameter -->
-                                                    <a class="btn btn-primary btn-sm"
-                                                        href="suratmasuk_detail.php ?= $url_id_detail; ?>&kode_surat=<?= $url_kode_surat; ?>">
-                                                        <i class="fas fa-eye"></i> Detail
-                                                    </a>
+<a class="btn btn-primary btn-sm"
+   href="suratmasuk_detail.php?no_pengajuan=<?= $url_id_detail; ?>&kode_surat=<?= $url_kode_surat; ?>">
+   <i class="fas fa-eye"></i> Detail
+</a>
+
 
                                                     <?php if ($status === "Masuk" || $status === "Proses") { ?>
                                                         <button type="button" class="btn btn-success btn-sm mt-1"

@@ -14,7 +14,7 @@ if ($cek > 0) {
 
     while ($ambil = mysqli_fetch_object($eksekusi)) {
         $F["kode_surat"] = $ambil->kode_surat;
-        $F["keterangan"] = $ambil->Keterangan;
+        $F["keterangan"] = $ambil->keterangan;
         array_push($response["data"], $F);
     }
 } else {

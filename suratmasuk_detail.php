@@ -1,8 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 // Pastikan file sesionlogin.php dan koneksi.php tersedia
 // include 'utility/sesionlogin.php'; // Biarkan baris ini dikomen jika Anda tidak memerlukannya saat pengembangan
 include 'koneksi.php';
+
 
 // Cek koneksi
 if ($conn->connect_error) {
@@ -17,7 +20,21 @@ if ($conn->connect_error) {
 // Kita akan konsisten menggunakan 'no_pengajuan' sebagai kunci utama.
 $no_pengajuan = $_GET['no_pengajuan'] ?? $_GET['id_detail'] ?? ''; // Ambil dari salah satu
 $kode_surat = $_GET['kode_surat'] ?? '';
-$table_name = $kode_surat; // Asumsi kode surat sama dengan nama tabel
+
+$table_name = $kode_surat; // Asumsi kode surat sama dengan nama tabel// --- Mapping antara kode_surat dan nama tabel sebenarnya ---
+$kodeMap = [
+    'SKD'  => 'surat_domisili',
+    'SKK'  => 'surat_kehilangan',
+    'SKTM' => 'surat_sktm',
+    'SKBB' => 'surat_berkelakuan_baik',
+    'SKKM' => 'surat_keterangan_kematian',
+    'SKBN' => 'surat_keterangan_beda_nama',
+    'SKU'  => 'surat_keterangan_usaha'
+];
+
+// Gunakan mapping jika tersedia, jika tidak pakai kode_surat langsung
+$table_name = $kodeMap[$kode_surat] ?? $kode_surat;
+
 
 // --- WHITLELIST TABEL UNTUK KEAMANAN KRITIS ---
 $validTables = ['surat_kehilangan', 'surat_berkelakuan_baik', 'surat_domisili', 'surat_keterangan_kematian', 'surat_sktm', 'surat_keterangan_beda_nama', 'surat_keterangan_usaha']; 
