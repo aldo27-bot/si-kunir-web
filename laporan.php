@@ -91,7 +91,7 @@ include 'utility/sesionlogin.php';
                                                     <td><?= $r['status'] ?></td>
                                                     <td style="text-align: center;">
                                                         <a class="btn btn-primary"
-                                                            href="suratmasuk_detail.php?no_pengajuan=<?= urlencode($r['no_pengajuan']) ?>&kode_surat=<?= urlencode($r['kode_surat']) ?>&id=<?= urlencode($r['id_laporan']) ?>">
+                                                            href="cetak/cek_surat.php?no_pengajuan=<?= urlencode($r['no_pengajuan']) ?>&kode_surat=<?= urlencode($r['kode_surat']) ?>">
                                                             Detail
                                                         </a>
                                                     </td>

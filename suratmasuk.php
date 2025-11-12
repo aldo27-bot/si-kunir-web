@@ -127,10 +127,10 @@ if ($conn->connect_error) {
 
                                                 <td>
                                                     <!-- Perbaikan: hapus tanda ** dan gunakan urlencode pada parameter -->
-<a class="btn btn-primary btn-sm"
-   href="suratmasuk_detail.php?no_pengajuan=<?= $url_id_detail; ?>&kode_surat=<?= $url_kode_surat; ?>">
-   <i class="fas fa-eye"></i> Detail
-</a>
+                                                    <a class="btn btn-primary btn-sm"
+                                                        href="suratmasuk_detail.php?no_pengajuan=<?= $url_id_detail; ?>&kode_surat=<?= $url_kode_surat; ?>">
+                                                        <i class="fas fa-eye"></i> Detail
+                                                    </a>
 
 
                                                     <?php if ($status === "Masuk" || $status === "Proses") { ?>

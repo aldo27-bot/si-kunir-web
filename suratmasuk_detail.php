@@ -37,7 +37,7 @@ $table_name = $kodeMap[$kode_surat] ?? $kode_surat;
 
 
 // --- WHITLELIST TABEL UNTUK KEAMANAN KRITIS ---
-$validTables = ['surat_kehilangan', 'surat_berkelakuan_baik', 'surat_domisili', 'surat_keterangan_kematian', 'surat_sktm', 'surat_keterangan_beda_nama', 'surat_keterangan_usaha']; 
+$validTables = ['surat_kehilangan', 'surat_berkelakuan_baik', 'surat_domisili', 'surat_keterangan_kematian', 'surat_sktm', 'surat_keterangan_beda_nama', 'surat_keterangan_usaha'];
 if (!in_array($table_name, $validTables)) {
     $_SESSION['error_message'] = "Tabel surat tidak valid.";
     header("Location: suratmasuk.php");
@@ -51,7 +51,7 @@ if (!in_array($table_name, $validTables)) {
 // ----------------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     // Ambil no_pengajuan dari hidden input POST
-    $no_pengajuan_post = $_POST['no_pengajuan'] ?? $no_pengajuan; 
+    $no_pengajuan_post = $_POST['no_pengajuan'] ?? $no_pengajuan;
 
     try {
         mysqli_begin_transaction($conn);
@@ -75,17 +75,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
             // Ikat semua parameter (menggunakan splat operator untuk PHP 8.1+)
             $updateTypes .= "s"; // Tipe untuk parameter WHERE
-            $bind_params = array_merge([$updateTypes], $updateParams, [$no_pengajuan_post]); 
-            
+            $bind_params = array_merge([$updateTypes], $updateParams, [$no_pengajuan_post]);
+
             // Menggunakan call_user_func_array untuk kompatibilitas yang lebih luas (jika splat operator gagal)
             $params_ref = array();
             foreach ($bind_params as $key => $value) {
                 $params_ref[$key] = &$bind_params[$key];
             }
             if (!call_user_func_array('mysqli_stmt_bind_param', array_merge([$stmt], $params_ref))) {
-                 throw new Exception("Gagal mengikat parameter: " . mysqli_stmt_error($stmt));
+                throw new Exception("Gagal mengikat parameter: " . mysqli_stmt_error($stmt));
             }
-            
+
             if (!mysqli_stmt_execute($stmt)) {
                 throw new Exception("Gagal update data utama: " . mysqli_stmt_error($stmt));
             }
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         // 2. Tangani unggahan file (Asumsi hanya satu file input bernama 'file_lampiran')
         $uploadPath = "../DatabaseMobile/surat/upload_surat/"; // Disesuaikan dengan path yang benar dari root web
         $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
-        
+
         if (isset($_FILES['file_lampiran']) && $_FILES['file_lampiran']['error'] === UPLOAD_ERR_OK) {
             $file = $_FILES['file_lampiran'];
 
@@ -118,15 +118,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             $fileUpdateQuery = "UPDATE `$table_name` SET `file` = ? WHERE no_pengajuan = ?";
             $stmt_file = mysqli_prepare($conn, $fileUpdateQuery);
             mysqli_stmt_bind_param($stmt_file, "ss", $newFileName, $no_pengajuan_post);
-            
+
             if (!mysqli_stmt_execute($stmt_file)) {
-                 throw new Exception("Gagal update referensi file: " . mysqli_stmt_error($stmt_file));
+                throw new Exception("Gagal update referensi file: " . mysqli_stmt_error($stmt_file));
             }
             mysqli_stmt_close($stmt_file);
         }
 
         mysqli_commit($conn);
-        
+
         $_SESSION['success_message'] = "Data berhasil diperbarui!";
         header("Location: " . $_SERVER['PHP_SELF'] . "?no_pengajuan=$no_pengajuan_post&kode_surat=$table_name");
         exit;
@@ -137,6 +137,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         exit;
     }
 }
+
+// ... di dalam LOGIC POST (Update Data)
+// ...
+//         mysqli_commit($conn);
+
+//         $_SESSION['success_message'] = "Data berhasil diperbarui!";
+//         header("Location: suratmasuk.php"); 
+//         exit;
+//     } catch (Exception $e) {
+//         mysqli_rollback($conn);
+//         $_SESSION['error_message'] = "Error: " . $e->getMessage();
+//         header("Location: suratmasuk.php");
+//         exit;
+//     }
+// }
+
 
 // ----------------------------------------------------------------------
 // LOGIC GET (AMBIL DATA & TAMPILAN)
@@ -149,7 +165,7 @@ unset($_SESSION['success_message']);
 unset($_SESSION['error_message']);
 
 // Dapatkan keterangan surat (Asumsi tabel keterangan surat bernama 'data_surat', bukan 'surat')
-$query = "SELECT keterangan FROM data_surat WHERE kode_surat = ?"; 
+$query = "SELECT keterangan FROM data_surat WHERE kode_surat = ?";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "s", $kode_surat);
 mysqli_stmt_execute($stmt);
@@ -172,6 +188,7 @@ if (!$data && !empty($no_pengajuan)) {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -202,10 +219,10 @@ if (!$data && !empty($no_pengajuan)) {
                     </ol>
 
                     <?php if (!empty($success_message)): ?>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <?php echo htmlspecialchars($success_message); ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <?php echo htmlspecialchars($success_message); ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     <?php endif; ?>
 
                     <?php if (!empty($error_message)): ?>
@@ -215,12 +232,12 @@ if (!$data && !empty($no_pengajuan)) {
                         </div>
                     <?php endif; ?>
 
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-md-8">
                             <form method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="no_pengajuan" value="<?php echo htmlspecialchars($no_pengajuan); ?>">
                                 <input type="hidden" name="kode_surat" value="<?php echo htmlspecialchars($kode_surat); ?>">
-                                
+
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <h4 class="mb-0"><?php echo htmlspecialchars($suratKeterangan); ?></h4>
@@ -231,10 +248,10 @@ if (!$data && !empty($no_pengajuan)) {
                                                 <label class="form-label">ID Pengajuan</label>
                                                 <input type="text" class="form-control" value="<?php echo htmlspecialchars($data['no_pengajuan']); ?>" readonly>
                                             </div>
-                                            <div class="mb-3">
+                                            <!-- <div class="mb-3">
                                                 <label class="form-label">NIK</label>
                                                 <input type="number" name="nik" class="form-control" value="<?php echo htmlspecialchars($data['nik'] ?? ''); ?>">
-                                            </div>
+                                            </div> -->
                                             <div class="mb-3">
                                                 <label class="form-label">Nama Lengkap</label>
                                                 <input type="text" name="nama" class="form-control" value="<?php echo htmlspecialchars($data['nama'] ?? ''); ?>">
@@ -243,7 +260,7 @@ if (!$data && !empty($no_pengajuan)) {
                                                 <label class="form-label">Alamat</label>
                                                 <textarea name="alamat" class="form-control"><?php echo htmlspecialchars($data['alamat'] ?? ''); ?></textarea>
                                             </div>
-                                            
+
                                             <?php
                                             $excludedColumns = ['no_pengajuan', 'nik', 'nama', 'alamat', 'file', 'username', 'kode_surat', 'id_pejabat_desa'];
                                             foreach ($data as $key => $value) {
@@ -265,7 +282,7 @@ if (!$data && !empty($no_pengajuan)) {
                                                 }
                                             }
                                             ?>
-                                            
+
                                             <button type="submit" name="submit" class="btn btn-success">
                                                 <i class="fas fa-save"></i> Simpan Perubahan
                                             </button>
@@ -277,7 +294,7 @@ if (!$data && !empty($no_pengajuan)) {
                             </form>
                         </div>
 
-                        <div class="col-md-4">  
+                        <div class="col-md-4"> 
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <h5 class="mb-0">Preview File Lampiran</h5>
@@ -289,8 +306,8 @@ if (!$data && !empty($no_pengajuan)) {
 
                                     if (!empty($file_lampiran)) {
                                         // PASTIKAN PATH INI BENAR DARI detail_surat_masuk.php ke folder upload Anda
-                                        $filePath = "../DatabaseMobile/surat/upload_surat/" . $file_lampiran; 
-                                        ?>
+                                        $filePath = "../DatabaseMobile/surat/upload_surat/" . $file_lampiran;
+                                    ?>
                                         <div class="mb-3">
                                             <h6>File Utama dari Pemohon</h6>
                                             <div class="alert alert-secondary">
@@ -304,7 +321,7 @@ if (!$data && !empty($no_pengajuan)) {
                                     ?>
                                 </div>
                             </div>
-                            
+
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <h5 class="mb-0">Mengetahui (Preview/Cetak Surat)</h5>
@@ -339,6 +356,7 @@ if (!$data && !empty($no_pengajuan)) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/scripts.js"></script>
+
     
     <script>
         function previewDocument() {
@@ -347,8 +365,8 @@ if (!$data && !empty($no_pengajuan)) {
             var kode_surat = "<?php echo htmlspecialchars($kode_surat); ?>";
 
             if (no_pengajuan && kode_surat) {
-                // Pastikan path ini benar relatif terhadap halaman detail
-                var url = `template surat/cek.php?no_pengajuan=${encodeURIComponent(no_pengajuan)}&kode_surat=${encodeURIComponent(kode_surat)}&ttd=${encodeURIComponent(selectedOption)}`;
+                // PERBAIKAN: Mengubah path ke cetak/cek_surat.php
+                var url = `cetak/cek_surat.php?no_pengajuan=${encodeURIComponent(no_pengajuan)}&kode_surat=${encodeURIComponent(kode_surat)}`;
                 window.open(url, '_blank');
             } else {
                 alert("Error: Data pengajuan tidak lengkap");
@@ -359,17 +377,20 @@ if (!$data && !empty($no_pengajuan)) {
             var selectedOption = document.getElementById("selectOption").value;
             var no_pengajuan = "<?php echo htmlspecialchars($no_pengajuan); ?>";
             var kode_surat = "<?php echo htmlspecialchars($kode_surat); ?>";
-            
+
             if (no_pengajuan && kode_surat) {
-                var url = `template surat/cek.php?no_pengajuan=${encodeURIComponent(no_pengajuan)}&kode_surat=${encodeURIComponent(kode_surat)}&ttd=${encodeURIComponent(selectedOption)}`;
+                // PERBAIKAN: Mengubah path ke cetak/cek_surat.php
+                var url = `cetak/cek_surat.php?no_pengajuan=${encodeURIComponent(no_pengajuan)}&kode_surat=${encodeURIComponent(kode_surat)}`;
                 var printWindow = window.open(url, '_blank');
-                
+
                 printWindow.onload = function() {
+                    // Penundaan agar CSS/konten dimuat penuh sebelum print
                     setTimeout(function() {
                         printWindow.print();
+                        // Penundaan agar dialog print sempat muncul sebelum ditutup
                         setTimeout(function() {
                             printWindow.close();
-                        }, 1000);
+                        }, 1000); 
                     }, 500);
                 };
             } else {
@@ -377,5 +398,6 @@ if (!$data && !empty($no_pengajuan)) {
             }
         }
     </script>
-</body> 
+</body>
+
 </html>
