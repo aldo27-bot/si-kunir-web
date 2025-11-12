@@ -1,6 +1,22 @@
 <?php
-include 'utility/sesionlogin.php';
+// Pastikan sesi dimulai paling awal
+session_start();
 
+// NOTE: pastikan nama file include benar: 'sesionlogin.php' atau 'sessionlogin.php'
+// Jika file Anda bernama sessionlogin.php, ubah include di bawah.
+include 'utility/sesionlogin.php';
+include 'koneksi.php';
+
+// Periksa koneksi (mengasumsikan koneksi dibuat di $conn)
+if (!isset($conn)) {
+    die("Koneksi database belum dibuat. Periksa file koneksi.php");
+}
+
+if ($conn->connect_error) {
+    // Di lingkungan produksi, jangan tampilkan detail error ke user. Log saja.
+    error_log("Koneksi DB gagal: " . $conn->connect_error);
+    die("Koneksi ke database gagal.");
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -14,10 +30,8 @@ include 'utility/sesionlogin.php';
     <title>Pengajuan Surat</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
-    <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" /> <!-- Tambahkan baris ini untuk ikon -->
+    <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </head>
 
 <body class="sb-nav-fixed">
@@ -27,11 +41,10 @@ include 'utility/sesionlogin.php';
             <?php include("navbar/lefbar.php"); ?>
         </div>
 
-
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-5">
-                    <h1 class="" style="margin-top: 50px;">Pengajuan Surat</h1>
+                    <h1 class="" style="margin-top: 0px;">Pengajuan Surat</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                         <li class="breadcrumb-item active">Pengajuan Surat</li>
@@ -42,90 +55,101 @@ include 'utility/sesionlogin.php';
                             <table id="datatablesSimple" class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>NIK</th>
+                                        <th>ID Pengajuan</th>
+                                        <th>ID Surat</th>
                                         <th>Nama Lengkap</th>
                                         <th>Tipe Surat</th>
                                         <th>Tanggal Pengajuan</th>
-                                        <th>Detail</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>NIK</th>
-                                        <th>Nama Lengkap</th>
-                                        <th>Tipe Surat</th>
-                                        <th>Tanggal Pengajuan</th>
-                                        <th>Detail</th>
-                                    </tr>
-                                </tfoot>
+
                                 <tbody>
                                     <?php
-                                    include("koneksi.php");
+                                    $sql = "SELECT 
+                                                ps.id_pengajuan_surat,
+                                                ps.no_pengajuan,
+                                                ps.nama,
+                                                ps.kode_surat,
+                                                ps.tanggal,
+                                                l.status
+                                            FROM pengajuan_surat ps
+                                            LEFT JOIN laporan l ON ps.id_laporan = l.id_laporan
+                                            ORDER BY ps.id_pengajuan_surat DESC";
 
-                                    try {
-                                        $sql = "SELECT pengajuan_surat.id_pengajuan_surat as id_pengajuan_surat, 
-                                        pengajuan_surat.nik, 
-                                        pengajuan_surat.nama, 
-                                        pengajuan_surat.kode_surat, 
-                                        pengajuan_surat.tanggal, 
-                                        pengajuan_surat.no_pengajuan
-                                        FROM pengajuan_surat
-                                        JOIN laporan
-                                        on pengajuan_surat.id_pengajuan_surat = laporan.id_laporan
-                                        where laporan.status = 'Masuk' or laporan.status ='Proses'
-                                        GROUP by id_pengajuan_surat  
-                                        ORDER BY `pengajuan_surat`.`id_pengajuan_surat` DESC";
-                                        $query = $conn->prepare($sql);
-                                        $query->execute();
+                                    $result = $conn->query($sql);
 
-                                        $query->store_result(); // This is necessary to use num_rows with prepared statements
-                                        $rowCount = $query->num_rows;
+                                    if ($result === false) {
+                                        // Log error dan tampilkan pesan sederhana
+                                        error_log("Query gagal: " . $conn->error);
+                                        echo '<tr><td colspan="7" class="text-center text-danger">Terjadi kesalahan saat mengambil data. Silakan coba lagi.</td></tr>';
+                                    } elseif ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            $status = $row['status'] ?? 'N/A';
+                                            $badge = '';
 
-                                        if ($rowCount > 0) {
-                                            $query->bind_result($id, $nik, $nama, $kode_surat, $tanggal, $no_pengajuan);
-
-                                            while ($query->fetch()) { ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo htmlentities($id); ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo htmlentities($nik); ?>
-                                                    </td>
-
-                                                    <td>
-                                                        <?php echo htmlentities($nama); ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo htmlentities($kode_surat); ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo htmlentities($tanggal); ?>
-                                                    </td>
-                                                    
-                                                    <td class="">
-                                                        <a class="btn btn-primary mt-lg-0" role="button"
-                                                        href="suratmasuk_detail.php?no_pengajuan=<?php echo urlencode(trim($no_pengajuan)); ?>&kode_surat=<?php echo urlencode(trim(htmlentities($kode_surat))); ?>&id=<?php echo urlencode(trim(htmlentities($id))); ?>&user=<?php echo htmlentities($user) ?>">
-                                                        Detail
-                                                        </a>
-                                                        <a class="btn btn-success mt-lg-0 mt-1" role="button"
-                                                        href="utility/proses_selesai.php?no_pengajuan=<?php echo urlencode(trim($no_pengajuan)); ?>&kode_surat=<?php echo urlencode(trim(htmlentities($kode_surat))); ?>&no_pengajuan=<?php echo urlencode(trim(htmlentities($id))); ?>">
-                                                        Selesai
-                                                        </a>
-                                                        <button type="button" class="btn btn-danger mt-lg-0 mt-1" data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal"
-                                                        data-bs-whatever="<?php echo urlencode(trim(htmlentities($id))); ?>">Tolak</button>
-                                                        </td>
-                                                </tr>
-                                                <?php
+                                            if ($status === "Masuk") {
+                                                $badge = '<span class="badge bg-warning">Menunggu</span>';
+                                            } elseif ($status === "Proses") {
+                                                $badge = '<span class="badge bg-primary">Diproses</span>';
+                                            } elseif ($status === "Selesai") {
+                                                $badge = '<span class="badge bg-success">Selesai</span>';
+                                            } elseif ($status === "Tolak") {
+                                                $badge = '<span class="badge bg-danger">Ditolak</span>';
+                                            } else {
+                                                $badge = '<span class="badge bg-secondary">Tidak Diketahui</span>';
                                             }
-                                        } else {
-                                            echo "No results found.";
+
+                                            $id_for_detail = !empty($row['no_pengajuan']) ? $row['no_pengajuan'] : $row['id_pengajuan_surat'];
+
+                                            // Escape output untuk mencegah XSS
+                                            $id_pengajuan = htmlspecialchars($row['id_pengajuan_surat']);
+                                            $no_pengajuan = htmlspecialchars($row['no_pengajuan']);
+                                            $nama = htmlspecialchars($row['nama']);
+                                            $kode_surat = strtoupper(htmlspecialchars($row['kode_surat']));
+                                            $tanggal = htmlspecialchars($row['tanggal']);
+
+                                            // Gunakan urlencode saat menaruh di query string
+                                            $url_id_detail = urlencode($id_for_detail);
+                                            $url_kode_surat = urlencode($row['kode_surat']);
+                                    ?>
+                                            <tr>
+                                                <td><?= $id_pengajuan; ?></td>
+                                                <td><?= $no_pengajuan; ?></td>
+                                                <td><?= $nama; ?></td>
+                                                <td><?= $kode_surat; ?></td>
+                                                <td><?= $tanggal; ?></td>
+                                                <td><?= $badge; ?></td>
+
+                                                <td>
+                                                    <!-- Perbaikan: hapus tanda ** dan gunakan urlencode pada parameter -->
+                                                    <a class="btn btn-primary btn-sm"
+                                                        href="suratmasuk_detail.php ?= $url_id_detail; ?>&kode_surat=<?= $url_kode_surat; ?>">
+                                                        <i class="fas fa-eye"></i> Detail
+                                                    </a>
+
+                                                    <?php if ($status === "Masuk" || $status === "Proses") { ?>
+                                                        <button type="button" class="btn btn-success btn-sm mt-1"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#modalSelesai"
+                                                            data-id-pengajuan="<?= $id_pengajuan; ?>">
+                                                            <i class="fas fa-check"></i> Selesai
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#modalTolak"
+                                                            data-id-pengajuan="<?= $id_pengajuan; ?>">
+                                                            <i class="fas fa-times"></i> Tolak
+                                                        </button>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
+                                    <?php
                                         }
-                                    } catch (Exception $e) {
-                                        die("Error: " . $e->getMessage());
+                                    } else {
+                                        echo '<tr><td colspan="7" class="text-center">Tidak ada data pengajuan surat.</td></tr>';
                                     }
                                     ?>
                                 </tbody>
@@ -137,143 +161,81 @@ include 'utility/sesionlogin.php';
         </div>
     </div>
 
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal Tolak -->
+    <div class="modal fade" id="modalTolak" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tolak Surat id :</h5>
+                    <h5 class="modal-title">Tolak Pengajuan Surat</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="utility/proses_tolak.php" method="POST">
-                        <div class="mb-3">
-                            <input type="hidden" class="form-control" id="id" name="id" placeholder="id">
-                        </div>
-                        <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Alasan:</label>
-                            <textarea class="form-control" id="alasan" id="alasan" name="alasan"
-                                placeholder="alasan"></textarea>
-                        </div>
+                        <input type="hidden" id="id_tolak" name="id">
+                        <label class="col-form-label">Alasan Penolakan:</label>
+                        <textarea class="form-control" name="alasan" required></textarea>
                         <div class="modal-footer">
-
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                             <button type="submit" class="btn btn-danger">Ya, Tolak</button>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
-    <script>
-        var exampleModal = document.getElementById('exampleModal')
-        exampleModal.addEventListener('show.bs.modal', function (event) {
-            // Button that triggered the modal
-            var button = event.relatedTarget
-            // Extract info from data-bs-* attributes
-            var recipient = button.getAttribute('data-bs-whatever')
-            // If necessary, you could initiate an AJAX request here
-            // and then do the updating in a callback.
-            //
-            // Update the modal's content.
-            var modalTitle = exampleModal.querySelector('.modal-title')
-            var modalBodyInput = exampleModal.querySelector('.modal-body input')
 
-            modalTitle.textContent = 'Tolak Pesan Untuk Id Surat : ' + recipient
-            modalBodyInput.value = recipient
-        })
-    </script>
-
-
-    <!-- Modal
-    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <!-- Modal Selesai (ubah ke POST) -->
+    <div class="modal fade" id="modalSelesai" tabindex="-1">
+        <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmationModalLabel">Konfirmasi Tolak</h5>
+                    <h5 class="modal-title">Konfirmasi Selesai</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Apakah Anda yakin akan menolak surat?</p>
-                    <form action="utility/proses_tolak.php" method="post">
-                        Tambahkan input tersembunyi untuk mengirimkan ID atau data lain yang diperlukan
-                        <input type="hidden" id="id" name="" value="<?php echo htmlentities($id); ?>">
-
-                        Input untuk alasan
-                        <div class="mb-3">
-                            <label for="alasan" class="form-label">Alasan:</label>
-                            <textarea class="form-control" id="alasan" name="alasan" rows="4" required></textarea>
+                    <p>Apakah Anda yakin ingin menyelesaikan pengajuan surat ini?</p>
+                    <form action="utility/proses_selesai.php" method="POST" id="formSelesai">
+                        <input type="hidden" id="id_selesai" name="id">
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-success">Ya, Selesaikan</button>
                         </div>
-
-                        <button type="submit" class="btn btn-danger">Ya, Tolak</button>
                     </form>
                 </div>
             </div>
         </div>
-    </div> -->
-    <!-- Tambahkan script Bootstrap JavaScript dan Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+    </div>
+
+    <!-- Bootstrap dan script lainnya -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/datatables-simple-demo.js"></script>
 
     <script>
-        // Tangkap event yang terjadi setelah modal ditampilkan
-        $('#confirmationModal').on('show.bs.modal', function (event) {
-            // Ambil tombol yang memunculkan modal
-            var button = $(event.relatedTarget);
+        // Script untuk mengisi ID pada Modal Tolak
+        var modalTolak = document.getElementById('modalTolak');
+        if (modalTolak) {
+            modalTolak.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var idPengajuan = button.getAttribute('data-id-pengajuan');
 
-            // Ambil baris (parent) tombol yang diklik
-            var row = button.closest('tr');
-
-            // Ambil nilai dari kolom pertama pada baris yang sesuai
-            var idToSend = row.find('td:first').text();
-
-            // Setel nilai ID di dalam modal dan input tersembunyi
-            $('#id').val(idToSend);
-        });
-
-        // Fungsi untuk mengirim data ke PHP
-        function kirimData() {
-            // Tidak perlu lagi mengambil nilai inputText karena kita menggunakan formulir
-            // Formulir ini akan secara otomatis mengirim nilai ID dan alasan ke PHP
+                var inputId = modalTolak.querySelector('#id_tolak');
+                if (inputId) inputId.value = idPengajuan;
+            });
         }
 
+        // Script untuk mengisi ID pada Modal Selesai
+        var modalSelesai = document.getElementById('modalSelesai');
+        if (modalSelesai) {
+            modalSelesai.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var idPengajuan = button.getAttribute('data-id-pengajuan');
 
-
-
-
-        $(document).ready(function () {
-            $('#datatablesSimple').DataTable({
-                columnDefs: [
-                    { targets: [2, 3, 4], searchable: true }, // Nama Lengkap, Tipe Surat, Tanggal Laporan
-                    { targets: [0, 1, 5, 6], searchable: false } // Kolom lainnya tidak dapat dicari
-                ]
+                var inputId = modalSelesai.querySelector('#id_selesai');
+                if (inputId) inputId.value = idPengajuan;
             });
-        });
-
-
-
-
+        }
     </script>
 
-
-
-
-
-
-    <!-- modal -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <!-- <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script>
 </body>
 
 </html>

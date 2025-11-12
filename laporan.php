@@ -40,7 +40,7 @@ include 'utility/sesionlogin.php';
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>NIK</th>
+                                        <th>Username</th>
                                         <th>Nama</th>
                                         <th>Kode Surat</th>
                                         <th>Tanggal</th>
@@ -51,7 +51,7 @@ include 'utility/sesionlogin.php';
                                 <tfoot>
                                     <tr>
                                         <th>ID</th>
-                                        <th>NIK</th>
+                                        <th>Username</th>
                                         <th>Nama</th>
                                         <th>Kode Surat</th>
                                         <th>Tanggal</th>
@@ -65,7 +65,7 @@ include 'utility/sesionlogin.php';
 
                                     try {
                                         $sql = "SELECT laporan.id_laporan,
-                                                    pengajuan_surat.nik,
+                                                    pengajuan_surat.username,
                                                     pengajuan_surat.nama,
                                                     pengajuan_surat.kode_surat,
                                                     DATE(laporan.tanggal) AS tanggal,
@@ -84,7 +84,7 @@ include 'utility/sesionlogin.php';
                                             while ($r = $result->fetch_assoc()) { ?>
                                                 <tr>
                                                     <td><?= $r['id_laporan'] ?></td>
-                                                    <td><?= $r['nik'] ?></td>
+                                                    <td><?= $r['username'] ?></td>
                                                     <td><?= $r['nama'] ?></td>
                                                     <td><?= $r['kode_surat'] ?></td>
                                                     <td><?= $r['tanggal'] ?></td>

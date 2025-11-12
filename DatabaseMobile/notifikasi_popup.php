@@ -5,7 +5,7 @@ require('koneksi.php');
 $username = $_POST['username'];
 
 // SQL query
-$sql = "SELECT pengajuan_surat.id, 
+$sql = "SELECT pengajuan_surat.id_pengajuan_surat, 
                pengajuan_surat.no_pengajuan, 
                pengajuan_surat.kode_surat, 
                Date(laporan.tanggal) as tanggal,
@@ -13,9 +13,9 @@ $sql = "SELECT pengajuan_surat.id,
                laporan.status, 
                laporan.alasan 
         FROM pengajuan_surat
-        JOIN laporan ON laporan.id = pengajuan_surat.id
+        JOIN laporan ON laporan.id_laporan = pengajuan_surat.id_laporan
         WHERE pengajuan_surat.username = '$username' AND laporan.status ='Tolak' or laporan.status ='Selesai'
-        GROUP BY pengajuan_surat.id
+        GROUP BY pengajuan_surat.id_pengajuan_surat
         ORDER BY laporan.tanggal DESC";
 
 $result = $konek->query($sql);

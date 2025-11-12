@@ -101,13 +101,13 @@ if (isset($_GET['id'])) {
                     <!-- Detail Kabar Desa Content -->
                     <div class="detail-container">
                         <h2 class="detail-title"><?php echo htmlentities($judul); ?></h2>
-                        <p class="detail-date"><i class="fas fa-calendar-alt"></i> <?php echo htmlentities($tanggal); ?></p>
+                        <p class="detail-date"><i class="fas fa-calendar-alt"></i> <?php echo htmlentities($tanggal ?? ''); ?></p>
                         <?php if ($gambar): ?>
                             <img src="uploads/<?php echo htmlentities($gambar); ?>" class="detail-image" alt="Gambar Kabar">
                         <?php endif; ?>
                         <div class="detail-description">
                             <strong>Deskripsi:</strong>
-                            <p><?php echo nl2br(htmlentities($deskripsi)); ?></p>
+                            <p><?php echo nl2br(htmlentities($deskripsi ?? '')); ?></p>
                         </div>
                     </div>
                     <a href="kabardesa.php" class="btn btn-back mt-4"><i class="fas fa-arrow-left"></i> Kembali</a>

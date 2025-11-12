@@ -117,9 +117,9 @@ include 'utility/sesionlogin.php';
                                             while ($query->fetch()) { ?>
                                                 <tr>
                                                     <td><?php echo htmlentities($id); ?></td>
-                                                    <td><?php echo htmlentities($judul); ?></td>
-                                                    <td><?php echo htmlentities($tanggal); ?></td>
-                                                    <td><?php echo htmlentities($deskripsi); ?></td>
+                                                    <td><?php echo htmlentities($judul ?? ''); ?></td>
+                                                    <td><?php echo htmlentities($tanggal ?? ''); ?></td>
+                                                    <td><?php echo htmlentities($deskripsi ?? ''); ?></td>
                                                     <td>
                                                         <?php if ($gambar): ?>
                                                             <img src="uploads/<?php echo htmlentities($gambar); ?>" width="50" height="50" alt="Gambar Kabar">

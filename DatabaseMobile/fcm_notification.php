@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // 🔹 Ambil token akses Google
             $scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
-            $credentials = new ServiceAccountCredentials($scopes, $pathToServiceAccount);
+            // $credentials = new ServiceAccountCredentials($scopes, $pathToServiceAccount);
             $accessTokenInfo = $credentials->fetchAuthToken();
             $accessToken = $accessTokenInfo['access_token'] ?? '';
 
@@ -60,13 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             // 🔹 Client HTTP ke Firebase
-            $client = new Client([
-                'base_uri' => 'https://fcm.googleapis.com/v1/',
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $accessToken,
-                    'Content-Type' => 'application/json'
-                ]
-            ]);
+            // $client = new Client([
+            //     'base_uri' => 'https://fcm.googleapis.com/v1/',
+            //     'headers' => [
+            //         'Authorization' => 'Bearer ' . $accessToken,
+            //         'Content-Type' => 'application/json'
+            //     ]
+            // ]);
 
             // 🔹 ID Project Firebase (harus sama persis dari firebase console)
             $projectId = 'elayangdesa-5d5c3';

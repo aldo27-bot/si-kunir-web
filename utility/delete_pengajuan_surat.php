@@ -8,7 +8,7 @@ if (isset($_GET['id'])) {
     require("../koneksi.php");
 
     // SQL query to delete the record
-    $sql = "DELETE FROM `pengajuan_surat` WHERE id = $id";
+    $sql = "DELETE FROM `pengajuan_surat` WHERE id_pengajuan_surat = $id";
 
     // Execute the query
     $eksekusi = mysqli_query($conn, $sql);
