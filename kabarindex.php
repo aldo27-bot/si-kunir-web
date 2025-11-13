@@ -52,12 +52,19 @@ $result = $conn->query($sql);
       font-size: 16px;
       font-weight: 700;
       color: white !important;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     }
 
     .navbar-brand img {
       height: 60px;
       width: auto;
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+    
+     .navbar-brand span {
+      line-height: 1.4;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      font-weight: 700;
     }
 
     .nav-link {

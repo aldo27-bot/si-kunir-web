@@ -8,15 +8,19 @@ $result = $conn->query($sql);
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="Website Resmi Desa Kuncir, Kecamatan Ngetos" />
   <title>Desa Kuncir</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
   <style>
     :root {
@@ -26,6 +30,7 @@ $result = $conn->query($sql);
       --dark-blue: #0d47a1;
       --accent-blue: #03a9f4;
       --text-gray: #555;
+      --text-dark: #2c3e50;
       --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
       --hover-shadow: 0 10px 30px rgba(24, 155, 191, 0.2);
     }
@@ -36,10 +41,21 @@ $result = $conn->query($sql);
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       overflow-x: hidden;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', 'Segoe UI', sans-serif;
       scroll-behavior: smooth;
+      color: var(--text-dark);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Poppins', sans-serif;
     }
 
     /* Navbar */
@@ -56,18 +72,19 @@ $result = $conn->query($sql);
       font-size: 15px;
       font-weight: 600;
       color: white !important;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     }
 
     .navbar-brand img {
       height: 70px;
       width: auto;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
     }
 
     .navbar-brand span {
       line-height: 1.4;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      font-weight: 700;
     }
 
     .nav-link {
@@ -80,11 +97,13 @@ $result = $conn->query($sql);
     }
 
     .nav-link:hover {
-      background-color: rgba(255,255,255,0.2);
+      background-color: rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
+      color: #000000ff !important;
     }
 
-     .download-btn, .btn-login {
+    .download-btn,
+    .btn-login {
       background-color: white !important;
       color: var(--primary-blue) !important;
       border: 2px solid white !important;
@@ -92,35 +111,20 @@ $result = $conn->query($sql);
       border-radius: 25px !important;
       font-weight: 600 !important;
       transition: all 0.3s !important;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
     }
 
-    .download-btn:hover, .btn-login:hover {
+    .download-btn:hover,
+    .btn-login:hover {
       background-color: transparent !important;
       color: white !important;
       transform: scale(1.05);
     }
-    
-    
-    .navbar-brand span {
-    font-weight: 700;
-    }
-
-    .nav-link {
-      font-weight: 500;
-      color: #ffffffff !important;
-      transition: color 0.3s ease;
-    }
-
-    .nav-link:hover {
-      color: #000000ff !important;
-    }
-
 
     /* Carousel */
     .carousel {
       margin: 0;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
     .carousel-item img {
@@ -173,10 +177,11 @@ $result = $conn->query($sql);
 
     .welcome-section h1 {
       color: var(--dark-blue);
-      font-weight: bold;
+      font-weight: 700;
       font-size: 2.8rem;
       margin-bottom: 30px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      letter-spacing: -0.5px;
     }
 
     .welcome-section h5 {
@@ -184,44 +189,42 @@ $result = $conn->query($sql);
       line-height: 1.8;
       max-width: 900px;
       margin: 0 auto;
+      font-weight: 400;
+      font-size: 1.1rem;
     }
 
     .kepala-desa-name {
       color: var(--secondary-blue);
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       margin-top: 30px;
     }
 
-    .section-divider {
-      height: 4px;
-      background: linear-gradient(90deg, transparent, var(--primary-blue), var(--accent-blue), transparent);
-      margin: 60px auto;
-      width: 60%;
-      border-radius: 2px;
-    }
-
-    /* Visi Misi Section */
+    /* Visi Misi Section - IMPROVED */
     .visi-misi {
       padding: 80px 20px;
-      background: linear-gradient(180deg, white 0%, var(--light-blue) 100%);
+      background: linear-gradient(180deg, white 0%, #f8f9ff 100%);
     }
 
     .visi-misi h2 {
       color: var(--dark-blue);
-      font-weight: bold;
+      font-weight: 700;
       text-align: center;
       margin-bottom: 50px;
       font-size: 2.5rem;
+      letter-spacing: -0.5px;
     }
 
     .tab-btn {
-      border-radius: 25px;
-      padding: 10px 30px;
+      border-radius: 30px;
+      padding: 12px 40px;
       margin: 0 10px;
       font-weight: 600;
       transition: all 0.3s;
+      font-size: 1.05rem;
+      border: 2px solid var(--primary-blue);
     }
+
     .btn-primary {
       background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%) !important;
       box-shadow: 0 4px 20px rgba(24, 155, 191, 0.3);
@@ -229,21 +232,134 @@ $result = $conn->query($sql);
       color: white !important;
     }
 
-    #visiContent, #misiContent {
-      margin-top: 40px;
-      padding: 30px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(24, 155, 191, 0.15);
+    .btn-outline-primary {
+      background: white !important;
+      color: var(--primary-blue) !important;
+      border: 2px solid var(--primary-blue) !important;
     }
 
-    #misiContent .list-group-item {
-      border: none;
-      padding: 15px 20px;
+    .btn-outline-primary:hover {
+      background: var(--primary-blue) !important;
+      color: white !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(24, 155, 191, 0.3);
+    }
+
+    /* Visi Content - IMPROVED */
+    #visiContent {
+      margin-top: 50px;
+      padding: 0;
       background: transparent;
-      color: #555;
-      font-size: 1.05rem;
-      line-height: 1.6;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .visi-box {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+      border-radius: 20px;
+      padding: 50px 40px;
+      box-shadow: 0 10px 40px rgba(54, 41, 183, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .visi-box::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .visi-box::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: -30px;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+    }
+
+    .visi-icon {
+      font-size: 3.5rem;
+      color: white;
+      margin-bottom: 25px;
+      opacity: 0.9;
+    }
+
+    .visi-text {
+      font-size: 1.3rem;
+      color: white;
+      line-height: 1.9;
+      font-weight: 400;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Misi Content - IMPROVED */
+    #misiContent {
+      margin-top: 50px;
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .misi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .misi-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px 25px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--primary-blue);
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .misi-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(54, 41, 183, 0.2);
+      border-left-color: var(--secondary-blue);
+    }
+
+    .misi-number {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+      color: white;
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(54, 41, 183, 0.3);
+    }
+
+    .misi-text {
+      color: var(--text-dark);
+      font-size: 1rem;
+      line-height: 1.7;
+      font-weight: 400;
+      flex: 1;
     }
 
     /* News Section */
@@ -253,18 +369,19 @@ $result = $conn->query($sql);
     }
 
     .news-section h2 {
-      font-weight: bold;
+      font-weight: 700;
       color: var(--dark-blue);
       margin-bottom: 50px;
       text-align: center;
       font-size: 2.5rem;
+      letter-spacing: -0.5px;
     }
 
     .news-item {
       background: #fff;
       border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
       margin-bottom: 30px;
       transition: all 0.3s ease;
       border: 1px solid #f0f0f0;
@@ -289,6 +406,7 @@ $result = $conn->query($sql);
       font-weight: 600;
       color: var(--dark-blue);
       margin-bottom: 10px;
+      font-size: 1.2rem;
     }
 
     .news-content .text-muted {
@@ -310,10 +428,11 @@ $result = $conn->query($sql);
 
     .struktur-section h2 {
       color: white;
-      font-weight: bold;
+      font-weight: 700;
       text-align: center;
       margin-bottom: 60px;
       font-size: 2.5rem;
+      letter-spacing: -0.5px;
     }
 
     .struktur-card {
@@ -321,20 +440,20 @@ $result = $conn->query($sql);
       border-radius: 15px;
       padding: 30px;
       margin: 15px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
       transition: all 0.3s;
       border-top: 4px solid var(--accent-blue);
     }
 
     .struktur-card:hover {
       transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
       background: white;
     }
 
     .struktur-card h5 {
       color: var(--dark-blue);
-      font-weight: bold;
+      font-weight: 700;
       font-size: 1.1rem;
       margin-bottom: 15px;
       border-bottom: 2px solid var(--light-blue);
@@ -345,6 +464,7 @@ $result = $conn->query($sql);
       color: #555;
       font-size: 1rem;
       margin: 0;
+      font-weight: 500;
     }
 
     .kepala-desa-card {
@@ -357,7 +477,7 @@ $result = $conn->query($sql);
     .kepala-desa-card h5,
     .kepala-desa-card p {
       color: white !important;
-      border-bottom-color: rgba(255,255,255,0.3) !important;
+      border-bottom-color: rgba(255, 255, 255, 0.3) !important;
     }
 
     /* Footer */
@@ -370,10 +490,10 @@ $result = $conn->query($sql);
     }
 
     .site-footer h6 {
-      font-weight: bold !important;
+      font-weight: 700 !important;
       margin-bottom: 20px !important;
       font-size: 1.2rem !important;
-      border-bottom: 2px solid rgba(255,255,255,0.3) !important;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3) !important;
       padding-bottom: 10px !important;
       color: white !important;
     }
@@ -409,42 +529,119 @@ $result = $conn->query($sql);
     }
 
     .footer-bottom {
-      background-color: rgba(0,0,0,0.2) !important;
+      background-color: rgba(0, 0, 0, 0.2) !important;
       text-align: center !important;
       padding: 20px !important;
       margin-top: 40px !important;
-      border-top: 1px solid rgba(255,255,255,0.2) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
       color: white !important;
     }
 
     /* Responsive */
     @media (max-width: 992px) {
-      .navbar-brand img { height: 55px; }
-      .nav-item { margin-bottom: 10px; }
-      .navbar-brand { font-size: 13px; }
-      .welcome-section h1 { font-size: 2rem; }
-      .carousel-item img { height: 400px; }
-      .struktur-card { margin: 10px 0; }
-      .news-img { height: 200px; }
+      .navbar-brand img {
+        height: 55px;
+      }
+
+      .nav-item {
+        margin-bottom: 10px;
+      }
+
+      .navbar-brand {
+        font-size: 13px;
+      }
+
+      .welcome-section h1 {
+        font-size: 2rem;
+      }
+
+      .carousel-item img {
+        height: 400px;
+      }
+
+      .struktur-card {
+        margin: 10px 0;
+      }
+
+      .news-img {
+        height: 200px;
+      }
+
+      .visi-text {
+        font-size: 1.1rem;
+      }
+
+      .misi-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 768px) {
-      .carousel-item img { height: 300px; }
-      .nav-item { margin-bottom: 10px; }
-      .welcome-section h1 { font-size: 1.8rem; }
+      .carousel-item img {
+        height: 300px;
+      }
+
+      .nav-item {
+        margin-bottom: 10px;
+      }
+
+      .welcome-section h1 {
+        font-size: 1.8rem;
+      }
+
       .visi-misi h2,
       .struktur-section h2,
-      .news-section h2 { font-size: 1.8rem; }
-      .news-img { height: 180px; }
+      .news-section h2 {
+        font-size: 1.8rem;
+      }
+
+      .news-img {
+        height: 180px;
+      }
+
+      .visi-text {
+        font-size: 1rem;
+      }
+
+      .visi-box {
+        padding: 40px 25px;
+      }
     }
 
     @media (max-width: 576px) {
-      .navbar { padding: 10px 15px; }
-      .nav-item { margin-bottom: 10px; }
-      .navbar-brand img { height: 45px; }
-      .welcome-section { padding: 50px 15px; }
-      .struktur-card { padding: 20px; }
-      .tab-btn { margin: 5px; padding: 8px 20px; }
+      .navbar {
+        padding: 10px 15px;
+      }
+
+      .nav-item {
+        margin-bottom: 10px;
+      }
+
+      .navbar-brand img {
+        height: 45px;
+      }
+
+      .welcome-section {
+        padding: 50px 15px;
+      }
+
+      .struktur-card {
+        padding: 20px;
+      }
+
+      .tab-btn {
+        margin: 5px;
+        padding: 10px 25px;
+        font-size: 0.95rem;
+      }
+
+      .visi-box {
+        padding: 30px 20px;
+      }
+
+      .visi-text {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
@@ -474,7 +671,7 @@ $result = $conn->query($sql);
             <a class="nav-link" href="#struktur">Struktur Organisasi</a>
           </li>
           <li class="nav-item">
-            <a class="btn download-btn ms-2" href="https://play.google.com/store/apps" >
+            <a class="btn download-btn ms-2" href="https://play.google.com/store/apps">
               <i class="fab fa-google-play me-2"></i> unduh apk
             </a>
           </li>
@@ -487,53 +684,6 @@ $result = $conn->query($sql);
       </div>
     </div>
   </nav>
-
-  <!-- Navbar -->
-  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
-    <div class="container"> -->
-    
-      <!-- <a class="navbar-brand d-flex align-items-center" href="index.php">
-        <img src="assets/img/logonganjuk.png" alt="Logo" class="me-2" style="height:45px; width:auto;">
-        <div class="d-flex flex-column lh-sm">
-          <span class="fw-bold" style="font-size: 16px;">Desa Kuncir</span>
-          <small style="font-size: 13px;">Kecamatan Ngetos</small>
-        </div>
-      </a> --> 
-
-      <!-- Tombol Toggle (untuk mobile) -->
-      <!-- <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button> -->
-
-      <!-- Menu Navigasi -->
-      <!-- <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
-          <li class="nav-item">
-            <a class="nav-link px-3" href="kabarindex.php">Berita Desa</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link px-3" href="#visi-misi">Visi-Misi</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link px-3" href="#struktur">Struktur Organisasi</a>
-          </li> -->
-
-          <!-- Tombol Aksi -->
-          <!-- <li class="nav-item mt-2 mt-lg-0">
-            <a class="btn btn-success btn-sm w-100 w-lg-auto ms-lg-2" href="https://play.google.com/store/apps">
-              <i class="fab fa-google-play me-2"></i>Unduh APK
-            </a>
-          </li>
-          <li class="nav-item mt-2 mt-lg-0">
-            <a class="btn btn-primary btn-sm w-100 w-lg-auto ms-lg-2" href="login.php">
-              <i class="fas fa-sign-in-alt me-2"></i>Login Admin
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav> -->
-
 
   <!-- Carousel -->
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -567,10 +717,10 @@ $result = $conn->query($sql);
       <div class="row justify-content-center">
         <div class="col-lg-10">
           <h1 class="text-center animate__animated animate__fadeInDown">
-            Selamat Datang di Website Desa kami
+            Selamat Datang di Website Desa Kami
           </h1>
           <h5 class="text-center animate__animated animate__fadeInUp">
-            Kami senang Anda sudah berkunjung, semoga melalui situs web ini kami dapat memberikan segala kemudahan dalam pengajuan surat - surat kepada pemerintah desa kami. Situs web ini merupakan salah satu wujud dari komitmen pemerintah desa, pada pentingnya digitalisasi dan efisienensi zaman.
+            Kami senang Anda sudah berkunjung, semoga melalui situs web ini kami dapat memberikan segala kemudahan dalam pengajuan surat-surat kepada pemerintah desa kami. Situs web ini merupakan salah satu wujud dari komitmen pemerintah desa, pada pentingnya digitalisasi dan efisiensi zaman.
           </h5>
           <div class="kepala-desa-name text-center">
             Wiwik Sukartinem, Kepala Desa Kuncir
@@ -581,7 +731,6 @@ $result = $conn->query($sql);
   </section>
 
   <div class="section-divider"></div>
-
 
   <!-- Visi & Misi -->
   <section id="visi-misi" class="visi-misi text-center">
@@ -594,10 +743,13 @@ $result = $conn->query($sql);
 
       <!-- Konten Visi -->
       <div id="visiContent">
-        <div class="row justify-content-center mt-5">
-          <p class="fs-5 mx-auto" style="max-width: 800px; color: #555; line-height: 1.8;">
-            "Terwujudnya Desa Kuncir Yang Rukun Dan Makmur Dan Tersejahteranya Manusia Yang Maju, 
-            Dengan Di Dukung Pengembangan Ekonomi Berbasis Sumber Daya Alam Yang Berwawasan 
+        <div class="visi-box">
+          <div class="visi-icon">
+            <i class="fas fa-eye"></i>
+          </div>
+          <p class="visi-text">
+            "Terwujudnya Desa Kuncir Yang Rukun Dan Makmur Dan Tersejahteranya Manusia Yang Maju,
+            Dengan Di Dukung Pengembangan Ekonomi Berbasis Sumber Daya Alam Yang Berwawasan
             Lingkungan Terdepan Dalam Bidang Pertanian Dan Perkebunan."
           </p>
         </div>
@@ -605,16 +757,60 @@ $result = $conn->query($sql);
 
       <!-- Konten Misi -->
       <div id="misiContent" style="display:none;">
-        <ul class="list-group list-group-flush mx-auto text-start" style="max-width: 700px;">
-          <li class="list-group-item">1. Meningkatkan kualitas sumber daya manusia melalui pendidikan dan pelatihan.</li>
-          <li class="list-group-item">2. Mengembangkan sektor pertanian dan UMKM berbasis potensi lokal.</li>
-          <li class="list-group-item">3. Mewujudkan pemerintahan desa yang transparan, efektif, dan akuntabel.</li>
-          <li class="list-group-item">4. Meningkatkan infrastruktur dan pelayanan publik untuk kesejahteraan warga.</li>
-        </ul>
+        <div class="misi-grid">
+          <div class="misi-card">
+            <div class="misi-number">1</div>
+            <div class="misi-text">Mewujudkan dan mengembangkan kegiatan keagamaan untuk menambah keimanan dan ketaqwaan kepada Tuhan Yang Maha Esa.</div>
+          </div>
+
+          <div class="misi-card">
+            <div class="misi-number">2</div>
+            <div class="misi-text">Mewujudkan dan mendorong terjadinya usaha-usaha kerukunan antar dan intern warga masyarakat yang disebabkan karena adanya perbedaan agama, keyakinan, organisasi, dan lainnya dalam suasana saling menghargai dan menghormati.</div>
+          </div>
+
+          <div class="misi-card">
+            <div class="misi-number">3</div>
+            <div class="misi-text">Membangun dan meningkatkan hasil pertanian dengan jalan penataan pengairan, perbaikan jalan sawah / jalan usaha tani, pemupukan, dan pola tanam yang baik.</div>
+          </div>
+
+          <div class="misi-card">
+            <div class="misi-number">4</div>
+            <div class="misi-text">Menata Pemerintahan Desa Kuncir yang kompak dan bertanggung jawab dalam mengemban amanat masyarakat.</div>
+          </div>
+
+          <div class="misi-card">
+            <div class="misi-number">5</div>
+            <div class="misi-text">Meningkatkan pelayanan masyarakat secara terpadu dan serius.</div>
+          </div>
+
+          <div class="misi-card">
+            <div class="misi-number">6</div>
+            <div class="misi-text">Mencari dan menambah debet air untuk mencukupi kebutuhan pertanian.</div>
+          </div>
+
+          <div class="misi-card">
+            <div class="misi-number">7</div>
+            <div class="misi-text">Menumbuh Kembangkan Kelompok Tani dan Gabungan Kelompok Tani serta bekerja sama dengan HIPPA untuk memfasilitasi kebutuhan Petani.</div>
+          </div>
+
+          <div class="misi-card">
+            <div class="misi-number">8</div>
+            <div class="misi-text">Menumbuhkembangkan usaha kecil dan menengah.</div>
+          </div>
+
+          <div class="misi-card">
+            <div class="misi-number">9</div>
+            <div class="misi-text">Membangun dan mendorong majunya bidang pendidikan baik formal maupun informal yang mudah diakses dan dinikmati seluruh warga masyarakat tanpa terkecuali yang mampu menghasilkan insan intelektual, inovatif dan entrepreneur (wirausahawan).</div>
+          </div>
+
+          <div class="misi-card">
+            <div class="misi-number">10</div>
+            <div class="misi-text">Membangun dan mendorong usaha-usaha untuk pengembangan dan optimalisasi sektor pertanian, perkebunan, peternakan, dan perikanan, baik tahap produksi maupun tahap pengolahan hasilnya.</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-
 
   <div class="section-divider"></div>
 
@@ -666,7 +862,7 @@ $result = $conn->query($sql);
   <section id="struktur" class="struktur-section">
     <div class="container">
       <h2>Struktur Perangkat Desa</h2>
-      
+
       <!-- Kepala Desa -->
       <div class="row justify-content-center mt-5">
         <div class="col-lg-4 col-md-6">
@@ -757,7 +953,7 @@ $result = $conn->query($sql);
         <div class="col-md-4 mb-4">
           <h6>Petunjuk Navigasi</h6>
           <ul>
-            <li><a href="kabarindex.php">Kabar Desa</a></li>
+            <li><a href="kabarindex.php">Berita Desa</a></li>
             <li><a href="#visi-misi">Visi Misi</a></li>
             <li><a href="#struktur">Struktur Organisasi</a></li>
           </ul>
@@ -800,14 +996,18 @@ $result = $conn->query($sql);
 
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+      anchor.addEventListener('click', function(e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
         }
       });
     });
   </script>
 </body>
+
 </html>
