@@ -673,6 +673,7 @@ if ($conn->connect_error) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
     <script src="js/datatables-simple-demo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         // Script untuk mengisi ID pada Modal Tolak
@@ -698,6 +699,29 @@ if ($conn->connect_error) {
                 if (inputId) inputId.value = idPengajuan;
             });
         }
+
+        // ==========================================================
+        // SCRIPT SIDEBAR TOGGLE (Dipindahkan dari upbar.php)
+        // ==========================================================
+        $(document).ready(function() {
+            // Sidebar toggle functionality
+            $('#sidebarToggle').on('click', function() {
+                // Menambahkan kelas 'collapsed' pada sidebar dan konten
+                $('.sidebar, .sb-sidenav-custom').toggleClass('collapsed');
+                $('#layoutSidenav_content, .content').toggleClass('collapsed');
+
+                // Menyimpan status ke localStorage
+                const isCollapsed = $('.sidebar').hasClass('collapsed');
+                localStorage.setItem('sidebarCollapsed', isCollapsed);
+            });
+
+            // Memulihkan status sidebar dari localStorage saat memuat halaman
+            const savedState = localStorage.getItem('sidebarCollapsed');
+            if (savedState === 'true') {
+                $('.sidebar, .sb-sidenav-custom').addClass('collapsed');
+                $('#layoutSidenav_content, .content').addClass('collapsed');
+            }
+        });
     </script>
 
 </body>

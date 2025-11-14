@@ -43,7 +43,7 @@ if ($result) {
 }
 
 // Query untuk menghitung aspirasi masuk (tambahan)
-$sql_aspirasi = "SELECT COUNT(*) as total FROM pengajuan_aspirasi WHERE status = 'Masuk'";
+$sql_aspirasi = "SELECT COUNT(*) as total FROM pengajuan_aspirasi WHERE status = 'menunggu'";
 $result_aspirasi = $conn->query($sql_aspirasi);
 $aspirasi_masuk = 0;
 
@@ -114,9 +114,7 @@ if ($result_aspirasi) {
         }
 
         /* Dashboard Header */
-        .dashboard-header {
-            /* background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%); */
-            /* color: white; */
+        /* .dashboard-header {
             padding: 30px 0;
             margin: -24px -24px 30px -24px;
             border-radius: 0 0 24px 24px;
@@ -134,6 +132,33 @@ if ($result_aspirasi) {
             margin: 8px 0 0 0;
             opacity: 0.9;
             font-size: 1rem;
+        } */
+
+             /* Page Header Structure */
+        .page-header {
+            padding: 1rem 0;
+            margin: -1rem -1rem 2rem -1rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+        .page-header h1 {
+            font-weight: 700;
+            font-size: 1.75rem;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+         .header-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(54, 41, 183, 0.1);
+            color: var(--primary-blue);
+            border-radius: 12px;
+            margin-right: 15px;
+            font-size: 1.5rem;
         }
 
         /* Stats Cards Container */
@@ -141,6 +166,7 @@ if ($result_aspirasi) {
             margin-bottom: 40px;
         }
 
+        
         /* Individual Stat Cards */
         .stat-card {
             background: white;
@@ -349,16 +375,33 @@ if ($result_aspirasi) {
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-5" style="padding-top: 24px; padding-bottom: 40px;">
-                    
-                    <!-- Dashboard Header -->
+
+                    <div class="page-header">
+                        <div class="container-fluid px-4">
+                            <div class="d-flex align-items-center">
+                                <div class="header-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div>
+                                    <h1 class="">Dashboard</h1>
+                                    <h6>Selamat datang di Sistem Informasi Desa Kuncir</h6>              
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="header-icon">
+                        <i class="fas fa-chart-line me-3"></i>
+                    </div>
+                   
                     <div class="dashboard-header">
                         <div class="container-fluid px-4">
                             <h1>
                                 <i class="fas fa-chart-line me-3"></i>Dashboard
                             </h1>
-                            <p>Selamat datang di Sistem Informasi Desa Kuncir</p>
+                            <p>Selamat datang di Sistem Informasi Desa Kuncir</p>              
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Bagian informasi jumlah surat -->
                     <div class="stats-container">
@@ -404,7 +447,7 @@ if ($result_aspirasi) {
 
                             <!-- Aspirasi Masuk -->
                             <div class="stat-card aspirasi">
-                                <a href="list_ aspirasi.php?user=<?php echo htmlentities($user) ?>">
+                                <a href="list_aspirasi.php?user=<?php echo htmlentities($user) ?>">
                                     <div class="stat-content">
                                         <div class="stat-label">Aspirasi Masuk</div>
                                         <div class="stat-value"><?php echo htmlentities($aspirasi_masuk); ?></div>

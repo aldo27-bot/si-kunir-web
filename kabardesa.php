@@ -34,12 +34,16 @@ include 'utility/sesionlogin.php';
             --info-cyan: #06b6d4;
             --light-bg: #f8fafc;
             --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            /* --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); */
+        }
+
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         /* Global Styles */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            /* font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; */
             padding: 1rem 0;
             background-color: var(--light-bg);
             color: #1e293b;
@@ -101,7 +105,7 @@ include 'utility/sesionlogin.php';
             color: rgba(255, 255, 255, 0.7);
         } */
 
-            .page-header {
+        .page-header {
             /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
             padding: 1rem 0;
             margin: -1rem -1rem 2rem -1rem;
@@ -128,6 +132,19 @@ include 'utility/sesionlogin.php';
             /* color: rgba(255, 255, 255, 0.9); */
             font-size: 0.875rem;
             font-weight: 500;
+        }
+
+        .header-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(54, 41, 183, 0.1);
+            color: var(--primary-blue);
+            border-radius: 12px;
+            margin-right: 15px;
+            font-size: 1.5rem;
         }
 
         /* Alert Notifications */
@@ -430,17 +447,18 @@ include 'utility/sesionlogin.php';
         }
 
         /* Add Icon to Header */
-        .header-icon {
+        /* .header-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 50px;
             height: 50px;
+            background: rgba(54, 41, 183, 0.1);
             background: rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             margin-right: 15px;
             font-size: 1.5rem;
-        }
+        } */
 
         /* Image Preview in Modal */
         #edit_gambar_preview, #detail_gambar img {
