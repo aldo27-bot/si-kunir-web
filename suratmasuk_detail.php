@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 $no_pengajuan = $_GET['no_pengajuan'] ?? $_GET['id_detail'] ?? ''; // Ambil dari salah satu
 $kode_surat = $_GET['kode_surat'] ?? '';
 
-$table_name = $kode_surat; 
+$table_name = $kode_surat;
 $kodeMap = [
     'SKD'   => 'surat_domisili',
     'SKK'   => 'surat_kehilangan',
@@ -86,11 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             mysqli_stmt_close($stmt);
         }
 
-        // 2. Tangani unggahan file (Asumsi input file bernama 'file_lampiran' di loop dinamis)
-        $uploadPath = "../DatabaseMobile/surat/upload_surat/";
+        // 2. Tangani unggahan file
+        $uploadPath = "../surat/upload_surat/";
         $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
 
         if (isset($_FILES['file_lampiran']) && $_FILES['file_lampiran']['error'] === UPLOAD_ERR_OK) {
+
             $file = $_FILES['file_lampiran'];
 
             if (!in_array($file['type'], $allowedTypes)) {
@@ -108,16 +109,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 throw new Exception("Gagal mengunggah file. Cek izin folder.");
             }
 
-            // Perbarui kolom 'file' di database 
+            // Update file pada tabel surat
             $fileUpdateQuery = "UPDATE `$table_name` SET `file` = ? WHERE no_pengajuan = ?";
             $stmt_file = mysqli_prepare($conn, $fileUpdateQuery);
             mysqli_stmt_bind_param($stmt_file, "ss", $newFileName, $no_pengajuan_post);
-
-            if (!mysqli_stmt_execute($stmt_file)) {
-                throw new Exception("Gagal update referensi file: " . mysqli_stmt_error($stmt_file));
-            }
+            mysqli_stmt_execute($stmt_file);
             mysqli_stmt_close($stmt_file);
+        } else {
+            // Jika tidak upload file baru → gunakan file lama
+            $newFileName = $data['file'] ?? null;
         }
+
+
+        // -------------------------------------------------------------
+        // UPDATE ke pengajuan_surat → wajib dilakukan SETIAP UPDATE
+        // -------------------------------------------------------------
+        $updNama = $_POST['nama'] ?? null;
+        $updNik  = $_POST['nik'] ?? null;
+        $updFile = $newFileName;
+
+        $queryUpdatePengajuan = "UPDATE pengajuan_surat 
+                                SET nama = ?, nik = ?, file = ?
+                                WHERE no_pengajuan = ?";
+
+        $stmtPengajuan = mysqli_prepare($conn, $queryUpdatePengajuan);
+        mysqli_stmt_bind_param($stmtPengajuan, "sssi", $updNama, $updNik, $updFile, $no_pengajuan_post);
+
+        if (!mysqli_stmt_execute($stmtPengajuan)) {
+            throw new Exception("Gagal update tabel pengajuan_surat: " . mysqli_stmt_error($stmtPengajuan));
+        }
+
+        mysqli_stmt_close($stmtPengajuan);
+
+
 
         mysqli_commit($conn);
 
@@ -177,11 +201,11 @@ if (!$data && !empty($no_pengajuan)) {
     <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
             --primary-blue: #3629B7;
@@ -202,7 +226,12 @@ if (!$data && !empty($no_pengajuan)) {
             color: #1e293b;
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
         }
@@ -232,8 +261,9 @@ if (!$data && !empty($no_pengajuan)) {
         .page-header .breadcrumb-item a {
             font-size: 0.875rem;
             font-weight: 500;
-    
+
         }
+
         .header-icon {
             display: inline-flex;
             align-items: center;
@@ -255,7 +285,7 @@ if (!$data && !empty($no_pengajuan)) {
             background: white;
             overflow: hidden;
         }
-        
+
         .card-header {
             background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
             color: white;
@@ -269,7 +299,7 @@ if (!$data && !empty($no_pengajuan)) {
         .card-body {
             padding: 24px;
         }
-        
+
         /* Alert Styles */
         .alert {
             border: none;
@@ -280,7 +310,7 @@ if (!$data && !empty($no_pengajuan)) {
             animation: slideInDown 0.5s ease;
             color: white;
         }
-        
+
         .alert-success {
             background: linear-gradient(135deg, var(--success-green) 0%, #059669 100%);
         }
@@ -288,11 +318,11 @@ if (!$data && !empty($no_pengajuan)) {
         .alert-danger {
             background: linear-gradient(135deg, var(--danger-red) 0%, #dc2626 100%);
         }
-        
+
         .alert-warning {
             background: linear-gradient(135deg, var(--warning-orange) 0%, #d97706 100%);
         }
-        
+
         /* Badge */
         .badge {
             padding: 0.5em 0.8em;
@@ -301,6 +331,7 @@ if (!$data && !empty($no_pengajuan)) {
             border-radius: 8px;
             text-transform: uppercase;
         }
+
         .badge.bg-secondary {
             background: #e2e8f0 !important;
             color: #475569 !important;
@@ -318,7 +349,8 @@ if (!$data && !empty($no_pengajuan)) {
             font-size: 0.95rem;
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border: 2px solid #e2e8f0;
             border-radius: 10px;
             padding: 10px 14px;
@@ -326,11 +358,12 @@ if (!$data && !empty($no_pengajuan)) {
             transition: all 0.3s ease;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             border-color: var(--primary-blue);
             box-shadow: 0 0 0 3px rgba(54, 41, 183, 0.1);
         }
-        
+
         /* Button Styles */
         .btn {
             font-weight: 600;
@@ -341,7 +374,7 @@ if (!$data && !empty($no_pengajuan)) {
             font-family: 'Inter', sans-serif;
             color: white;
         }
-        
+
         .btn-success {
             background: linear-gradient(135deg, var(--success-green) 0%, #059669 100%);
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
@@ -351,7 +384,7 @@ if (!$data && !empty($no_pengajuan)) {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
         }
-        
+
         .btn-warning {
             background: linear-gradient(135deg, var(--warning-orange) 0%, #d97706 100%);
             box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
@@ -361,7 +394,7 @@ if (!$data && !empty($no_pengajuan)) {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
             box-shadow: 0 4px 12px rgba(54, 41, 183, 0.3);
@@ -400,7 +433,7 @@ if (!$data && !empty($no_pengajuan)) {
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-5" style="padding-top: 24px; padding-bottom: 40px;">
-                    
+
                     <div class="page-header">
                         <div class="container-fluid px-4">
                             <div class="d-flex align-items-center">
@@ -461,13 +494,13 @@ if (!$data && !empty($no_pengajuan)) {
                                                     <label class="form-label"><i class="fas fa-map-marker-alt me-1"></i> Alamat</label>
                                                     <textarea name="alamat" class="form-control"><?php echo htmlspecialchars($data['alamat'] ?? ''); ?></textarea>
                                                 </div>
-                                                
+
                                                 <?php
                                                 $excludedColumns = ['no_pengajuan', 'nik', 'nama', 'alamat', 'file', 'username', 'kode_surat', 'id_pejabat_desa'];
                                                 foreach ($data as $key => $value) {
                                                     if (!in_array($key, $excludedColumns)) {
                                                         $label = htmlspecialchars(ucwords(str_replace('_', ' ', $key)));
-                                                        
+
                                                         if (strpos($key, 'file') !== false || $key == 'file') {
                                                             // Input file (diberi nama 'file_lampiran' untuk POST handler)
                                                             echo '<div class="col-md-6 mb-3">';
@@ -486,7 +519,7 @@ if (!$data && !empty($no_pengajuan)) {
                                                 }
                                                 ?>
                                             </div>
-                                            
+
                                             <div class="d-flex justify-content-end mt-4">
                                                 <button type="submit" name="submit" class="btn btn-success">
                                                     <i class="fas fa-save me-1"></i> Simpan Perubahan Data
@@ -502,7 +535,7 @@ if (!$data && !empty($no_pengajuan)) {
                             </form>
                         </div>
 
-                        <div class="col-md-4"> 
+                        <div class="col-md-4">
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <h5 class="mb-0"><i class="fas fa-paperclip me-2"></i>File & Lampiran</h5>
@@ -511,12 +544,12 @@ if (!$data && !empty($no_pengajuan)) {
                                     <?php
                                     $file_lampiran = $data['file'] ?? null;
                                     // Base URL untuk file (asumsi path relatif benar dari file ini ke folder upload)
-                                    $baseURL = "../DatabaseMobile/surat/upload_surat/";
-                                    
+                                    $baseURL = "../si-kunir-web/DatabaseMobile/surat/upload_surat/";
+
                                     if (!empty($file_lampiran)) {
                                         $filePath = $baseURL . $file_lampiran;
                                         $fileExtension = strtolower(pathinfo($file_lampiran, PATHINFO_EXTENSION));
-                                        
+
                                         $icon = 'fas fa-file-alt';
                                         $iconColorClass = 'text-primary';
 
@@ -579,7 +612,23 @@ if (!$data && !empty($no_pengajuan)) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/scripts.js"></script>
 
-    
+    <!-- <script>
+        function previewDocument() {
+            let ttd = document.getElementById("selectOption").value;
+            let url = `cetak/cek_surat.php?no_pengajuan=<?= $no_pengajuan ?>&kode_surat=<?= $kode_surat ?>&ttd=${ttd}`;
+            window.open(url, "_blank");
+        }
+
+        function printAndClose() {
+            let ttd = document.getElementById("selectOption").value;
+            let url = `cetak/cek_surat.php?no_pengajuan=<?= $no_pengajuan ?>&kode_surat=<?= $kode_surat ?>&ttd=${ttd}`;
+            let win = window.open(url, "_blank");
+            setTimeout(() => {
+                win.print();
+            }, 1000);
+        }
+    </script> -->
+
     <script>
         // Fungsi untuk Preview Dokumen
         function previewDocument() {
@@ -610,7 +659,7 @@ if (!$data && !empty($no_pengajuan)) {
                         printWindow.print();
                         setTimeout(function() {
                             printWindow.close();
-                        }, 1000); 
+                        }, 1000);
                     }, 500);
                 };
             } else {

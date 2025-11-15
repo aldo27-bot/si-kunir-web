@@ -64,7 +64,7 @@
                                 <i class="fas fa-user-circle"></i>
                             </div>
                             <div class="fw-bold">Administrator</div>
-                            <small class="text-muted">admin@desakuncir.id</small>
+                            <small class="text-grey">admin.desakuncir@gmail.com</small>
                         </div>
                     </li>
                     <li>
@@ -75,11 +75,6 @@
                             <i class="fas fa-key me-2 text-primary"></i> Ganti Password
                         </a>
                     </li>
-                    <!-- <li>
-                        <a class="dropdown-item" href="#profile-settings">
-                            <i class="fas fa-cog me-2 text-secondary"></i> Pengaturan
-                        </a>
-                    </li> -->
                     <li>
                         <hr class="dropdown-divider">
                     </li>

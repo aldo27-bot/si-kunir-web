@@ -481,13 +481,6 @@ if ($conn->connect_error) {
                             <div class="stat-value"><?= $stats['menunggu'] ?? 0 ?></div>
                             <div class="stat-label">Menunggu</div>
                         </div>
-                        <div class="stat-card primary">
-                            <div class="stat-icon">
-                                <i class="fas fa-spinner"></i>
-                            </div>
-                            <div class="stat-value"><?= $stats['proses'] ?? 0 ?></div>
-                            <div class="stat-label">Diproses</div>
-                        </div>
                         <div class="stat-card success">
                             <div class="stat-icon">
                                 <i class="fas fa-check-circle"></i>
@@ -513,7 +506,7 @@ if ($conn->connect_error) {
                                             <th>ID</th>
                                             <th>No. Pengajuan</th>
                                             <th>Nama Lengkap</th>
-                                            <th>Tipe Surat</th>
+                                            <th>Jenis Surat</th>
                                             <th>Tanggal</th>
                                             <th>Status</th>
                                             <th>Aksi</th>

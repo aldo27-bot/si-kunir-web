@@ -69,12 +69,12 @@ if ($result_aspirasi) {
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="icon" href="assets/img/logonganjuk.png" type="image/png" />
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -99,7 +99,12 @@ if ($result_aspirasi) {
             color: #1e293b;
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
         }
@@ -134,13 +139,14 @@ if ($result_aspirasi) {
             font-size: 1rem;
         } */
 
-             /* Page Header Structure */
+        /* Page Header Structure */
         .page-header {
             padding: 1rem 0;
             margin: -1rem -1rem 2rem -1rem;
             border-radius: 0 0 20px 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
         }
+
         .page-header h1 {
             font-weight: 700;
             font-size: 1.75rem;
@@ -148,7 +154,7 @@ if ($result_aspirasi) {
             letter-spacing: -0.5px;
         }
 
-         .header-icon {
+        .header-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -166,7 +172,7 @@ if ($result_aspirasi) {
             margin-bottom: 40px;
         }
 
-        
+
         /* Individual Stat Cards */
         .stat-card {
             background: white;
@@ -305,6 +311,7 @@ if ($result_aspirasi) {
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -315,10 +322,21 @@ if ($result_aspirasi) {
             animation: fadeInUp 0.6s ease forwards;
         }
 
-        .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(2) { animation-delay: 0.2s; }
-        .stat-card:nth-child(3) { animation-delay: 0.3s; }
-        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        .stat-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -384,7 +402,7 @@ if ($result_aspirasi) {
                                 </div>
                                 <div>
                                     <h1 class="">Dashboard</h1>
-                                    <h6>Selamat datang di Sistem Informasi Desa Kuncir</h6>              
+                                    <h6>Selamat datang di Sistem Informasi Desa Kuncir</h6>
                                 </div>
                             </div>
                         </div>

@@ -38,7 +38,7 @@ if (empty($username) || empty($nama) || empty($keterangan)) {
 // 3. Penanganan File Upload
 $file_upload = NULL;
 // Gunakan path absolut/relatif yang benar dari lokasi file PHP Anda ke folder upload
-$target_dir = "../upload_surat/"; // Mengasumsikan folder upload_surat berada satu tingkat di atas direktori file surat/skk.php
+$target_dir = "../surat/upload_surat/"; // Mengasumsikan folder upload_surat berada satu tingkat di atas direktori file surat/skk.php
 
 if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
     

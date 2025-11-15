@@ -58,7 +58,12 @@ if ($conn->connect_error) {
             color: #1e293b;
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
         }
@@ -150,7 +155,7 @@ if ($conn->connect_error) {
             transform: scale(1.01);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-        
+
         /* Badge Styles */
         .badge {
             padding: 0.5em 0.8em;
@@ -161,30 +166,6 @@ if ($conn->connect_error) {
             letter-spacing: 0.3px;
         }
 
-        /* .badge.bg-warning { 
-            background: #fef3c7 !important;
-            color: #92400e !important;
-        }
-
-        .badge.bg-primary { 
-            background: #dbeafe !important;
-            color: #1e40af !important;
-        }
-
-        .badge.bg-success { 
-            background: #d1fae5 !important;
-            color: #065f46 !important;
-        }
-
-        .badge.bg-danger { 
-            background: #fee2e2 !important;
-            color: #991b1b !important;
-        }
-
-        .badge.bg-secondary { 
-            background: #e2e8f0 !important;
-            color: #475569 !important;
-        } */
 
         /* Button Styles */
         .btn {
@@ -206,7 +187,7 @@ if ($conn->connect_error) {
             background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
             box-shadow: 0 4px 12px rgba(54, 41, 183, 0.3);
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(54, 41, 183, 0.4);
@@ -219,17 +200,19 @@ if ($conn->connect_error) {
             border-radius: 8px;
             padding: 6px 12px;
         }
-        
+
         .dataTable-wrapper .dataTable-container {
             border: none !important;
         }
+
         .dataTable-wrapper .dataTable-top,
         .dataTable-wrapper .dataTable-bottom {
             padding: 1rem 0 0 0;
             border: none;
         }
-        
-        .dataTable-input, .dataTable-selector {
+
+        .dataTable-input,
+        .dataTable-selector {
             border-radius: 10px;
             padding: 8px 12px;
             border: 1px solid #e2e8f0;
@@ -268,7 +251,7 @@ if ($conn->connect_error) {
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-5" style="padding-top: 24px; padding-bottom: 40px;">
-                    
+
                     <div class="page-header">
                         <div class="container-fluid px-4">
                             <div class="d-flex align-items-center">
@@ -295,7 +278,7 @@ if ($conn->connect_error) {
                                             <th>ID</th>
                                             <th>Username</th>
                                             <th>Nama</th>
-                                            <th>Kode Surat</th>
+                                            <th>Jenis Surat</th>
                                             <th>Tanggal</th>
                                             <th>Status</th>
                                             <th class="text-center">Aksi</th>
@@ -303,7 +286,6 @@ if ($conn->connect_error) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        // include("koneksi.php"); // Sudah di-include di atas
 
                                         try {
                                             $sql = "SELECT laporan.id_laporan,
@@ -323,8 +305,8 @@ if ($conn->connect_error) {
                                             $result = $query->get_result();
 
                                             if ($result->num_rows > 0) {
-                                                while ($r = $result->fetch_assoc()) { 
-                                                    
+                                                while ($r = $result->fetch_assoc()) {
+
                                                     // Logika Badge Status
                                                     $statusDisplay = htmlspecialchars($r['status'] ?? 'N/A');
                                                     $statusColor = match ($statusDisplay) {
@@ -332,7 +314,7 @@ if ($conn->connect_error) {
                                                         'Selesai' => 'success',
                                                         'Tolak' => 'danger',
                                                         default => 'secondary'
-                                                    };
+                                                    }; 
                                                     ?>
                                                     <tr>
                                                         <td><strong><?= htmlspecialchars($r['id_laporan']) ?></strong></td>
@@ -345,6 +327,12 @@ if ($conn->connect_error) {
                                                             <a class="btn btn-primary btn-sm"
                                                                 href="cetak/cek_surat.php?no_pengajuan=<?= urlencode($r['no_pengajuan']) ?>&kode_surat=<?= urlencode($r['kode_surat']) ?>">
                                                                 <i class="fas fa-eye me-1"></i> Detail
+                                                            </a>
+                                                            <a
+                                                                class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('Yakin ingin menghapus laporan dan pengajuan ini?')"
+                                                                href="hapus_laporan.php?id=<?= $r['id_laporan'] ?>">
+                                                                <i class="fas fa-trash"></i> Hapus
                                                             </a>
                                                         </td>
                                                     </tr>
@@ -374,16 +362,16 @@ if ($conn->connect_error) {
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
         crossorigin="anonymous"></script>
-    
+
     <script>
         // Mengganti inisialisasi DataTables yang salah (JQuery) dengan Simple DataTables
         document.addEventListener("DOMContentLoaded", () => {
             const table = document.querySelector("#datatablesSimple");
             if (table) {
-                 // Cek apakah Simple DataTables sudah dimuat (disediakan oleh datatables-simple-demo.js)
-                 if (typeof simpleDatatables !== 'undefined') {
+                // Cek apakah Simple DataTables sudah dimuat (disediakan oleh datatables-simple-demo.js)
+                if (typeof simpleDatatables !== 'undefined') {
                     // Coba inisialisasi jika belum diinisialisasi oleh datatables-simple-demo.js
-                    if (!table.classList.contains('dataTable-table')) { 
+                    if (!table.classList.contains('dataTable-table')) {
                         new simpleDatatables.DataTable(table);
                     }
                 } else {

@@ -58,6 +58,35 @@ $result = $conn->query($sql);
       font-family: 'Poppins', sans-serif;
     }
 
+    /* Styling tombol scroll to top yang baru */
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 55px;
+      height: 55px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99;
+      border: none;
+      padding: 0;
+      border-radius: 50%;
+      background: #e3f2fd;
+      color: black;
+      font-size: 25px;
+      /* Ukuran ikon */
+      box-shadow: 0 4px 15px rgba(54, 41, 183, 0.5);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    /* Hover effect yang lebih interaktif */
+    #scrollTopBtn:hover {
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 8px 25px rgba(54, 41, 183, 0.7);
+    }
+
     /* Navbar */
     .navbar {
       background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%) !important;
@@ -606,6 +635,14 @@ $result = $conn->query($sql);
       .visi-box {
         padding: 40px 25px;
       }
+      #scrollTopBtn {
+                width: 40px;
+                /* Sesuaikan ukuran pada layar kecil */
+                height: 40px;
+                bottom: 15px;
+                /* Sesuaikan posisi */
+                right: 15px;
+            }
     }
 
     @media (max-width: 576px) {
@@ -868,7 +905,7 @@ $result = $conn->query($sql);
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card kepala-desa-card text-center">
             <h5>KEPALA DESA</h5>
-            <p>Wiwik Sukartinem</p>
+            <p>Hj. Wiwik Sukartinem, S.Pd, M.Si</p>
           </div>
         </div>
       </div>
@@ -899,20 +936,20 @@ $result = $conn->query($sql);
       <div class="row justify-content-center mt-4">
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card text-center">
-            <h5>Kepala Seksi Pemberdayaan</h5>
-            <p>Sri Wulan, SH</p>
+            <h5>KAUR UMUM & PERENCANAAN</h5>
+            <p>Munirul Ikhwan</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card text-center">
-            <h5>Staf Desa</h5>
-            <p>Agus Sudadi</p>
+            <h5>STAF KEUANGAN</h5>
+            <p>Ismaul Farida</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card text-center">
-            <h5>Staf Desa</h5>
-            <p>Agus Sudadi</p>
+            <h5>STAFF 1</h5>
+            <p>Nurul Laila</p>
           </div>
         </div>
       </div>
@@ -921,14 +958,30 @@ $result = $conn->query($sql);
       <div class="row justify-content-center mt-4">
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card text-center">
-            <h5>Staf Desa</h5>
-            <p>Nur Farida</p>
+            <h5>STAFF 2</h5>
+            <p>Yulia Novitasari</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card text-center">
-            <h5>Staf Desa</h5>
-            <p>Gadis Megabiru RHK</p>
+            <h5>KASUN KUNCIR</h5>
+            <p>Eko Purbayanti</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="struktur-card text-center">
+            <h5>KASUN NGLAJER</h5>
+            <p>Suyono</p>
+          </div>
+        </div>
+      </div>
+
+<!-- Baris Kelima -->
+      <div class="row justify-content-center mt-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="struktur-card text-center">
+            <h5>KASUN SUMBER</h5>
+            <p>Sukarno</p>
           </div>
         </div>
       </div>
@@ -972,6 +1025,10 @@ $result = $conn->query($sql);
       © 2025 Sync Squad. All Rights Reserved.
     </div>
   </footer>
+  <!-- Tombol Scroll to Top -->
+  <button id="scrollTopBtn">
+    <i class="fas fa-arrow-up"></i>
+  </button>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -1005,6 +1062,27 @@ $result = $conn->query($sql);
             block: 'start'
           });
         }
+      });
+    });
+  </script>
+  <script>
+    // Seleksi tombol Scroll to Top
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+    // Fungsionalitas Tampilkan/Sembunyikan tombol
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) { // Tampilkan setelah scroll 300px
+        scrollTopBtn.style.display = 'flex';
+      } else {
+        scrollTopBtn.style.display = 'none';
+      }
+    });
+
+    // Fungsionalitas Scroll ke atas saat tombol diklik
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
       });
     });
   </script>

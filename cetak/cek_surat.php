@@ -30,10 +30,13 @@ $judul_surat = $validTables[$kode_surat]['judul'];
 
 // --- FUNGSI AMBIL DATA SURAT ---
 function getSuratData($conn, $table_name, $no_pengajuan) {
-    // Menggunakan Prepared Statement untuk mengambil semua kolom dari tabel surat spesifik
-    $query = "SELECT s.*, u.nama AS nama_pemohon 
+    // Ambil data surat + nama pemohon dari pengajuan_surat
+    $query = "SELECT 
+                s.*, 
+                p.nama AS nama_pemohon
               FROM `$table_name` s
-              LEFT JOIN akun_user u ON s.username = u.username
+              LEFT JOIN pengajuan_surat p 
+                    ON s.no_pengajuan = p.no_pengajuan
               WHERE s.no_pengajuan = ?";
     
     $stmt = $conn->prepare($query);
@@ -49,25 +52,35 @@ function getSuratData($conn, $table_name, $no_pengajuan) {
 
 // --- FUNGSI AMBIL DATA PEJABAT DESA ---
 function getPejabatData($conn, $jabatan_key) {
-    if ($jabatan_key == 'kepaladesa') {
-        $jabatan = 'Kepala Desa';
-    } elseif ($jabatan_key == 'sekretaris') {
-        $jabatan = 'Sekretaris Desa';
-    } else {
+
+    $map = [
+        'kepaladesa' => 'Kepala Desa',
+        'sekretaris' => 'Sekretaris Desa'
+    ];
+
+    // Jika pilihan tidak ada, return null
+    if (!isset($map[$jabatan_key])) {
         return null;
     }
+
+    $jabatan = $map[$jabatan_key];
+
+    $query = "SELECT nama, nip, jabatan, barcode 
+              FROM pejabat_desa 
+              WHERE jabatan = ?";
     
-    $query = "SELECT nama, nip, jabatan, barcode FROM pejabat_desa WHERE jabatan = ?";
     $stmt = $conn->prepare($query);
     if (!$stmt) return null;
-    
+
     $stmt->bind_param("s", $jabatan);
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
     $stmt->close();
+
     return $data;
 }
+
 
 // 1. Ambil data surat
 $surat = getSuratData($conn, $table_name, $no_pengajuan);

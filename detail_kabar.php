@@ -209,7 +209,7 @@ if (isset($_GET['id'])) {
                                     <ol class="breadcrumb mb-0">
                                         <li class="breadcrumb-item"><a href="dashboard.php"><i class="fas fa-home me-1"></i>Dashboard</a></li>
                                         <li class="breadcrumb-item"><a href="kabardesa.php">Informasi Desa</a></li>
-                                        <li class="breadcrumb-item active">Detail</li>
+                                        <li class="breadcrumb-item active">Detail Informasi Desa</li>
                                     </ol>
                                 </div>
                             </div>
