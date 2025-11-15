@@ -39,34 +39,39 @@ if ($cek->num_rows === 0) {
 }
 $cek->close();
 
-// Prepare insert query
-$sql = "INSERT INTO surat_berkelakuan_baik 
-        (nama, nik, agama, tempat_tanggal_lahir, pendidikan, alamat_lengkap, kode_surat, id_pejabat_desa, username)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+// =======================
+// Proses Upload File
+// =======================
+$file = null;
 
-$stmt = $konek->prepare($sql);
-if ($stmt === false) {
-    echo json_encode([
-        "status" => 0,
-        "message" => "Prepare statement gagal",
-        "error" => $konek->error
-    ]);
-    exit;
+// Upload file jika ada
+if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
+    $uploadDir = __DIR__ . "/upload_surat/"; // pastikan folder ada
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    $fileName = basename($_FILES['file']['name']);
+    $targetFile = $uploadDir . $fileName;
+
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)) {
+        $file = $fileName; // simpan nama file ke variabel $file
+    } else {
+        echo json_encode([
+            "status" => 0,
+            "message" => "Gagal mengupload file"
+        ]);
+        exit;
+    }
 }
 
-// Bind parameter
-$stmt->bind_param(
-    "sssssssss",
-    $nama,
-    $nik,
-    $agama,
-    $ttl,
-    $pendidikan,
-    $alamat,
-    $kode_surat,
-    $id_pejabat,
-    $username
-);
+// Insert data
+$sql = "INSERT INTO surat_berkelakuan_baik 
+        (nama, nik, agama, tempat_tanggal_lahir, pendidikan, alamat_lengkap, file, kode_surat, id_pejabat_desa, username)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+$stmt = $konek->prepare($sql);
+$stmt->bind_param("ssssssssss", $nama, $nik, $agama, $ttl, $pendidikan, $alamat, $file, $kode_surat, $id_pejabat, $username);
 
 $query_result = $stmt->execute();
 

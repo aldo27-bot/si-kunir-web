@@ -4,7 +4,6 @@ header("Content-Type: application/json");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
 // Ambil data dari POST
 $nama = $_POST['nama'] ?? '';
 $nik = $_POST['nik'] ?? '';
@@ -26,15 +25,34 @@ if (empty($nama) || empty($nik)) {
     exit;
 }
 
-// Query insert
+// Handle upload file jika ada
+$fileName = '';
+if(isset($_FILES['file']) && $_FILES['file']['error'] == 0){
+    $uploadDir = __DIR__ . "/upload_surat/";
+    if(!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+
+    $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+    $fileName = "domisili_" . time() . "." . $ext;
+    $targetFile = $uploadDir . $fileName;
+
+    if(!move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)){
+        echo json_encode([
+            "kode" => 0,
+            "pesan" => "Gagal mengunggah file"
+        ]);
+        exit;
+    }
+}
+
+// Query insert ke tabel surat_domisili, tambahkan kolom file
 $query = "INSERT INTO surat_domisili 
-(kode_surat, nama, nik, tempat_tanggal_lahir, alamat, jenis_kelamin, pekerjaan, agama, status_perkawinan, keterangan, username)
+(kode_surat, nama, nik, tempat_tanggal_lahir, alamat, jenis_kelamin, pekerjaan, agama, status_perkawinan, keterangan, username, file)
 VALUES 
-('$kode_surat', '$nama', '$nik', '$tempat_tanggal_lahir', '$alamat', '$jenis_kelamin', '$pekerjaan', '$agama', '$status_perkawinan', '$keterangan', '$username')";
+('$kode_surat', '$nama', '$nik', '$tempat_tanggal_lahir', '$alamat', '$jenis_kelamin', '$pekerjaan', '$agama', '$status_perkawinan', '$keterangan', '$username', '$fileName')";
 
 // Eksekusi
 if (mysqli_query($konek, $query)) {
-    echo json_encode(["kode" => 1, "pesan" => "Pengajuan Surat Domisili berhasil dikirim"]);
+    echo json_encode(["kode" => 1, "pesan" => "Pengajuan Surat Domisili berhasil dikirim", "file" => $fileName]);
 } else {
     echo json_encode([
         "kode" => 0,

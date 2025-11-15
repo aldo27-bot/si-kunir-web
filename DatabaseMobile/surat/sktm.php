@@ -1,47 +1,90 @@
 <?php
-require("../Koneksi.php");
+header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Koneksi
+include '../Koneksi.php';
 
-    $username = $_POST['username'];
+$response = [];
 
-    $namabapak = $_POST['nama_bapak'];
-    $Tempattanggallahirbapak = $_POST['tempat_tanggal_lahir_bapak'];
-    $pekerjaanbapapak = $_POST['pekerjaan_bapak'];
-    $alamatbapak = $_POST['alamat_bapak'];
+// === Folder upload ===
+$folder = __DIR__ . "/upload_surat/";
+if (!file_exists($folder)) {
+    mkdir($folder, 0777, true);
+}
 
-    //ibu
-    $namaibu = $_POST['nama_ibu'];
-    $Tempattanggallahiribu = $_POST['tempat_tanggal_lahir_ibu'];
-    $pekerjaanibu = $_POST['pekerjaan_ibu'];
-    $alamatibu = $_POST['alamat_ibu'];
+$file_to_db = ""; // default kosong
 
-    //anak
-    $namaanak = $_POST['nama'];
-    $Tempattanggallahiranak = $_POST['tempat_tanggal_lahir_anak'];
-    $jeniskelaminanak = $_POST['jenis_kelamin_anak'];
-    $alamatanak = $_POST['alamat'];
+// ====== UPLOAD FILE ======
+if (isset($_FILES['file']['tmp_name']) && $_FILES['file']['tmp_name'] != "") {
 
-    $sql = "INSERT INTO `sktm`( `username`, `nama_bapak`, `tempat_tanggal_lahir_bapak`, `pekerjaan_bapak`, `alamat_bapak`, `nama_ibu`, `tempat_tanggal_lahir_ibu`, `pekerjaan_ibu`, `alamat_ibu`,
-             `nama`, `tempat_tanggal_lahir_anak`, `jenis_kelamin_anak`, `alamat`)
-            VALUES ('$username','$namabapak','$Tempattanggallahirbapak','$pekerjaanbapapak','$alamatbapak','$namaibu','$Tempattanggallahiribu','$pekerjaanibu','$alamatibu',
-            '$namaanak','$Tempattanggallahiranak','$jeniskelaminanak','$alamatanak')";
+    $namaFile = "sktm_" . time() . ".jpg";
+    $targetPath = $folder . $namaFile;
 
-    $eksekusi = mysqli_query($konek, $sql);
-
-    $response = array();
-
-    if ($eksekusi) {
-        // Jika insert berhasil
-        $response['kode'] = true;
-        $response['pesan'] = "Data berhasil ditambahkan";
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
+        $file_to_db = $namaFile;
     } else {
-        // Jika insert gagal
-        $response['kode'] = false;
-        $response['pesan'] = "Gagal menambahkan data. Error: " . mysqli_error($konek);
+        echo json_encode([
+            "status" => "error",
+            "message" => "Gagal upload file"
+        ]);
+        exit;
     }
+}
 
-    echo json_encode($response);
-    mysqli_close($konek);
+// ====== AMBIL DATA POST ======
+$nama = $_POST['nama'];
+$tempat_tanggal_lahir = $_POST['tempat_tanggal_lahir'];
+$asal_sekolah = $_POST['asal_sekolah'];
+$keperluan = $_POST['keperluan'];
+
+$nama_orangtua = $_POST['nama_orangtua'];
+$nik_orangtua = $_POST['nik_orangtua'];
+$alamat_orangtua = $_POST['alamat_orangtua'];
+$tempat_tanggal_lahir_orangtua = $_POST['tempat_tanggal_lahir_orangtua'];
+$pekerjaan_orangtua = $_POST['pekerjaan_orangtua'];
+
+$kode_surat = $_POST['kode_surat'];
+$username = $_POST['username'];
+
+// ====== QUERY INSERT TANPA id_pejabat_desa ======
+$query = "INSERT INTO surat_sktm (
+    nama,
+    tempat_tanggal_lahir,
+    asal_sekolah,
+    keperluan,
+    nama_orangtua,
+    nik_orangtua,
+    alamat_orangtua,
+    tempat_tanggal_lahir_orangtua,
+    pekerjaan_orangtua,
+    file,
+    kode_surat,
+    username
+) VALUES (
+    '$nama',
+    '$tempat_tanggal_lahir',
+    '$asal_sekolah',
+    '$keperluan',
+    '$nama_orangtua',
+    '$nik_orangtua',
+    '$alamat_orangtua',
+    '$tempat_tanggal_lahir_orangtua',
+    '$pekerjaan_orangtua',
+    '$file_to_db',
+    '$kode_surat',
+    '$username'
+)";
+
+if (mysqli_query($konek, $query)) {
+    echo json_encode([
+        "status" => "success",
+        "message" => "Pengajuan SKTM berhasil",
+        "file" => $file_to_db
+    ]);
+} else {
+    echo json_encode([
+        "status" => "error",
+        "message" => mysqli_error($konek)
+    ]);
 }
 ?>

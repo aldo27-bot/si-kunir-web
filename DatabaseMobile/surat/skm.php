@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kewarganegaraan    = $_POST['kewarganegaraan'] ?? '';
     $keterangan         = $_POST['keterangan'] ?? '';
     $username           = $_POST['username'] ?? '';
-    $kode_surat         = "SKM";
+    $kode_surat         = "SKKM";
 
     // File default kosong
     $fileName = "";
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
 
         $fileName = time() . "_" . basename($_FILES['file']['name']);
-        $targetDir = "../upload_surat/";     // pastikan folder ini ADA
+        $targetDir = __DIR__ . "/upload_surat/";    // pastikan folder ini ADA
         $targetFilePath = $targetDir . $fileName;
 
         if (!move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
