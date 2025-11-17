@@ -636,13 +636,11 @@ $result = $conn->query($sql);
         padding: 40px 25px;
       }
       #scrollTopBtn {
-                width: 40px;
-                /* Sesuaikan ukuran pada layar kecil */
-                height: 40px;
-                bottom: 15px;
-                /* Sesuaikan posisi */
-                right: 15px;
-            }
+          width: 40px;
+          height: 40px;
+          bottom: 15px;
+          right: 15px;
+      }
     }
 
     @media (max-width: 576px) {
@@ -731,13 +729,13 @@ $result = $conn->query($sql);
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="assets/img/foto_pura_bedugul_bali.jpg" class="d-block w-100" alt="Slide 1" />
+        <img src="assets/img/Foto_bersama_kades.jpg" class="d-block w-100" alt="Slide 1" />
       </div>
       <div class="carousel-item">
-        <img src="assets/img/foto_raja_ampat.jpg" class="d-block w-100" alt="Slide 2" />
+        <img src="assets/img/Alun-alun_Nganjuk.jpg" class="d-block w-100" alt="Slide 2" />
       </div>
       <div class="carousel-item">
-        <img src="assets/img/foto_gunung_bromo.jpeg" class="d-block w-100" alt="Slide 3" />
+        <img src="assets/img/nganjuk_adipura.jpg" class="d-block w-100" alt="Slide 3" />
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
