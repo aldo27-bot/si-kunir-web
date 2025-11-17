@@ -157,7 +157,7 @@ $result = $conn->query($sql);
     }
 
     .carousel-item img {
-      height: 550px;
+      height: 700px;
       object-fit: cover;
       filter: brightness(0.9);
     }

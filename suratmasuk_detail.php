@@ -40,8 +40,27 @@ if (!in_array($table_name, $validTables)) {
     header("Location: suratmasuk.php");
     exit;
 }
-// ---------------------------------------------
 
+// ---------------------------------------------
+// Dapatkan keterangan surat
+$query = "SELECT keterangan FROM data_surat WHERE kode_surat = ?";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "s", $kode_surat);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$suratKeterangan = ($result && $result->num_rows > 0) ? $result->fetch_assoc()['keterangan'] : "Surat Tidak Ada";
+mysqli_stmt_close($stmt);
+
+// Ambil data yang ada
+$query_data = $conn->prepare("SELECT * FROM `$table_name` WHERE no_pengajuan = ?");
+$query_data->bind_param("s", $no_pengajuan);
+$query_data->execute();
+$result_data = $query_data->get_result();
+$data = $result_data->fetch_assoc();
+$query_data->close();
+if (!$data && !empty($no_pengajuan)) {
+    $error_message .= " Data pengajuan tidak ditemukan di tabel '$table_name'.";
+}
 
 // ----------------------------------------------------------------------
 // LOGIC POST (UPDATE DATA)
@@ -167,25 +186,25 @@ $error_message = $_SESSION['error_message'] ?? '';
 unset($_SESSION['success_message']);
 unset($_SESSION['error_message']);
 
-// Dapatkan keterangan surat
-$query = "SELECT keterangan FROM data_surat WHERE kode_surat = ?";
-$stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt, "s", $kode_surat);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$suratKeterangan = ($result && $result->num_rows > 0) ? $result->fetch_assoc()['keterangan'] : "Surat Tidak Ada";
-mysqli_stmt_close($stmt);
+// // Dapatkan keterangan surat
+// $query = "SELECT keterangan FROM data_surat WHERE kode_surat = ?";
+// $stmt = mysqli_prepare($conn, $query);
+// mysqli_stmt_bind_param($stmt, "s", $kode_surat);
+// mysqli_stmt_execute($stmt);
+// $result = mysqli_stmt_get_result($stmt);
+// $suratKeterangan = ($result && $result->num_rows > 0) ? $result->fetch_assoc()['keterangan'] : "Surat Tidak Ada";
+// mysqli_stmt_close($stmt);
 
-// Ambil data yang ada
-$query_data = $conn->prepare("SELECT * FROM `$table_name` WHERE no_pengajuan = ?");
-$query_data->bind_param("s", $no_pengajuan);
-$query_data->execute();
-$result_data = $query_data->get_result();
-$data = $result_data->fetch_assoc();
-$query_data->close();
-if (!$data && !empty($no_pengajuan)) {
-    $error_message .= " Data pengajuan tidak ditemukan di tabel '$table_name'.";
-}
+// // Ambil data yang ada
+// $query_data = $conn->prepare("SELECT * FROM `$table_name` WHERE no_pengajuan = ?");
+// $query_data->bind_param("s", $no_pengajuan);
+// $query_data->execute();
+// $result_data = $query_data->get_result();
+// $data = $result_data->fetch_assoc();
+// $query_data->close();
+// if (!$data && !empty($no_pengajuan)) {
+//     $error_message .= " Data pengajuan tidak ditemukan di tabel '$table_name'.";
+// }
 ?>
 
 <!DOCTYPE html>

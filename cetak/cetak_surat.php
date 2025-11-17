@@ -391,20 +391,42 @@ function safeNl2br($text)
             </p>
         </div>
 
-        <div class="ttd-box">
+        <!-- <div class="ttd-box">
             Desa Kuncir, <?= $tanggal_cetak_indo; ?>
             <br>
             <?= strtoupper(htmlspecialchars($pejabat_ttd['jabatan'])); ?>
             <br><br>
             <?php if (!empty($pejabat_ttd['barcode'])): ?>
-                <!-- Jika Anda ingin tampilkan QR Code, uncomment dan sesuaikan path -->
                 <img src="../assets/img/TTD_Ferdian.png"<?= htmlspecialchars($pejabat_ttd['barcode']); ?> alt="QR Code" style="width: 100px; height: auto;">
                 <div style="height: 100px; display: flex; align-items: center; justify-content: center;">
                 </div>
             <?php else: ?>
-                <!-- <br><br><br><br> -->
             <?php endif; ?>
             <span class="underline">
+                <?= strtoupper(htmlspecialchars($pejabat_ttd['nama'])); ?>
+            </span>
+            <br>
+            <?php if (!empty($pejabat_ttd['nip'])): ?>
+                NIP. <?= htmlspecialchars($pejabat_ttd['nip']); ?>
+            <?php endif; ?>
+        </div> -->
+
+        <div class="ttd-box">
+            Desa Kuncir, <?= $tanggal_cetak_indo; ?>
+            <br>
+            <span style="font-weight: bold;">
+                <?= strtoupper(htmlspecialchars($pejabat_ttd['jabatan'])); ?>
+            </span>
+            
+            <div class="barcode">
+            <?php if (!empty($pejabat_ttd['barcode'])): ?>
+                <img src="../assets/img/TTD_Ferdian.png" alt="Tanda Tangan Digital" style="width: 100px; height: auto; margin-top: 15px; margin-bottom: 5px;">
+            <?php else: ?>
+                <div style="height: 100px;"></div> 
+            <?php endif; ?>
+            </div>
+
+            <span class="underline" style="font-weight: bold;">
                 <?= strtoupper(htmlspecialchars($pejabat_ttd['nama'])); ?>
             </span>
             <br>

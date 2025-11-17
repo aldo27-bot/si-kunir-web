@@ -184,13 +184,14 @@ if ($conn->connect_error) {
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-            box-shadow: 0 4px 12px rgba(54, 41, 183, 0.3);
+            background: linear-gradient(135deg, var(--info-cyan) 0%, #0891b2 100%);
+            color: white;
+            border: none;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(54, 41, 183, 0.4);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
         }
 
         /* DataTables Custom */

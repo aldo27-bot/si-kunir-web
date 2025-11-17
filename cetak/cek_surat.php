@@ -65,7 +65,7 @@ function getPejabatData($conn, $jabatan_key) {
 
     $jabatan = $map[$jabatan_key];
 
-    $query = "SELECT nama, nip, jabatan, barcode 
+    $query = "SELECT nama, nip, jabatan, barcode  
               FROM pejabat_desa 
               WHERE jabatan = ?";
     
