@@ -7,7 +7,7 @@ include '../Koneksi.php';
 $response = [];
 
 // === Folder upload ===
-$folder = __DIR__ . "/upload_surat/";
+$folder = "../surat/upload_surat/"; 
 if (!file_exists($folder)) {
     mkdir($folder, 0777, true);
 }

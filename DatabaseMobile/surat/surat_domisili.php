@@ -28,7 +28,7 @@ if (empty($nama) || empty($nik)) {
 // Handle upload file jika ada
 $fileName = '';
 if(isset($_FILES['file']) && $_FILES['file']['error'] == 0){
-    $uploadDir = __DIR__ . "/upload_surat/";
+    $uploadDir = "../surat/upload_surat/"; 
     if(!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
     $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);

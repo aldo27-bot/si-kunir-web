@@ -394,15 +394,19 @@ function safeNl2br($text)
         <!-- <div class="ttd-box">
             Desa Kuncir, <?= $tanggal_cetak_indo; ?>
             <br>
-            <?= strtoupper(htmlspecialchars($pejabat_ttd['jabatan'])); ?>
-            <br><br>
+            <span style="font-weight: bold;">
+                <?= strtoupper(htmlspecialchars($pejabat_ttd['jabatan'])); ?>
+            </span>
+            
+            <div class="barcode">
             <?php if (!empty($pejabat_ttd['barcode'])): ?>
-                <img src="../assets/img/TTD_Ferdian.png"<?= htmlspecialchars($pejabat_ttd['barcode']); ?> alt="QR Code" style="width: 100px; height: auto;">
-                <div style="height: 100px; display: flex; align-items: center; justify-content: center;">
-                </div>
+                <img src="../assets/img/TTD_Ferdian.png" alt="Tanda Tangan Digital" style="width: 100px; height: auto; margin-top: 15px; margin-bottom: 5px;">
             <?php else: ?>
+                <div style="height: 100px;"></div> 
             <?php endif; ?>
-            <span class="underline">
+            </div>
+
+            <span class="underline" style="font-weight: bold;">
                 <?= strtoupper(htmlspecialchars($pejabat_ttd['nama'])); ?>
             </span>
             <br>
@@ -417,13 +421,18 @@ function safeNl2br($text)
             <span style="font-weight: bold;">
                 <?= strtoupper(htmlspecialchars($pejabat_ttd['jabatan'])); ?>
             </span>
-            
+
             <div class="barcode">
-            <?php if (!empty($pejabat_ttd['barcode'])): ?>
-                <img src="../assets/img/TTD_Ferdian.png" alt="Tanda Tangan Digital" style="width: 100px; height: auto; margin-top: 15px; margin-bottom: 5px;">
-            <?php else: ?>
-                <div style="height: 100px;"></div> 
-            <?php endif; ?>
+                <?php if (!empty($pejabat_ttd['barcode'])):
+                    // 🚨 PENTING: Pastikan path ini benar relatif dari file cetak/cek_surat.php ke folder assets Anda.
+                    // Jika barcode di DB menyimpan nama file (e.g., 'barcode_kepaladesa.png'), gunakan itu.
+                    // Saya asumsikan TTD digital disimpan di ../assets/img/
+                    $barcode_path = "../assets/img/" . htmlspecialchars($pejabat_ttd['barcode']);
+                ?>
+                    <img src="<?= $barcode_path ?>" alt="Tanda Tangan Digital" style="width: 100px; height: auto; margin-top: 15px; margin-bottom: 5px;">
+                <?php else: ?>
+                    <div style="height: 100px;"></div>
+                <?php endif; ?>
             </div>
 
             <span class="underline" style="font-weight: bold;">

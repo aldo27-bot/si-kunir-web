@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
 
         $fileName = time() . "_" . basename($_FILES['file']['name']);
-        $targetDir = __DIR__ . "/upload_surat/";    // pastikan folder ini ADA
+        $targetDir = "../surat/upload_surat/";    // pastikan folder ini ADA
         $targetFilePath = $targetDir . $fileName;
 
         if (!move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {

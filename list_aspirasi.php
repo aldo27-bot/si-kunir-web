@@ -307,7 +307,7 @@ if (isset($conn)) {
                                             </td>
                                             <td><i class="fas fa-calendar-alt me-1 text-muted"></i><?= date('d M Y', strtotime(htmlspecialchars($r['tanggal']))) ?></td>
                                             <td>
-                                                <a href="respond.php?id_pengajuan_aspirasi=<?= $r['id_pengajuan_aspirasi'] ?>" class="btn btn-sm btn-primary">
+                                                <a href="tanggapi_aspirasi.php?id_pengajuan_aspirasi=<?= $r['id_pengajuan_aspirasi'] ?>" class="btn btn-sm btn-primary">
                                                     <i class="fas fa-reply me-1"></i> Tanggapi
                                                 </a>
                                             </td>

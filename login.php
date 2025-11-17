@@ -24,7 +24,7 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) 
     body {
       background: linear-gradient(to right, #3629B7, #B36CFF);
       color: #333;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Arial, sans-serif;
       padding-top: 150px;
     }
 
@@ -75,7 +75,7 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) 
           <div class="card shadow-lg border-0 rounded-lg">
             <div class="card-header">
               <img src="assets/img/logonganjuk_hd.png" class="mx-auto d-block" alt="Logo" style="width: 25%;">
-              <h3 class="text-center font-weight-light mt-3">Login</h3>
+              <h2 class="text-center font-weight-light mt-3">Login Admin</h2>
             </div>
             <div class="card-body">
               <form action="login_proses.php" method="POST" name="login">

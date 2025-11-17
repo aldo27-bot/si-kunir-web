@@ -46,7 +46,7 @@ $file = null;
 
 // Upload file jika ada
 if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
-    $uploadDir = __DIR__ . "/upload_surat/"; // pastikan folder ada
+    $uploadDir = "../surat/upload_surat/"; // pastikan folder ada
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }

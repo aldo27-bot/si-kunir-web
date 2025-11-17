@@ -42,7 +42,7 @@ if (empty($judul) || empty($deskripsi) || empty($username)) {
 // Upload foto (opsional)
 $fotoPath = null;
 if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0 && !empty($_FILES['foto']['name'])) {
-    $targetDir = "../surat/upload_surat/";
+    $targetDir = "../uploads/upload_aspirasi/";
     if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
 
     $fileName = time() . '_' . basename($_FILES['foto']['name']);
