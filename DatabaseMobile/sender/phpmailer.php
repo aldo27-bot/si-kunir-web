@@ -6,12 +6,12 @@ require __DIR__ . '/../vendor/autoload.php';
 
 class EmailSender {    
     
-    private $smtpHost = 'smtp.gmail.com';
-    private $smtpUsername = 'elayangdesa@gmail.com';
-    private $smtpPassword = 'vfzb crye ldcn yfaw';
-    private $smtpPort = 587;
-    private $fromEmail = 'elayangdesa@gmail.com';
-    private $fromName = 'E-LaDes';  
+ private $smtpHost = 'smtp.gmail.com'; 
+ private $smtpUsername = 'elayangdesa@gmail.com'; 
+ private $smtpPassword = 'vfzb crye ldcn yfaw'; 
+ private $smtpPort = 587; 
+ private $fromEmail = 'elayangdesa@gmail.com'; 
+ private $fromName = 'Si-kunir';
 
     public function generateOTP($length = 6) {
         $otp = '';
@@ -36,7 +36,7 @@ class EmailSender {
 
             $mail->setFrom($this->fromEmail, $this->fromName);
             $mail->addAddress($email);
-            $mail->Subject = "$otp adalah Kode OTP Anda";
+            $mail->Subject = "Kode OTP Anda adalah: $otp";
 
             if ($type === "Register") {
                 $mail->Body = 'Gunakan kode otp berikut untuk memverifikasi akun anda: ' . $otp;

@@ -11,13 +11,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pesan = "Masukan password";
         echo '<script>';
         echo 'alert("' . $pesan . '");';
-        echo 'window.location.href = "index.php";';
+        echo 'window.location.href = "index.html";';
         echo '</script>';
     } elseif (strlen($password) < 6) {
         $pesan = "Password minimal 6 karakter.";
         echo '<script>';
         echo 'alert("' . $pesan . '");';
-        echo 'window.location.href = "index.php";';
+        echo 'window.location.href = "index.html";';
         echo '</script>';
     } elseif ($password == $password2) {
         $pw = md5($password2);
@@ -36,14 +36,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pesan = die("Error in query: " . mysqli_error($conn));;
             echo '<script>';
             echo 'alert("' . $pesan . '");';
-            echo 'window.location.href = "index.php";';
+            echo 'window.location.href = "index.html";';
             echo '</script>';
         }
     } else {
         $pesan = "Password tidak sama.";
         echo '<script>';
         echo 'alert("' . $pesan . '");';
-        echo 'window.location.href = "index.php";';
+        echo 'window.location.href = "index.html";';
         echo '</script>';
     }
     mysqli_close($conn);

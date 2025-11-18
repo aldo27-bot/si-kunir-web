@@ -446,19 +446,6 @@ include 'utility/sesionlogin.php';
             color: white !important;
         }
 
-        /* Add Icon to Header */
-        /* .header-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: rgba(54, 41, 183, 0.1);
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            margin-right: 15px;
-            font-size: 1.5rem;
-        } */
 
         /* Image Preview in Modal */
         #edit_gambar_preview, #detail_gambar img {

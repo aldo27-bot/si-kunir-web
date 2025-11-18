@@ -45,6 +45,8 @@
         left: 0;
         top: 0;
         z-index: 1000;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s ease;
+        /* tambahkan transisi width */
     }
 
     /* Sudut sidebar dibuat melengkung */
@@ -57,6 +59,8 @@
     /* Container Menu */
     .sb-sidenav-menu {
         padding: 15px 0;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
     }
 
     /* Style Menu Item */
@@ -115,7 +119,7 @@
         transition: all 0.3s ease;
     }
 
-    /* Hover Effect - Lebih smooth dan modern */
+    /* Hover Effect */
     .sb-sidenav-custom .nav-link:hover {
         background: rgba(255, 255, 255, 0.2);
         color: #fff;
@@ -132,7 +136,7 @@
         font-weight: 600;
     }
 
-    /* Active State - Lebih menonjol */
+    /* Active State */
     .sb-sidenav-custom .nav-link.active {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.25));
         color: #fff;
@@ -159,12 +163,6 @@
         margin: 8px 8px;
     }
 
-    /* Geser konten ketika collapsed */
-    #layoutSidenav_content.collapsed {
-        margin-left: 75px;
-    }
-
-    /* Sembunyikan teks menu saat collapsed */
     .sidebar.collapsed .menu-text {
         opacity: 0;
         width: 0;
@@ -174,11 +172,6 @@
 
     .sidebar.collapsed .sb-nav-link-icon {
         margin-right: 0;
-    }
-
-    /* Tooltip untuk collapsed mode */
-    .sidebar.collapsed .nav-link {
-        position: relative;
     }
 
     .sidebar.collapsed .nav-link::after {
@@ -204,8 +197,8 @@
         opacity: 1;
     }
 
-    /* Responsive Design */
-    @media (max-width: 992px) {
+    /* ==== RESPONSIVE DESIGN — DIPERBAIKI ==== */
+    @media (max-width: 991.98px) {
         .sb-sidenav-custom {
             width: 230px;
             padding-top: 100px;
@@ -217,15 +210,16 @@
         }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767.98px) {
         .sb-sidenav-custom {
             width: 220px;
             padding-top: 90px;
             transform: translateX(-100%);
-            transition: transform 0.3s ease;
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        .sb-sidenav-custom.show {
+        /* Sidebar muncul saat ada kelas 'mobile-show' */
+        .sb-sidenav-custom.mobile-show {
             transform: translateX(0);
         }
 
@@ -235,16 +229,16 @@
         }
     }
 
-    @media (max-width: 576px) {
+    @media (max-width: 575.98px) {
         .sb-sidenav-custom {
-            width: 200px;
-            padding-top: 80px;
+            width: 190px;
+            padding-top: 75px;
         }
 
         .sb-sidenav-custom .nav-link {
-            padding: 12px 14px;
-            font-size: 13px;
-            margin: 5px 10px;
+            padding: 12px 12px;
+            font-size: 12.5px;
+            margin: 5px 8px;
         }
 
         .sb-sidenav-custom .sb-nav-link-icon {
@@ -253,7 +247,46 @@
         }
     }
 
-    /* Smooth Scrollbar */
+    /* Animasi slide-in hanya di desktop */
+    @media (min-width: 768px) {
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .sb-sidenav-custom .nav-link {
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        .sb-sidenav-custom .nav-link:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .sb-sidenav-custom .nav-link:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .sb-sidenav-custom .nav-link:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .sb-sidenav-custom .nav-link:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .sb-sidenav-custom .nav-link:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+    }
+
+    /* Scrollbar */
     .sb-sidenav-menu::-webkit-scrollbar {
         width: 6px;
     }
@@ -271,26 +304,24 @@
     .sb-sidenav-menu::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.5);
     }
-
-    /* Animation on load */
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    .sb-sidenav-custom .nav-link {
-        animation: slideIn 0.5s ease forwards;
-    }
-
-    .sb-sidenav-custom .nav-link:nth-child(1) { animation-delay: 0.1s; }
-    .sb-sidenav-custom .nav-link:nth-child(2) { animation-delay: 0.2s; }
-    .sb-sidenav-custom .nav-link:nth-child(3) { animation-delay: 0.3s; }
-    .sb-sidenav-custom .nav-link:nth-child(4) { animation-delay: 0.4s; }
-    .sb-sidenav-custom .nav-link:nth-child(5) { animation-delay: 0.5s; }
 </style>
+<script>
+    $('#sidebarToggle').on('click', function() {
+        const isMobile = window.innerWidth <= 767;
+
+        if (isMobile) {
+            // Toggle sidebar mobile
+            $('.sb-sidenav-custom').toggleClass('mobile-show');
+        } else {
+            // Toggle collapsed mode di desktop
+            $('.sidebar, .sb-sidenav-custom').toggleClass('collapsed');
+            $('#layoutSidenav_content, .content').toggleClass('collapsed');
+        }
+
+        // Simpan state hanya untuk desktop
+        if (!isMobile) {
+            const isCollapsed = $('.sidebar').hasClass('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        }
+    });
+</script>

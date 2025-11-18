@@ -8,7 +8,8 @@ session_start();
 $username = 'admin';
 $kode_otp = mt_rand(100000, 999999);
 
-
+// Atur header konten untuk memastikan respons adalah JSON
+header('Content-Type: application/json');
 
 // periksa  apakah email sudah terdaftar 
 $perintah = "SELECT * FROM `akun_admin` WHERE username_admin = '$username';";
@@ -17,12 +18,11 @@ $cek = mysqli_num_rows($eksekusi);
 
 $response = array();
 
-if ($cek = 0) {
-   
+if ($cek == 0) {
+    // Ubah dari $cek = 0 menjadi $cek == 0
     $response["kode"]=0;
     $response["pesan"] = "Username tidak tercantum";
-    header("Location: ../");
-
+    // Hapus header("Location: ../");
     } else {
         $data = mysqli_fetch_assoc($eksekusi);
         $email = $data['email'];
@@ -39,15 +39,16 @@ if ($cek = 0) {
         if($eksekusi){
             $response["kode"] =1;
             $response["pesan"] = "kode otp berhasil diupdate";
-            header("Location: ./");
+            // Hapus header("Location: ./");
         }else {
             $response["kode"]= 2;
             $response["pesan"] = "kode otp gagal diupdate";
-            // header("Location: ../");
+            // Hapus header("Location: ../");
         }
     }
 
 
 echo json_encode($response);
-mysqli_close($konek);
+// Pastikan variabel koneksi yang ditutup adalah $conn, bukan $konek
+mysqli_close($conn); 
 ?>

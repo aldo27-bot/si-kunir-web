@@ -71,7 +71,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item" href="crud/gantipasswordadmin.php">
+                        <a class="dropdown-item" href="ubahpassword/gantipasswordadmin.php">
                             <i class="fas fa-key me-2 text-primary"></i> Ganti Password
                         </a>
                     </li>
@@ -462,7 +462,7 @@
     }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 992px) {
+    /* @media (max-width: 992px) {
         .topnav-custom {
             height: 70px;
         }
@@ -565,7 +565,151 @@
         .profile-menu {
             width: 240px;
         }
+    } */
+
+        /* ===== TAMBAHAN UTAMA UNTUK KOMPAK DI SEMUA SCREEN ===== */
+.container-fluid {
+    max-width: 100%;
+    padding-left: clamp(0.75rem, 2vw, 1.5rem);
+    padding-right: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+/* ===== PERBAIKAN RESPONSIF GLOBAL — TANPA MENGUBAH DESAIN ===== */
+.topnav-custom .container-fluid {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+/* Menjamin tidak ada overflow horizontal */
+html, body {
+    overflow-x: hidden;
+}
+
+/* ===== PENYESUAIAN UNTUK LAYAR SANGAT KECIL (< 576px) ===== */
+@media (max-width: 576px) {
+    .topnav-custom {
+        height: auto;
+        min-height: 60px;
+        padding: 0.4rem 0 !important;
     }
+
+    /* Sidebar toggle */
+    .sidebar-toggle-btn {
+        width: 38px;
+        height: 38px;
+        margin-right: 8px !important;
+    }
+
+    .sidebar-toggle-btn i {
+        font-size: 1.1rem;
+    }
+
+    /* Logo */
+    .logo-img {
+        height: 32px !important;
+    }
+
+    .logo-wrapper {
+        padding: 6px;
+        border-radius: 10px;
+    }
+
+    /* Brand text */
+    .brand-text .fs-4 {
+        font-size: 0.95rem !important;
+        line-height: 1.1;
+    }
+
+    .brand-subtitle {
+        display: none;
+    }
+
+    /* Notification button */
+    .notification-btn {
+        padding: 8px 10px !important;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .notification-count {
+        top: 2px;
+        right: 4px;
+        font-size: 0.6rem;
+        min-width: 18px;
+        height: 18px;
+        padding: 2px 4px;
+    }
+
+    /* Profile button */
+    .profile-btn {
+        padding: 6px 8px !important;
+        border-radius: 50px;
+    }
+
+    .profile-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .profile-name {
+        display: none;
+    }
+
+    /* Dropdowns — pastikan tidak keluar layar */
+    .notification-menu,
+    .profile-menu {
+        left: 10px !important;
+        right: 10px !important;
+        width: calc(100vw - 20px) !important;
+        max-width: 300px;
+        margin-top: 8px;
+    }
+
+    /* Isi notifikasi tetap rapi */
+    .notification-item .fw-bold {
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .notification-item .small {
+        font-size: 0.75rem;
+    }
+}
+
+/* ===== TAMBAHAN: UNTUK LAYAR SANGAT SEMPIT (< 320px) ===== */
+@media (max-width: 320px) {
+    .topnav-custom {
+        min-height: 55px;
+    }
+
+    .sidebar-toggle-btn {
+        margin-right: 6px !important;
+    }
+
+    .logo-img {
+        height: 28px !important;
+    }
+
+    .brand-text .fs-4 {
+        font-size: 0.9rem !important;
+    }
+
+    .notification-btn,
+    .profile-btn {
+        padding: 6px !important;
+    }
+
+    .profile-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.85rem;
+    }
+}
 
     /* ===== EMPTY STATE ===== */
     .notification-empty {

@@ -21,7 +21,6 @@
 
 namespace PHPMailer\PHPMailer;
 
-use League\OAuth2\Client\Grant\RefreshToken;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 
@@ -94,15 +93,16 @@ class OAuth implements OAuthTokenProvider
     }
 
     /**
-     * Get a new RefreshToken.
+
+     * Get the grant type for access token requests.
      *
-     * @return RefreshToken
+     * @return string
      */
     protected function getGrant()
     {
-        return new RefreshToken();
+        // The provider accepts the string 'refresh_token' for refresh token grant
+        return 'refresh_token';
     }
-
     /**
      * Get a new AccessToken.
      *

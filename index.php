@@ -635,11 +635,12 @@ $result = $conn->query($sql);
       .visi-box {
         padding: 40px 25px;
       }
+
       #scrollTopBtn {
-          width: 40px;
-          height: 40px;
-          bottom: 15px;
-          right: 15px;
+        width: 40px;
+        height: 40px;
+        bottom: 15px;
+        right: 15px;
       }
     }
 
@@ -974,7 +975,7 @@ $result = $conn->query($sql);
         </div>
       </div>
 
-<!-- Baris Kelima -->
+      <!-- Baris Kelima -->
       <div class="row justify-content-center mt-4">
         <div class="col-lg-4 col-md-6">
           <div class="struktur-card text-center">
@@ -991,7 +992,7 @@ $result = $conn->query($sql);
     <div class="container">
       <div class="row">
         <div class="col-12 text-center mb-2">
-          <img src="assets/img/logo_sikunir_icon.png" alt="Logo" class="logo-footer">
+          <img src="assets/img/logo_kunir_fix.png" alt="Logo" class="logo-footer">
         </div>
       </div>
 

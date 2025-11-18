@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Si-kunir - Kode OTP Verifikasi</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="../assets/img/logonganjuk.png" type="image/png" /> <!-- Tambahkan baris ini untuk ikon -->
+    <link rel="icon" href="../assets/img/logonganjuk.png" type="image/png" />
     <style>
         /* Reset */
         * {
@@ -107,12 +107,19 @@
             color: #fff;
         }
 
+        /* Gaya untuk tombol yang dinonaktifkan (disabled) */
+        .btn-kirim-ulang[disabled] {
+            background: #adb5bd;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .btn-verifikasi {
             background: #17a2b8;
             color: #fff;
         }
 
-        .btn-kirim-ulang:hover {
+        .btn-kirim-ulang:not([disabled]):hover {
             background: #00448d;
         }
 
@@ -144,12 +151,79 @@
                 <label for="kode_otp">Kode OTP</label>
                 <input type="number" placeholder="Masukkan Kode OTP" id="kode_otp" name="kode_otp" required />
                 <div class="btn">
-                    <a class="btn-kirim-ulang" href="proses_kirimkodeotp.php">Kirim Ulang Kode OTP</a>
+                    <button type="button" id="btn-kirim-ulang" class="btn-kirim-ulang" onclick="resendOtp()">Kirim Ulang Kode OTP</button>
                     <button type="submit" class="btn-verifikasi">Verifikasi</button>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        // Pesan saat halaman dimuat
+        window.onload = function() {
+            // Cek apakah ini kunjungan pertama atau setelah klik Verifikasi (agar alert tidak muncul berulang)
+            // Di sini kita asumsikan ini kunjungan pertama yang berhasil mengirim OTP
+            alert("Silahkan cek kode OTP di email Anda");
+            startTimer();
+        };
+
+        // Timer untuk tombol Kirim Ulang Kode OTP
+        const resendButton = document.getElementById('btn-kirim-ulang');
+        const RESEND_TIME = 20; // Waktu tunggu dalam detik
+        let currentTimer; // Untuk menyimpan referensi timer
+
+        function startTimer() {
+            // Bersihkan timer yang mungkin sedang berjalan
+            if (currentTimer) {
+                clearInterval(currentTimer);
+            }
+
+            let timeLeft = RESEND_TIME;
+            // Non-aktifkan tombol saat timer dimulai
+            resendButton.disabled = true;
+            resendButton.textContent = `Kirim Ulang Kode OTP (${timeLeft}s)`;
+
+            currentTimer = setInterval(function() {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(currentTimer);
+                    resendButton.disabled = false;
+                    resendButton.textContent = "Kirim Ulang Kode OTP";
+                } else {
+                    resendButton.textContent = `Kirim Ulang Kode OTP (${timeLeft}s)`;
+                }
+            }, 1000);
+        }
+
+        async function resendOtp() {
+            // Non-aktifkan tombol lebih awal untuk mencegah double-click
+            resendButton.disabled = true;
+            resendButton.textContent = "Mengirim...";
+
+            try {
+                // Gunakan Fetch API untuk memanggil proses_kirimkodeotp.php
+                const response = await fetch('proses_kirimkodeotp.php');
+                const data = await response.json();
+
+                if (data.kode == 1) {
+                    alert('Kode OTP baru berhasil dikirimkan ke email Anda!');
+                    startTimer(); // Mulai timer kembali setelah berhasil
+                } else {
+                    alert(`Gagal mengirim kode OTP: ${data.pesan}. Silakan coba lagi.`);
+                    // Aktifkan kembali jika gagal (dan tidak memulai timer)
+                    resendButton.disabled = false;
+                    resendButton.textContent = "Kirim Ulang Kode OTP";
+                }
+
+            } catch (error) {
+                console.error('Error saat mengirim OTP:', error);
+                alert('Terjadi kesalahan koneksi saat mencoba mengirim ulang OTP. Silakan periksa jaringan Anda.');
+                // Aktifkan kembali jika ada error
+                resendButton.disabled = false;
+                resendButton.textContent = "Kirim Ulang Kode OTP";
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -408,19 +408,6 @@ if ($result_aspirasi) {
                         </div>
                     </div>
 
-                    <!-- <div class="header-icon">
-                        <i class="fas fa-chart-line me-3"></i>
-                    </div>
-                   
-                    <div class="dashboard-header">
-                        <div class="container-fluid px-4">
-                            <h1>
-                                <i class="fas fa-chart-line me-3"></i>Dashboard
-                            </h1>
-                            <p>Selamat datang di Sistem Informasi Desa Kuncir</p>              
-                        </div>
-                    </div> -->
-
                     <!-- Bagian informasi jumlah surat -->
                     <div class="stats-container">
                         <div class="stats-grid">

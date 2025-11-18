@@ -96,7 +96,7 @@ if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) 
                   </div>
                 <?php endif; ?>
                 <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                  <a class="small" href="verKodeOTP/proses_kirimkodeotp.php">Lupa Password?</a>
+                  <a class="small" href="verKodeOTP/index.html">Lupa Password?</a>
                   <input class="btn btn-primary px-4 py-2" type="submit" value="Login">
                 </div>
               </form>

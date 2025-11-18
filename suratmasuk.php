@@ -36,7 +36,8 @@ if ($conn->connect_error) {
 
     <style>
         :root {
-            --primary-blue: #3629B7; /* Warna utama dari kode sebelumnya */
+            --primary-blue: #3629B7;
+            /* Warna utama dari kode sebelumnya */
             --secondary-blue: #B36CFF;
             --success-green: #10b981;
             --warning-orange: #f59e0b;
@@ -57,7 +58,12 @@ if ($conn->connect_error) {
             color: #1e293b;
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
         }
@@ -136,24 +142,24 @@ if ($conn->connect_error) {
             font-size: 1.2rem;
             margin-bottom: 0.75rem;
         }
-        
+
         .stat-card.warning .stat-icon {
             background: rgba(245, 158, 11, 0.15);
             color: var(--warning-orange);
         }
 
         .stat-card.primary .stat-icon {
-            background: rgba(54, 41, 183, 0.15); 
+            background: rgba(54, 41, 183, 0.15);
             color: var(--primary-blue);
         }
 
         .stat-card.success .stat-icon {
-            background: rgba(16, 185, 129, 0.15); 
+            background: rgba(16, 185, 129, 0.15);
             color: var(--success-green);
         }
 
         .stat-card.danger .stat-icon {
-            background: rgba(239, 68, 68, 0.15); 
+            background: rgba(239, 68, 68, 0.15);
             color: var(--danger-red);
         }
 
@@ -213,7 +219,7 @@ if ($conn->connect_error) {
             transform: scale(1.01);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-        
+
         /* Badge Styles - Disesuaikan agar konsisten */
         .badge {
             padding: 0.5em 0.8em;
@@ -256,14 +262,14 @@ if ($conn->connect_error) {
             transition: all 0.3s ease;
             border: none;
             font-family: 'Inter', sans-serif;
-            color: white; 
+            color: white;
         }
 
         .btn-sm {
             padding: 6px 16px;
             font-size: 0.875rem;
         }
-        
+
         /* Tombol Detail/Primary - Diubah kembali ke gradien biru/ungu */
         .btn-primary {
             background: linear-gradient(135deg, var(--info-cyan) 0%, #0891b2 100%);
@@ -347,7 +353,8 @@ if ($conn->connect_error) {
             font-size: 0.95rem;
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border: 2px solid #e2e8f0;
             border-radius: 10px;
             padding: 10px 14px;
@@ -355,7 +362,8 @@ if ($conn->connect_error) {
             transition: all 0.3s ease;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             border-color: var(--primary-blue);
             box-shadow: 0 0 0 3px rgba(54, 41, 183, 0.1);
         }
@@ -364,13 +372,15 @@ if ($conn->connect_error) {
         .dataTable-wrapper .dataTable-container {
             border: none !important;
         }
+
         .dataTable-wrapper .dataTable-top,
         .dataTable-wrapper .dataTable-bottom {
             padding: 1rem 0 0 0;
             border: none;
         }
-        
-        .dataTable-input, .dataTable-selector {
+
+        .dataTable-input,
+        .dataTable-selector {
             border-radius: 10px;
             padding: 8px 12px;
             border: 1px solid #e2e8f0;
@@ -399,7 +409,7 @@ if ($conn->connect_error) {
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
-            
+
             .stat-card {
                 padding: 1rem;
             }
@@ -407,16 +417,16 @@ if ($conn->connect_error) {
             .stat-card .stat-value {
                 font-size: 1.75rem;
             }
-            
+
             .btn-sm {
                 padding: 4px 12px;
                 font-size: 0.8rem;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
             }
-            
+
             .action-buttons .btn {
                 width: 100%;
             }
@@ -664,10 +674,33 @@ if ($conn->connect_error) {
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
     <script src="js/datatables-simple-demo.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Sidebar toggle functionality
+            $('#sidebarToggle').on('click', function() {
+                // Menambahkan kelas 'collapsed' pada sidebar dan konten
+                $('.sidebar, .sb-sidenav-custom').toggleClass('collapsed');
+                $('#layoutSidenav_content, .content').toggleClass('collapsed');
+
+                // Menyimpan status ke localStorage
+                const isCollapsed = $('.sidebar').hasClass('collapsed');
+                localStorage.setItem('sidebarCollapsed', isCollapsed);
+            });
+
+            // Memulihkan status sidebar dari localStorage saat memuat halaman
+            const savedState = localStorage.getItem('sidebarCollapsed');
+            if (savedState === 'true') {
+                $('.sidebar, .sb-sidenav-custom').addClass('collapsed');
+                $('#layoutSidenav_content, .content').addClass('collapsed');
+            }
+        });
+    </script>
 
     <script>
         // Script untuk mengisi ID pada Modal Tolak
@@ -693,29 +726,6 @@ if ($conn->connect_error) {
                 if (inputId) inputId.value = idPengajuan;
             });
         }
-
-        // ==========================================================
-        // SCRIPT SIDEBAR TOGGLE (Dipindahkan dari upbar.php)
-        // ==========================================================
-        $(document).ready(function() {
-            // Sidebar toggle functionality
-            $('#sidebarToggle').on('click', function() {
-                // Menambahkan kelas 'collapsed' pada sidebar dan konten
-                $('.sidebar, .sb-sidenav-custom').toggleClass('collapsed');
-                $('#layoutSidenav_content, .content').toggleClass('collapsed');
-
-                // Menyimpan status ke localStorage
-                const isCollapsed = $('.sidebar').hasClass('collapsed');
-                localStorage.setItem('sidebarCollapsed', isCollapsed);
-            });
-
-            // Memulihkan status sidebar dari localStorage saat memuat halaman
-            const savedState = localStorage.getItem('sidebarCollapsed');
-            if (savedState === 'true') {
-                $('.sidebar, .sb-sidenav-custom').addClass('collapsed');
-                $('#layoutSidenav_content, .content').addClass('collapsed');
-            }
-        });
     </script>
 
 </body>
